@@ -1,4 +1,4 @@
-package com.revature.reverb;
+package com.revature;
 
 import com.revature.models.Comment;
 import com.revature.models.Post;
