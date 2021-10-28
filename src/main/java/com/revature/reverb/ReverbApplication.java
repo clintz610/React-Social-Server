@@ -4,10 +4,16 @@ import com.revature.models.Comment;
 import com.revature.models.Post;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Arrays;
 import java.util.List;
 
+@ComponentScan(basePackages = "com.revature.controllers")
+@EnableJpaRepositories(basePackages = "com.revature.repositories")
+@EntityScan(basePackages = {"com.revature.models"})
 @SpringBootApplication
 public class ReverbApplication {
 
