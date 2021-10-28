@@ -2,6 +2,7 @@ package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,10 +27,16 @@ public class Post {
     )
     @Column(name = "post_id")
     private Long id;
+    private String title;
+
+    @Type(type = "text")
     private String postText;
+
+    @Type(type = "text")
     private String contentInfo;
 
-    //Convene with team that deals with username information
+    //Convene with Team one to add their annotation here
+    //will use the first name and last name for a poster or a commenter
 
     @JsonIgnore
     @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)

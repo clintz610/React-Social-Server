@@ -2,6 +2,7 @@ package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -24,6 +25,8 @@ public class Comment {
             generator = "comment_sequence"
     )
     private Long id;
+
+    @Type(type = "text")
     private String commentText;
 
     @JsonIgnore
