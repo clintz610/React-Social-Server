@@ -39,8 +39,8 @@ public class Post {
     //will use the first name and last name for a poster or a commenter
 
     @JsonIgnore
-    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-    private List<Comment> comment;
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    private List<Comment> comments;
 
 
     public Post(String postText, String contentInfo)

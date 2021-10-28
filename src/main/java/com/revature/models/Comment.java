@@ -30,7 +30,7 @@ public class Comment {
     private String commentText;
 
     @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private Post post;
 
     public Comment(String commentText)
