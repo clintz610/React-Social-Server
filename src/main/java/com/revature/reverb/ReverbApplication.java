@@ -4,11 +4,13 @@ import com.revature.models.Comment;
 import com.revature.models.Post;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
+@EntityScan(basePackages = {"com.revature.models"}) 
 public class ReverbApplication {
 
 	public static void main(String[] args) {
