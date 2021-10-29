@@ -21,8 +21,8 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Comment>> getPosts()
+    @GetMapping(path = "/get-all-comments")
+    public ResponseEntity<List<Comment>> getComments()
     {
         return ResponseEntity.ok(commentService.getComments());
     }

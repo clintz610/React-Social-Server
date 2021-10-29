@@ -20,7 +20,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/get-all-posts")
     public ResponseEntity<List<Post>> getPosts()
     {
         return ResponseEntity.ok(postService.getPosts());

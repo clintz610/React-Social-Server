@@ -9,6 +9,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ReverbApplication {
 
 	public static void main(String[] args) {SpringApplication.run(ReverbApplication.class, args);
-
 	}
 }
