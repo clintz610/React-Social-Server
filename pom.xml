@@ -11,7 +11,7 @@
 	<groupId>com.revature</groupId>
 	<artifactId>reverb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Reverb</name>
+	<name>ReverB</name>
 	<description>Social media app backend for Revature project 3</description>
 	<properties>
 		<java.version>1.8</java.version>
