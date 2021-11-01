@@ -1,9 +1,6 @@
 package com.revature.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
@@ -24,8 +21,13 @@ public class User {
 
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
-    @Column(unique = false, nullable = false)
-    private Profile profile;
+    private Profile profile = new Profile();
 
+    public String getFirstName() {
+        return this.profile.getFirst_name();
+    }
 
+    public void setFirstName(String s) {
+        this.profile.setFirst_name(s);
+    }
 }

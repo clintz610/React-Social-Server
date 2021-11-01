@@ -5,13 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/user")
 public class UserController {
     @GetMapping
     public ResponseEntity<User> findAll() {
         User returnThis = new User();
-        returnThis.setUsername("Poncho_Villa");
+        returnThis.setFirstName("Poncho_Villa");
         return ResponseEntity.ok(returnThis);
     }
 
@@ -20,7 +20,7 @@ public class UserController {
             @RequestBody User neoUser
     ) {
         User returnThis = new User();
-        returnThis.setUsername("User Created: "+ neoUser.getUsername());
+        returnThis.setFirstName("User Created: "+ neoUser.getFirstName());
         return ResponseEntity.ok(returnThis);
     }
 
@@ -29,7 +29,7 @@ public class UserController {
             @PathVariable(value = "id") Long userID
     ) {
         User returnThis = new User();
-        returnThis.setUsername("Delete User: "+ userID);
+        returnThis.setFirstName("Delete User: "+ userID);
         return ResponseEntity.ok(returnThis);
     }
 
@@ -39,7 +39,7 @@ public class UserController {
             @RequestBody User neoUser
     ) {
         User returnThis = new User();
-        returnThis.setUsername("Update User: "+ userID);
+        returnThis.setFirstName("Update User: "+ userID);
         return ResponseEntity.ok(returnThis);
     }
 
