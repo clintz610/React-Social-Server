@@ -16,7 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.models.Profile;
-import com.revature.reverb.ReverbApplication;
+import com.revature.ReverbApplication;
 
 @RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT,
@@ -40,7 +40,6 @@ public class TestControllerIntegration {
 	     "header_img",
 	     "about_me" );
 	
-//		mvc.perform(get())
 		
 		
 	}
