@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "https://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials="true")
 @RequestMapping("/api/user")
 public class UserController {
 
-    @GetMapping
-    public ResponseEntity<User> findAll() {
+    @GetMapping(path="/test")
+    public ResponseEntity<User> getTestUser() {
         User returnThis = new User();
         returnThis.setUsername("Poncho_Villa");
         return ResponseEntity.ok(returnThis);

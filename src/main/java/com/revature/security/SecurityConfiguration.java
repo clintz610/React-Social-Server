@@ -15,44 +15,41 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 //    private final TokenPresentFilter tokenPresentFilter;
-    private final CorsConfigurationProps corsConfigurationProps;
+	private final CorsConfigurationProps corsConfigurationProps;
 
-    public SecurityConfiguration(CorsConfigurationProps corsConfigurationProps) {
+	public SecurityConfiguration(CorsConfigurationProps corsConfigurationProps) {
 //        this.tokenPresentFilter = tokenPresentFilter;
-        this.corsConfigurationProps = corsConfigurationProps;
-    }
+		this.corsConfigurationProps = corsConfigurationProps;
+	}
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .mvcMatchers(HttpMethod.GET, "/actuator/*");
-    }
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().mvcMatchers(HttpMethod.GET, "/actuator/*");
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors(spec -> {
-                    CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(corsConfigurationProps.getAllowedOrigins());
-                    config.setAllowedMethods(corsConfigurationProps.getAllowedMethods());
-                    config.setAllowedHeaders(corsConfigurationProps.getAllowedHeaders());
-                    config.setExposedHeaders(corsConfigurationProps.getExposedHeaders());
-                    config.setAllowCredentials(corsConfigurationProps.isAllowCredentials());
-                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                    source.registerCorsConfiguration("/**", config);
-                    spec.configurationSource(source);
-                })
-                .csrf().disable()
-                .httpBasic().disable()
-                .formLogin().disable()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and();
-//                .addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.cors(spec -> {
+			CorsConfiguration config = new CorsConfiguration();
+			config.setAllowedOrigins(corsConfigurationProps.getAllowedOrigins());
+			config.setAllowedMethods(corsConfigurationProps.getAllowedMethods());
+			config.setAllowedHeaders(corsConfigurationProps.getAllowedHeaders());
+			config.setExposedHeaders(corsConfigurationProps.getExposedHeaders());
+			config.setAllowCredentials(corsConfigurationProps.isAllowCredentials());
+			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+			source.registerCorsConfiguration("/**", config);
+			spec.configurationSource(source);
+		}).csrf().disable()
+		.httpBasic().disable()
+		.formLogin().disable();
+		
+		
+//		.authorizeRequests()
+//		.anyRequest()
+//		.authenticated()
+//		.and()
+//		.sessionManagement()
+//		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
+	}
 }
