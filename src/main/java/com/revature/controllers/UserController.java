@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://localhost:3000")
 @RequestMapping("/api/user")
 public class UserController {
+
     @GetMapping
     public ResponseEntity<User> findAll() {
         User returnThis = new User();
         returnThis.setUsername("Poncho_Villa");
         return ResponseEntity.ok(returnThis);
     }
+
 }
