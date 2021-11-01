@@ -1,6 +1,8 @@
 package com.revature.security;
 
 import com.revature.security.props.CorsConfigurationProps;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,11 +16,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-//    private final TokenPresentFilter tokenPresentFilter;
+
+    private final TokenPresentFilter tokenPresentFilter;
+	
 	private final CorsConfigurationProps corsConfigurationProps;
 
-	public SecurityConfiguration(CorsConfigurationProps corsConfigurationProps) {
-//        this.tokenPresentFilter = tokenPresentFilter;
+	public SecurityConfiguration(CorsConfigurationProps corsConfigurationProps, TokenPresentFilter tokenPresentFilter) {
+        this.tokenPresentFilter = tokenPresentFilter;
 		this.corsConfigurationProps = corsConfigurationProps;
 	}
 
@@ -41,10 +45,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			spec.configurationSource(source);
 		}).csrf().disable()
 		.httpBasic().disable()
-		.formLogin().disable();
+		.formLogin().disable()
 		
 		
-//		.authorizeRequests()
+		.authorizeRequests()
+			.antMatchers("/api/user/testNoAuth").permitAll()
+			.anyRequest().authenticated()
+			
+		.and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
+		
+		
+		
 //		.anyRequest()
 //		.authenticated()
 //		.and()

@@ -15,21 +15,12 @@ import javax.persistence.*;
 @Table(name = "Reverb_User")
 
 public class User {
+	
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userID;
+    private String uid;
 
     @Column(unique = false, nullable = false)
-    private String username;
+    private String email;
 
-    @Column(unique = false, nullable = false)
-    private String password;
-
-    @Column(unique = false, nullable = false)
-    private String first_name;
-
-    @Column(unique = false, nullable = false)
-    private String last_name;
-
-       
+      
 }
