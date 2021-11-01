@@ -20,16 +20,12 @@ public class User {
     private int userID;
 
     @Column(unique = false, nullable = false)
-    private String username;
+    private String email;
 
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
     @Column(unique = false, nullable = false)
-    private String password;
+    private Profile profile;
 
-    @Column(unique = false, nullable = false)
-    private String first_name;
 
-    @Column(unique = false, nullable = false)
-    private String last_name;
-
-       
 }
