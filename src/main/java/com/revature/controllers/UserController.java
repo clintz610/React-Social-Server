@@ -11,14 +11,14 @@ public class UserController {
     @GetMapping(path="/testNoAuth")
     public ResponseEntity<User> getTestUserNoAuth() {
         User returnThis = new User();
-        returnThis.setFirstName("Poncho_Villa_No_Auth");
+        returnThis.setEmail("Poncho_Villa_No_Auth");
         return ResponseEntity.ok(returnThis);
     }
 
     @GetMapping(path="/testWithAuth")
     public ResponseEntity<User> getTestUserWithAuth() {
         User returnThis = new User();
-        returnThis.setFirstName("Poncho_Villa_With_Auth");
+        returnThis.setEmail("Poncho_Villa_With_Auth");
         return ResponseEntity.ok(returnThis);
     }
 
@@ -27,7 +27,7 @@ public class UserController {
             @RequestBody User neoUser
     ) {
         User returnThis = new User();
-        returnThis.setFirstName("User Created: "+ neoUser.getFirstName());
+        returnThis.setEmail("User Created: "+ neoUser.getEmail());
         return ResponseEntity.ok(returnThis);
     }
 
@@ -36,7 +36,7 @@ public class UserController {
             @PathVariable(value = "id") Long userID
     ) {
         User returnThis = new User();
-        returnThis.setFirstName("Delete User: "+ userID);
+        returnThis.setEmail("Delete User: "+ userID);
         return ResponseEntity.ok(returnThis);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
     ) {
         User returnThis = new User();
         returnThis.setUid("0");
-        returnThis.setFirstName("Update User: "+ userID);
+        returnThis.setEmail("Update User: "+ userID);
         return ResponseEntity.ok(returnThis);
     }
 
