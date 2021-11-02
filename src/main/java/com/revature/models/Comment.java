@@ -7,8 +7,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 
 @Data
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = {"post"})
+@EqualsAndHashCode(exclude = {"post"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -29,9 +29,12 @@ public class Comment {
     @Type(type = "text")
     private String commentText;
 
-    @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
     private Post post;
+
+
 
     public Comment(String commentText)
     {

@@ -21,22 +21,35 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    /*
+     * Get all of the comments present in the database.
+     * no parameters
+     * returns List<Comment> */
     @GetMapping(path = "/get-all-comments")
     public ResponseEntity<List<Comment>> getComments()
     {
         return ResponseEntity.ok(commentService.getComments());
     }
 
-    @PostMapping(path = "/submit")
-    public ResponseEntity<Comment> submitPost(@RequestBody Comment comment)
+    /*
+     * Submit a comment to the database.
+     * parameters: JSON Comment, Long postId through path variable
+     * returns Comment */
+    @PostMapping(path = "/submit/{postId}")
+    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId)
     {
         try
         {
-            return ResponseEntity.ok(commentService.addNewComment(comment));
+            return ResponseEntity.ok(commentService.addNewComment(comment, postId));
+        }
+        catch(IllegalStateException illegalStateException)
+        {
+            System.out.println(illegalStateException.getMessage());
+            return ResponseEntity.ok(new Comment());
         }
         catch(Exception e)
         {
-            System.out.println("post failed");
+            System.out.println("comment failed");
             return ResponseEntity.ok(new Comment());
         }
     }

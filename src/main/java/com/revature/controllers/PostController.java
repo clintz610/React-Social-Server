@@ -20,12 +20,21 @@ public class PostController {
         this.postService = postService;
     }
 
+    /*
+    * Get all of the post present in the database.
+    * no parameters
+    * returns List<Post> */
     @GetMapping(path = "/get-all-posts")
     public ResponseEntity<List<Post>> getPosts()
     {
         return ResponseEntity.ok(postService.getPosts());
     }
 
+
+    /*
+     * Submit a post to the database.
+     * Post JSON as a parameter
+     * returns a Post */
     @PostMapping(path = "/submit")
     public ResponseEntity<Post> submitPost(@RequestBody Post post)
     {
@@ -39,4 +48,11 @@ public class PostController {
             return ResponseEntity.ok(new Post());
         }
     }
+
+    //get all post from a specific user.
+    /*@GetMapping(path = "/user/posts")
+    public ResponseEntity<List<Post>> getUserPosts()
+    {
+        return ResponseEntity.ok(postService.());
+    }*/
 }

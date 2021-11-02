@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = {"comments"})
+@EqualsAndHashCode(exclude = {"comments"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -25,7 +25,6 @@ public class Post {
         strategy = GenerationType.SEQUENCE,
         generator = "post_sequence"
     )
-    @Column(name = "post_id")
     private Long id;
     private String title;
 
@@ -39,9 +38,8 @@ public class Post {
     //will use the first name and last name for a poster or a commenter
 
     @JsonIgnore
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> comments;
-
 
     public Post(String postText, String contentInfo)
     {

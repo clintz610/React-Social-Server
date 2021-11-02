@@ -28,4 +28,8 @@ public class PostService {
         return post;
     }
 
+    /*public List<Post> getUserPosts(String username)
+    {
+
+    }*/
 }
