@@ -1,12 +1,14 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Data
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = {"post"})
+@EqualsAndHashCode(exclude = {"post"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -23,7 +25,16 @@ public class Comment {
             generator = "comment_sequence"
     )
     private Long id;
+
+    @Type(type = "text")
     private String commentText;
+
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+
 
     public Comment(String commentText)
     {
