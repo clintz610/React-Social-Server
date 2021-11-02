@@ -21,6 +21,4 @@ public class User {
 
     @Column(unique = false, nullable = false)
     private String email;
-
-      
 }

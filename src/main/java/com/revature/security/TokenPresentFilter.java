@@ -53,7 +53,10 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 //		Credentials.CredentialType type = Credentials.CredentialType.ID_TOKEN;
 //		List<GrantedAuthority> authorities = new ArrayList<>();
 		User user = firebaseTokenToUserDto(decodedToken);
-		System.out.println(user.toString());
+		if(user != null) {
+			System.out.println(user.toString());
+		}
+		
 //		// Handle roles
 //		if (user != null) {
 //			decodedToken.getClaims().forEach((k, v) -> authorities.add(new SimpleGrantedAuthority(k)));
