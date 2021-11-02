@@ -12,22 +12,10 @@ import javax.persistence.*;
 @Table(name = "Reverb_User")
 
 public class User {
+	
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userID;
+    private String uid;
 
     @Column(unique = false, nullable = false)
     private String email;
-
-    @OneToOne
-    @JoinColumn(referencedColumnName = "id")
-    private Profile profile = new Profile();
-
-    public String getFirstName() {
-        return this.profile.getFirst_name();
-    }
-
-    public void setFirstName(String s) {
-        this.profile.setFirst_name(s);
-    }
 }
