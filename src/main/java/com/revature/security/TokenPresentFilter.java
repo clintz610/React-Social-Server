@@ -42,20 +42,23 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 
 	private void authorize(HttpServletRequest request) {
 		String token = securityService.getBearerToken(request);
-		FirebaseToken decodedToken = null;
-		try {
-			decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-		} catch (FirebaseAuthException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(token != null) {
+			FirebaseToken decodedToken = null;
+			try {
+				decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+			} catch (FirebaseAuthException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+//			Credentials.CredentialType type = Credentials.CredentialType.ID_TOKEN;
+//			List<GrantedAuthority> authorities = new ArrayList<>();
+			User user = firebaseTokenToUserDto(decodedToken);
+			if(user != null) {
+				System.out.println(user.toString());
+			}
 		}
 		
-//		Credentials.CredentialType type = Credentials.CredentialType.ID_TOKEN;
-//		List<GrantedAuthority> authorities = new ArrayList<>();
-		User user = firebaseTokenToUserDto(decodedToken);
-		if(user != null) {
-			System.out.println(user.toString());
-		}
 		
 //		// Handle roles
 //		if (user != null) {
