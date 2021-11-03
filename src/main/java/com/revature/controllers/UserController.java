@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import com.revature.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,13 @@ import com.revature.models.User;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    final private UserService userService;
+
+    @Autowired
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(path="/testNoAuth")
     public ResponseEntity<User> getTestUserNoAuth(@AuthenticationPrincipal User user) {
@@ -69,6 +78,14 @@ public class UserController {
         returnThis.setUid("0");
         returnThis.setEmail("Update User: "+ userID);
         return ResponseEntity.ok(returnThis);
+    }
+
+    @PostMapping(path = "/register")
+    public ResponseEntity<String> registerUser(@AuthenticationPrincipal User user) {
+        userService.registerUser(user);
+//        User returnThis = new User();
+//        returnThis.setFirstName("User Created: "+ neoUser.getFirstName());
+        return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
 
 

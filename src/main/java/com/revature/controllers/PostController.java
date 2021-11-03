@@ -1,9 +1,11 @@
 package com.revature.controllers;
 
 import com.revature.models.Post;
+import com.revature.models.User;
 import com.revature.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,15 +38,15 @@ public class PostController {
      * Post JSON as a parameter
      * returns a Post */
     @PostMapping(path = "/submit")
-    public ResponseEntity<Post> submitPost(@RequestBody Post post)
+    public ResponseEntity<Post> submitPost(@RequestBody Post post, @AuthenticationPrincipal User user)
     {
         try
         {
-            return ResponseEntity.ok(postService.addNewPost(post));
+            return ResponseEntity.ok(postService.addNewPost(post, user));
         }
         catch(Exception e)
         {
-            System.out.println("post failed");
+            e.printStackTrace();
             return ResponseEntity.ok(new Post());
         }
     }
