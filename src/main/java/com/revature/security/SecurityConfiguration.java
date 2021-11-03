@@ -45,22 +45,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			spec.configurationSource(source);
 		}).csrf().disable()
 		.httpBasic().disable()
-		.formLogin().disable();
 
+		.formLogin().disable()
+		.authorizeRequests()
+			.antMatchers("/api/user/testNoAuth").permitAll()
+			.anyRequest().authenticated()
+		.and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class)
+		.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-//		.authorizeRequests()
-//			.antMatchers("/api/user/testNoAuth").permitAll()
-//			.anyRequest().authenticated()
-//
-//		.and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-
-//		.anyRequest()
-//		.authenticated()
-//		.and()
-//		.sessionManagement()
-//		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }
