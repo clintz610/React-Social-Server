@@ -35,6 +35,9 @@ public class Post {
     @Type(type = "text")
     private String contentInfo;
 
+    @ManyToOne
+    @JoinColumn(name="author", referencedColumnName="uid")
+    private User author;
     //Convene with Team one to add their annotation here
     //will use the first name and last name for a poster or a commenter
 
