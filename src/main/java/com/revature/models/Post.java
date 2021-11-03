@@ -26,6 +26,7 @@ public class Post {
         generator = "post_sequence"
     )
     private Long id;
+
     private String title;
 
     @Type(type = "text")
