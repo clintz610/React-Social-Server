@@ -29,6 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().mvcMatchers(HttpMethod.GET, "/actuator/*");
+		web.ignoring().mvcMatchers(HttpMethod.GET, "/h2-console/*");
+		web.ignoring().mvcMatchers(HttpMethod.POST, "/h2-console/*");
 	}
 
 	@Override
