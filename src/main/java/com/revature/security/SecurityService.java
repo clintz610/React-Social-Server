@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SecurityService {
 
     public String getBearerToken(HttpServletRequest request) {
-//    	
+//
 //    	System.out.println("******");
 //    	System.out.println("******");
 //    	System.out.println("******");
@@ -27,7 +27,7 @@ public class SecurityService {
 //    	System.out.println("******");
 //    	System.out.println("******");
 //    	System.out.println("******");
-//    	
+//
 //    	System.out.println("########");
 //    	System.out.println("########");
 //    	System.out.println("########");
@@ -35,8 +35,8 @@ public class SecurityService {
 //    	System.out.println("########");
 //    	System.out.println("########");
 //    	System.out.println("########");
-//    	
-//    	
+//
+//
         String bearerToken = null;
         String authorization = request.getHeader("Authorization");
         if (StringUtils.hasText(authorization) && authorization.startsWith("Bearer ")) {

@@ -43,4 +43,17 @@ public class CommentService {
 
         throw new IllegalStateException("This comment does not have an associated post.");
     }
+
+    public void deleteComment(Comment comment)
+    {
+        Optional<Comment> temp = commentRepository.findById(comment.getId());
+
+        if(temp.isPresent())
+        {
+            commentRepository.deleteById(temp.get().getId());
+            System.out.println("comment deleted");
+        }
+        else
+            throw new IllegalStateException("Comment does not exist");
+    }
 }

@@ -29,12 +29,9 @@ public class Comment {
     @Type(type = "text")
     private String commentText;
 
-
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private Post post;
-
-
 
     public Comment(String commentText)
     {

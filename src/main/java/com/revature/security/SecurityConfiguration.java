@@ -18,7 +18,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     private final TokenPresentFilter tokenPresentFilter;
-	
+
 	private final CorsConfigurationProps corsConfigurationProps;
 
 	public SecurityConfiguration(CorsConfigurationProps corsConfigurationProps, TokenPresentFilter tokenPresentFilter) {
@@ -46,16 +46,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		}).csrf().disable()
 		.httpBasic().disable()
 		.formLogin().disable();
-		
-		
+
+
 //		.authorizeRequests()
 //			.antMatchers("/api/user/testNoAuth").permitAll()
 //			.anyRequest().authenticated()
-//			
+//
 //		.and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
-		
-		
-		
+
+
+
 //		.anyRequest()
 //		.authenticated()
 //		.and()
