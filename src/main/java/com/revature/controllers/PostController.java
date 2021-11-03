@@ -61,6 +61,8 @@ public class PostController {
             System.out.println(illegalStateException.getMessage());
         }
     }
+
+
     //get all post from a specific user.
     /*@GetMapping(path = "/user/posts")
     public ResponseEntity<List<Post>> getUserPosts()
