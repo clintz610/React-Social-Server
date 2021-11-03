@@ -33,8 +33,11 @@ public class Post {
     private String postText;
 
     @Type(type = "text")
-    private String contentInfo;
+    private String imageURL;
 
+    @ManyToOne
+    @JoinColumn(name="author", referencedColumnName="uid")
+    private User author;
     //Convene with Team one to add their annotation here
     //will use the first name and last name for a poster or a commenter
 
@@ -42,9 +45,9 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
-    public Post(String postText, String contentInfo)
+    public Post(String postText, String imageURL)
     {
        this.postText = postText;
-       this.contentInfo = contentInfo;
+       this.imageURL = imageURL;
     }
 }

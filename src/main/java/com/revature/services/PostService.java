@@ -6,6 +6,7 @@ import com.revature.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +51,16 @@ public class PostService {
             throw new IllegalStateException("post does not exist");
     }
 
-    /*public List<Post> getUserPosts(String username)
+    public List<Post> getUserPosts(String authorUID)
     {
-
-    }*/
+    	List<Post> ret = new ArrayList<Post>();
+    	for(Post p : postRepository.findAll())
+    	{
+    		if(p.getAuthor().getUid().equals(authorUID))
+    		{
+    			ret.add(p);
+    		}
+    	}
+    	return ret;
+    }
 }
