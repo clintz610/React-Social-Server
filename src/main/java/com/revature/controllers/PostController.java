@@ -49,6 +49,18 @@ public class PostController {
         }
     }
 
+    @PostMapping(path = "/delete")
+    public void deletePost(@RequestBody Post post)
+    {
+        try
+        {
+            postService.deletePost(post);
+        }
+        catch(IllegalStateException illegalStateException)
+        {
+            System.out.println(illegalStateException.getMessage());
+        }
+    }
     //get all post from a specific user.
     /*@GetMapping(path = "/user/posts")
     public ResponseEntity<List<Post>> getUserPosts()

@@ -54,5 +54,16 @@ public class CommentController {
         }
     }
 
+    @PostMapping(path = "/delete")
+    public void deleteComment(@RequestBody Comment comment)
+    {
+        try{
+            commentService.deleteComment(comment);
+        }
+        catch(IllegalStateException illegalStateException)
+        {
+            System.out.println(illegalStateException.getMessage());
+        }
+    }
 
 }
