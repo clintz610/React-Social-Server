@@ -107,9 +107,5 @@ public class UserController {
 //        returnThis.setFirstName("Update User: "+ userID);
 //        return ResponseEntity.ok(returnThis);
 //    }
->>>>>>> 4b226f6205c30e76a548cd9e2cca631251cd9cde
-=======
-
->>>>>>> 2287d23c5f21eaeb766cd3753d4ea359c5d4ca65
 
 }
