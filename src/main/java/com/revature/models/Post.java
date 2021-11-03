@@ -16,15 +16,7 @@ import java.util.List;
 @Table(name = "post")
 public class Post {
     @Id
-    @SequenceGenerator(
-        name = "post_sequence",
-        sequenceName = "post_sequence",
-        allocationSize = 1
-    )
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "post_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
