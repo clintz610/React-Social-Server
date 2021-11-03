@@ -41,6 +41,7 @@ public class UserController {
         
         return ResponseEntity.ok(returnThis);
     }
+<<<<<<< HEAD
 //
 //    @PostMapping
 //    public ResponseEntity<User> createUser(
@@ -69,5 +70,37 @@ public class UserController {
 //        returnThis.setFirstName("Update User: "+ userID);
 //        return ResponseEntity.ok(returnThis);
 //    }
+=======
+
+    @PostMapping
+    public ResponseEntity<User> createUser(
+            @RequestBody User neoUser
+    ) {
+        User returnThis = new User();
+        returnThis.setEmail("User Created: "+ neoUser.getEmail());
+        return ResponseEntity.ok(returnThis);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<User> deleteUser(
+            @PathVariable(value = "id") Long userID
+    ) {
+        User returnThis = new User();
+        returnThis.setEmail("Delete User: "+ userID);
+        return ResponseEntity.ok(returnThis);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(
+            @PathVariable(value = "id") Long userID,
+            @RequestBody User neoUser
+    ) {
+        User returnThis = new User();
+        returnThis.setUid("0");
+        returnThis.setEmail("Update User: "+ userID);
+        return ResponseEntity.ok(returnThis);
+    }
+
+>>>>>>> ad08c72f336b053a50f24b29f37e550222dd5226
 
 }
