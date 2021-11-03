@@ -52,6 +52,9 @@ public class UserController {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2287d23c5f21eaeb766cd3753d4ea359c5d4ca65
     @PostMapping
     public ResponseEntity<User> createUser(
             @RequestBody User neoUser
@@ -81,7 +84,10 @@ public class UserController {
         return ResponseEntity.ok(returnThis);
     }
 
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2287d23c5f21eaeb766cd3753d4ea359c5d4ca65
     @PostMapping(path = "/register")
     public ResponseEntity<String> registerUser(@AuthenticationPrincipal User user) {
         userService.registerUser(user);
@@ -89,6 +95,7 @@ public class UserController {
 //        returnThis.setFirstName("User Created: "+ neoUser.getFirstName());
         return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
+<<<<<<< HEAD
 //
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<User> deleteUser(
@@ -109,5 +116,8 @@ public class UserController {
 //        return ResponseEntity.ok(returnThis);
 //    }
 >>>>>>> 4b226f6205c30e76a548cd9e2cca631251cd9cde
+=======
+
+>>>>>>> 2287d23c5f21eaeb766cd3753d4ea359c5d4ca65
 
 }
