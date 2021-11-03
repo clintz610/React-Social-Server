@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,13 +27,14 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.revature.models.User;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
 public class TokenPresentFilter extends OncePerRequestFilter {
 
-	@Autowired
 	private SecurityService securityService;
+
+	public TokenPresentFilter(SecurityService securityService) {
+		this.securityService = securityService;
+	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -42,33 +45,21 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 
 	private void authorize(HttpServletRequest request) {
 		String token = securityService.getBearerToken(request);
-		if(token != null) {
+		if (token != null) {
 			FirebaseToken decodedToken = null;
 			try {
 				decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+				User user = firebaseTokenToUserDto(decodedToken);
+				if (user != null) {
+					System.out.println(user.toString());
+					UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, null);
+					auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					SecurityContextHolder.getContext().setAuthentication(auth);
+				}	
 			} catch (FirebaseAuthException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-//			Credentials.CredentialType type = Credentials.CredentialType.ID_TOKEN;
-//			List<GrantedAuthority> authorities = new ArrayList<>();
-			User user = firebaseTokenToUserDto(decodedToken);
-			if(user != null) {
-				System.out.println(user.toString());
-			}
 		}
-		
-		
-//		// Handle roles
-//		if (user != null) {
-//			decodedToken.getClaims().forEach((k, v) -> authorities.add(new SimpleGrantedAuthority(k)));
-//			// Set security context
-//			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,
-//					new Credentials(type, decodedToken, token, sessionCookieValue), authorities);
-//			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//			SecurityContextHolder.getContext().setAuthentication(authentication);
-//		}
 	}
 
 	private User firebaseTokenToUserDto(FirebaseToken decodedToken) {

@@ -29,6 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().mvcMatchers(HttpMethod.GET, "/actuator/*");
+		web.ignoring().mvcMatchers(HttpMethod.GET, "/h2-console/*");
+		web.ignoring().mvcMatchers(HttpMethod.POST, "/h2-console/*");
 	}
 
 	@Override
@@ -45,22 +47,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			spec.configurationSource(source);
 		}).csrf().disable()
 		.httpBasic().disable()
-		.formLogin().disable();
-		
-		
-//		.authorizeRequests()
-//			.antMatchers("/api/user/testNoAuth").permitAll()
-//			.anyRequest().authenticated()
-//			
-//		.and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
-		
-		
-		
-//		.anyRequest()
-//		.authenticated()
-//		.and()
-//		.sessionManagement()
-//		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class);
+		.formLogin().disable()
+		.authorizeRequests()
+			.antMatchers("/api/user/testNoAuth").permitAll()
+			.anyRequest().authenticated()
+		.and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class)
+		.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 }
