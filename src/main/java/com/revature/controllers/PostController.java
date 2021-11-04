@@ -42,6 +42,7 @@ public class PostController {
     {
         try
         {
+            System.out.println(post);
             return ResponseEntity.ok(postService.addNewPost(post, user));
         }
         catch(Exception e)

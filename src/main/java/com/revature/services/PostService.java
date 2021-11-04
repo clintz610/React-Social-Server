@@ -31,7 +31,7 @@ public class PostService {
     public Post addNewPost(Post post, User user)
     {
         post.setAuthor(user);
-        postRepository.save(post);
+        postRepository.saveAndFlush(post);
         return post;
     }
 
