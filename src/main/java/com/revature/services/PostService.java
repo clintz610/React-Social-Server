@@ -36,9 +36,13 @@ public class PostService {
 	public Post addNewPost(Post post, User user)
     {
         post.setAuthor(user);
+<<<<<<< HEAD
+        postRepository.saveAndFlush(post);
+=======
         Profile profile = profileRepository.getProfileByUser(user);
         post.setProfile(profile);
         postRepository.save(post);
+>>>>>>> 7499f38571af0de55e0f26925fd88ec4dba6c861
         return post;
     }
 
