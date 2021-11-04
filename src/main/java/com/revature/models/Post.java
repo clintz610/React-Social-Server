@@ -16,9 +16,17 @@ import java.util.List;
 @Table(name = "post")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @SequenceGenerator(
+            name = "post_sequence",
+            sequenceName = "post_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "post_sequence"
+    )
 
+    @Column
     private String title;
 
     @Type(type = "text")
@@ -33,6 +41,7 @@ public class Post {
     //Convene with Team one to add their annotation here
     //will use the first name and last name for a poster or a commenter
 
+    @JsonIgnore
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
