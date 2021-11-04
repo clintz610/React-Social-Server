@@ -52,11 +52,11 @@ public class CommentController {
         }
     }
 
-    @PostMapping(path = "/delete")
-    public void deleteComment(@RequestBody Comment comment)
+    @DeleteMapping(path = "/delete/{commentId}")
+    public void deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal User user)
     {
         try{
-            commentService.deleteComment(comment);
+            commentService.deleteComment(commentId, user);
         }
         catch(IllegalStateException e)
         {

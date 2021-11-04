@@ -54,6 +54,7 @@ public class Post {
     @JoinColumn(name="profile", referencedColumnName="")
     private Profile profile;
 
+
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<Comment>();
 
