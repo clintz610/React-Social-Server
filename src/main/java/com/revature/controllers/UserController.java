@@ -88,5 +88,24 @@ public class UserController {
         return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
 
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<User> deleteUser(
+//            @PathVariable(value = "id") Long userID
+//    ) {
+//        User returnThis = new User();
+//        returnThis.setFirstName("Delete User: "+ userID);
+//        return ResponseEntity.ok(returnThis);
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<User> updateUser(
+//            @PathVariable(value = "id") Long userID,
+//            @RequestBody User neoUser
+//    ) {
+//        User returnThis = new User();
+//        returnThis.setFirstName("Update User: "+ userID);
+//        return ResponseEntity.ok(returnThis);
+//    }
 
 }
