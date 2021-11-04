@@ -58,9 +58,9 @@ public class CommentController {
         try{
             commentService.deleteComment(comment);
         }
-        catch(IllegalStateException illegalStateException)
+        catch(IllegalStateException e)
         {
-            System.out.println(illegalStateException.getMessage());
+        	e.printStackTrace();
         }
     }
 
