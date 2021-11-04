@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.exceptions.UnauthorizedDeleteException;
 import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.User;
@@ -58,9 +59,9 @@ public class CommentController {
         try{
             commentService.deleteComment(commentId, user);
         }
-        catch(IllegalStateException illegalStateException)
+        catch(UnauthorizedDeleteException unauthorizedDeleteException)
         {
-            System.out.println(illegalStateException.getMessage());
+            System.out.println(unauthorizedDeleteException.getMessage());
         }
     }
 
