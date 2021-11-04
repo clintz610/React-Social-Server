@@ -19,7 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     private final TokenPresentFilter tokenPresentFilter;
-	
+
 	private final CorsConfigurationProps corsConfigurationProps;
 
 	public SecurityConfiguration(CorsConfigurationProps corsConfigurationProps, TokenPresentFilter tokenPresentFilter) {
@@ -48,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			spec.configurationSource(source);
 		}).csrf().disable()
 		.httpBasic().disable()
+
 		.formLogin().disable()
 		.authorizeRequests()
 			.antMatchers("/api/user/testNoAuth").permitAll()
@@ -55,5 +56,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.and().addFilterAt(tokenPresentFilter, UsernamePasswordAuthenticationFilter.class)
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 	}
 }
