@@ -33,7 +33,6 @@ public class Post {
     //Convene with Team one to add their annotation here
     //will use the first name and last name for a poster or a commenter
 
-    @JsonIgnore
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> comments;
 

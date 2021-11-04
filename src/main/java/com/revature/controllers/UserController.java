@@ -27,58 +27,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path="/testNoAuth")
-    public ResponseEntity<User> getTestUserNoAuth(@AuthenticationPrincipal User user) {
-        User returnThis = new User();
-        returnThis.setEmail("Poncho_Villa_No_Auth");
-        
-        if(user != null) {
-        	System.out.println("I figured out who I am! " + user.getUid());
-        } else {
-        	System.out.println("NO USER");
-        }
-
-        return ResponseEntity.ok(returnThis);
-    }
-
-    @GetMapping(path="/testWithAuth")
-    public ResponseEntity<User> getTestUserWithAuth(@AuthenticationPrincipal User user) {
-        User returnThis = new User();
-        returnThis.setEmail("Poncho_Villa_With_Auth");
-        
-        System.out.println("I figured out who I am! " + user.getUid());
-        
-        return ResponseEntity.ok(returnThis);
-    }
-
-
-
     @PostMapping(path = "/register")
     public ResponseEntity<String> registerUser(@AuthenticationPrincipal User user) {
         userService.registerUser(user);
-//        User returnThis = new User();
-//        returnThis.setFirstName("User Created: "+ neoUser.getFirstName());
         return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
-
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<User> deleteUser(
-//            @PathVariable(value = "id") Long userID
-//    ) {
-//        User returnThis = new User();
-//        returnThis.setFirstName("Delete User: "+ userID);
-//        return ResponseEntity.ok(returnThis);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<User> updateUser(
-//            @PathVariable(value = "id") Long userID,
-//            @RequestBody User neoUser
-//    ) {
-//        User returnThis = new User();
-//        returnThis.setFirstName("Update User: "+ userID);
-//        return ResponseEntity.ok(returnThis);
-//    }
-
+    
 }
