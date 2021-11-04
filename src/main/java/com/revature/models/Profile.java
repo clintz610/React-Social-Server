@@ -5,8 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +26,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "Reverb_Profile")
 
 public class Profile {
-    @Id
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(unique = false, nullable = false)
@@ -35,6 +39,11 @@ public class Profile {
     @Column(unique = false, nullable = false)
     private String header_img;
     @Column(unique = true, nullable = false)
+    @Type(type = "text")
     private String about_me;
+
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
        
 }

@@ -14,26 +14,26 @@ import javax.persistence.*;
 @Entity
 @Table(name = "comment")
 public class Comment {
-    @Id
-    @SequenceGenerator(
-            name = "comment_sequence",
-            sequenceName = "comment_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "comment_sequence"
-    )
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Type(type = "text")
     private String commentText;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="author", referencedColumnName="uid")
+    private User author;
+
+    @ManyToOne
+    @JoinColumn(name="profile", referencedColumnName="")
+    private Profile profile;
 
     public Comment(String commentText)
     {
