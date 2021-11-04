@@ -52,14 +52,19 @@ public class CommentService {
         throw new IllegalStateException("This comment does not have an associated post.");
     }
 
-    public void deleteComment(Comment comment)
+    public void deleteComment(Long commentId, User user)
     {
-        Optional<Comment> temp = commentRepository.findById(comment.getId());
+        Optional<Comment> temp = commentRepository.findById(commentId);
 
         if(temp.isPresent())
         {
-            commentRepository.deleteById(temp.get().getId());
-            System.out.println("comment deleted");
+            if(temp.get().getAuthor().equals(user))
+            {
+                commentRepository.delete(temp.get());
+                System.out.println("comment deleted");
+            }
+            else
+                throw new IllegalStateException("Unauthorized user for delete."); //custom exception for a user to delete
         }
         else
             throw new IllegalStateException("Comment does not exist");

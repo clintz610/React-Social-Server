@@ -32,17 +32,9 @@ import lombok.ToString;
 @Table(name = "post")
 public class Post {
     @Id
-    @SequenceGenerator(
-            name = "post_sequence",
-            sequenceName = "post_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "post_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column
     private String title;
 
     @Type(type = "text")
@@ -62,7 +54,7 @@ public class Post {
     @JoinColumn(name="profile", referencedColumnName="")
     private Profile profile;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<Comment>();
 
