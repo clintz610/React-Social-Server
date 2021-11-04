@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import com.revature.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,13 @@ import com.revature.models.User;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    final private UserService userService;
+
+    @Autowired
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(path="/testNoAuth")
     public ResponseEntity<User> getTestUserNoAuth(@AuthenticationPrincipal User user) {
@@ -42,34 +51,32 @@ public class UserController {
         return ResponseEntity.ok(returnThis);
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(
-            @RequestBody User neoUser
-    ) {
-        User returnThis = new User();
-        returnThis.setEmail("User Created: "+ neoUser.getEmail());
-        return ResponseEntity.ok(returnThis);
-    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(
-            @PathVariable(value = "id") Long userID
-    ) {
-        User returnThis = new User();
-        returnThis.setEmail("Delete User: "+ userID);
-        return ResponseEntity.ok(returnThis);
+    @PostMapping(path = "/register")
+    public ResponseEntity<String> registerUser(@AuthenticationPrincipal User user) {
+        userService.registerUser(user);
+//        User returnThis = new User();
+//        returnThis.setFirstName("User Created: "+ neoUser.getFirstName());
+        return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(
-            @PathVariable(value = "id") Long userID,
-            @RequestBody User neoUser
-    ) {
-        User returnThis = new User();
-        returnThis.setUid("0");
-        returnThis.setEmail("Update User: "+ userID);
-        return ResponseEntity.ok(returnThis);
-    }
-
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<User> deleteUser(
+//            @PathVariable(value = "id") Long userID
+//    ) {
+//        User returnThis = new User();
+//        returnThis.setFirstName("Delete User: "+ userID);
+//        return ResponseEntity.ok(returnThis);
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<User> updateUser(
+//            @PathVariable(value = "id") Long userID,
+//            @RequestBody User neoUser
+//    ) {
+//        User returnThis = new User();
+//        returnThis.setFirstName("Update User: "+ userID);
+//        return ResponseEntity.ok(returnThis);
+//    }
 
 }
