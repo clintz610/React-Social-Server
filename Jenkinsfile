@@ -18,16 +18,14 @@ pipeline {
 				//ORGANIZATION = tool 'Revature-Reverb_backend' // the name you have given the Sonar Scanner (in Global Tool Configuration)
 				//PROJECT_NAME = tool 'ReverbScanner' // the name you have given the Sonar Scanner (in Global Tool Configuration)
 				//sonar_token = credentials('')
-				//organization = "revature-reverb"
-				//projectKey = "Revature-Reverb_backend"
+				organization = "revature-reverb"
+				projectKey = "Revature-Reverb_backend"
 			}
 			steps {
 				withSonarQubeEnv(installationName: 'SonarCloud', credentialsId: 'CD_sonarcloud2') {
 					sh '''mvn verify sonar:sonar
 					${scannerHome}/bin/sonar-scanner -X \
 					-Dsonar.java.binaries=target/classes   \
-					-Dsonar.organization=revature-reverb \
-					-Dsonar.projectKey=Revature-Reverb_backend \
 					-Dsonar.sources=. \
 					'''
 				}
