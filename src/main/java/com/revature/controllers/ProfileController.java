@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProfileController {
 
-    @Autowired
-    private ProfileRepository profileRepo;
+    private final ProfileRepository profileRepo;
+
+    public ProfileController(ProfileRepository profileRepo) {
+        this.profileRepo = profileRepo;
+    }
 
     @GetMapping("/profile/findall")
     public List<Profile>getAllProfiles() {
