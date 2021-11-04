@@ -32,4 +32,5 @@ public class UserController {
         userService.registerUser(user);
         return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
+    
 }
