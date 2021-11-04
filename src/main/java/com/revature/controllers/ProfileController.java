@@ -53,7 +53,6 @@ public class ProfileController {
         return null;               
 
     }
-
     /*
     1. user registers
     2. a request is made to the backend to create that user model
@@ -66,6 +65,5 @@ public class ProfileController {
     8. you take the request body and saveandflush it
     9. the user is redirected back to their profile, and a new get request is made
     10. the new profile is returned and shown on the page
-    */
-    
+    */    
 }
