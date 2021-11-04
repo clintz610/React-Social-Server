@@ -52,6 +52,7 @@ public class UserController {
     }
 
 
+
     @PostMapping(path = "/register")
     public ResponseEntity<String> registerUser(@AuthenticationPrincipal User user) {
         userService.registerUser(user);
@@ -59,6 +60,7 @@ public class UserController {
 //        returnThis.setFirstName("User Created: "+ neoUser.getFirstName());
         return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
+
 //
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<User> deleteUser(

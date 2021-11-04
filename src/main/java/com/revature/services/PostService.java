@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.models.Post;
+import com.revature.models.User;
 import com.revature.repositories.CommentRepository;
 import com.revature.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,9 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post addNewPost(Post post)
+    public Post addNewPost(Post post, User user)
     {
+        post.setAuthor(user);
         postRepository.save(post);
         return post;
     }
