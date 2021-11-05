@@ -37,9 +37,11 @@ public class Profile {
     private String last_name;
     
     @Column(unique = false, nullable = false)
+    @Type(type = "text")
     private String profile_img;
     
     @Column(unique = false, nullable = false)
+    @Type(type = "text")
     private String header_img;
     @Column(unique = true, nullable = false)
     @Type(type = "text")
@@ -48,6 +50,7 @@ public class Profile {
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;
+    
     public Profile() {
     	this.first_name = "Reverb";
     	this.last_name = "User";

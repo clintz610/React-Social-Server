@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/api/profile")
@@ -43,22 +43,15 @@ public class ProfileController {
         return profileRepo.findById(id);
     }  
 
-    // Update profile
-    // Directly map a request json object into a java object for using requestbody annotation
-    @PutMapping("/profile/{id}")
-    public Optional<Profile> updateProfile(@PathVariable int id, @RequestBody Profile profileDetail) {
-        Profile profile = new Profile();
-        profile.setFirst_name(profileDetail.getFirst_name());
-        profile.setLast_name(profileDetail.getLast_name());
-        profile.setProfile_img(profileDetail.getProfile_img());
-        profile.setHeader_img(profileDetail.getHeader_img());
-        profile.setAbout_me(profileDetail.getAbout_me());
-        return null;               
+    @PutMapping("/update")
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
+        profileRepo.saveAndFlush(profile);
+        return ResponseEntity.ok(profile);
 
     }
     
     @GetMapping("/getUsersProfile")
-    public Optional<Profile> findThisUsersProfile(@AuthenticationPrincipal User user) {
-    	return profileRepo.getProfileByUser(user);
+    public ResponseEntity<Optional<Profile>> findThisUsersProfile(@AuthenticationPrincipal User user) {
+    	return ResponseEntity.ok(profileRepo.getProfileByUser(user));
     }
 }
