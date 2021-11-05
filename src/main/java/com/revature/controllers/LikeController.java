@@ -36,14 +36,23 @@ public class LikeController {
         return ResponseEntity.internalServerError().build();
     }
 
-    @PostMapping(path = "/like-post")
-    public void likePost(@RequestBody Post post, @AuthenticationPrincipal User user)
+    @PutMapping(path = "/like-post/{postId}")
+    public void likePost(@PathVariable Long postId, @AuthenticationPrincipal User user)
     {
+        try {
+            likeService.likePost(postId, user);
+            ResponseEntity.ok();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+           // ResponseEntity.badRequest().build();
+        }
 
     }
 
     @GetMapping(path = "/check-if-liked")
-    public void checkIfLiked(@PathVariable Long postId)
+    public void checkIfLiked(@PathVariable Long postId, @AuthenticationPrincipal User user)
     {
 
     }
