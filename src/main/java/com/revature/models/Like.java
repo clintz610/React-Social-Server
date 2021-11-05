@@ -8,23 +8,18 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "likesTable")
 public class Like {
     @Id
-    //determine if a sequence is needed for each like
-    @SequenceGenerator(
-            name = "like_sequence",
-            sequenceName = "like_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "like_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //type of data has to be determined, (what are likes sending?  (String, int, etc)
-    private String like;
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
+    private Post post;
 
-    //mappings have to be completed
+    @ManyToOne
+    @JoinColumn(name = "liker_id", referencedColumnName = "uid")
+    private User user;
+
 }
