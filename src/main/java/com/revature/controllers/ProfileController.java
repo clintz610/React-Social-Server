@@ -49,6 +49,12 @@ public class ProfileController {
     public Optional<Profile>findProfileById(@PathVariable int id) {
          return profileRepo.findById(id);
     }
+    
+    @PutMapping("/update")
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
+        profileRepo.saveAndFlush(profile);
+        return ResponseEntity.ok(profile);
+    }
 
     /*
      * Get Profile of one specific user.
