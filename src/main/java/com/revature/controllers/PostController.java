@@ -52,6 +52,10 @@ public class PostController {
         }
     }
 
+    /*
+     * Remove a post from the database.
+     * Post needs to be sent in RequestBody
+     * returns nothing */
     @PostMapping(path = "/delete")
     public void deletePost(@RequestBody Post post)
     {
@@ -65,11 +69,4 @@ public class PostController {
         }
     }
 
-
-    //get all post from a specific user.
-    /*@GetMapping(path = "/user/posts")
-    public ResponseEntity<List<Post>> getUserPosts()
-    {
-        return ResponseEntity.ok(postService.());
-    }*/
 }
