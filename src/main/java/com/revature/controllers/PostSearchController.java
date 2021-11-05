@@ -25,7 +25,11 @@ public class PostSearchController {
 	{
 		this.postService = svc;
 	}
-	
+
+	/*
+	 * Get all Posts from a specific user.
+	 * User object in RequestBody
+	 * returns ResponseEntity<List<Post>> */
 	@GetMapping(path = "/user")
 	public ResponseEntity<List<Post>> searchByUser(@RequestBody User user)
 	{

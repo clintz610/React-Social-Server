@@ -32,24 +32,34 @@ public class ProfileController {
         this.profileRepo = profileRepo;
     }
 
-    // Get all profiles   
+    /*
+     * Get all of the profiles present in the database.
+     * no parameters
+     * returns List<Profile> */
     @GetMapping("/findall")
     public List<Profile>getAllProfiles() {
-        return profileRepo.findAll();
+         return profileRepo.findAll();
     }
 
+    /*
+     * Get Profile from the database by ID.
+     * Requires the integer id in the URL call
+     * returns Optional<Profile> */
     @GetMapping("/{id}")
     public Optional<Profile>findProfileById(@PathVariable int id) {
-        return profileRepo.findById(id);
-    }  
-
+         return profileRepo.findById(id);
+    }
+    
     @PutMapping("/update")
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
         profileRepo.saveAndFlush(profile);
         return ResponseEntity.ok(profile);
-
     }
-    
+
+    /*
+     * Get Profile of one specific user.
+     * requires a User object
+     * returns Optional<Profile> */
     @GetMapping("/getUsersProfile")
     public ResponseEntity<Optional<Profile>> findThisUsersProfile(@AuthenticationPrincipal User user) {
     	return ResponseEntity.ok(profileRepo.getProfileByUser(user));
