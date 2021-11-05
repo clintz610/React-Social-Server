@@ -42,6 +42,8 @@ public class Post {
 
     @Type(type = "text")
     private String imageURL;
+    
+    private String date;
 
     @ManyToOne
     @JsonIgnore

@@ -10,9 +10,14 @@ import com.revature.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 @Service
 public class PostService {
@@ -26,11 +31,13 @@ public class PostService {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.profileRepository = profileRepository;
-
+		
 	}
 
 	public List<Post> getPosts() {
-		return postRepository.findAll();
+		List<Post> allPosts = postRepository.findAll();
+//		Collections.reverse(allPosts);
+		return allPosts;
 	}
 
 	public Post addNewPost(Post post, User user)
@@ -46,6 +53,11 @@ public class PostService {
         } else {
         	profile = optProfile.get();
         }
+        Date date = new Date();
+        DateFormat dform = new SimpleDateFormat("MMM d yyyy HH:mm z");
+        dform.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+        String dateString = dform.format(date);
+        post.setDate(dateString);
         post.setProfile(profile);
         return postRepository.save(post);
     }

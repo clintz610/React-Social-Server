@@ -20,6 +20,8 @@ public class Comment {
 
     @Type(type = "text")
     private String commentText;
+    
+    private String date;
 
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
