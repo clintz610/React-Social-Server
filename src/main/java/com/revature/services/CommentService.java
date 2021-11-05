@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.revature.exceptions.UnauthorizedDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,8 +62,7 @@ public class CommentService {
         }
     }
 
-    public void deleteComment(Long commentId, User user)
-    {
+    public void deleteComment(Long commentId, User user) throws UnauthorizedDeleteException {
         Optional<Comment> temp = commentRepository.findById(commentId);
 
         if(temp.isPresent())
@@ -73,7 +73,7 @@ public class CommentService {
                 System.out.println("comment deleted");
             }
             else
-                throw new IllegalStateException("Unauthorized user for delete."); //custom exception for a user to delete
+                throw new UnauthorizedDeleteException("Unauthorized user tired to delete a comment."); 
         }
         else
             throw new IllegalStateException("Comment does not exist");
