@@ -21,6 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
+
     /* On login, checks if user exists in database after firebase has authenticated the user. If the user
     does not currently exist in the cloud database, the user is created and added to it. */
 
@@ -29,6 +30,7 @@ public class UserController {
         userService.loginUser(user);
         return ResponseEntity.ok("Successfully added user with email " + user.getEmail());
     }
+
 
     /* Registers a new user, only requires a Token in the header, no body is required at the moment */
 
