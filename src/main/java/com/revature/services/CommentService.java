@@ -41,15 +41,24 @@ public class CommentService {
         if(post.isPresent())
         {
         	comment.setAuthor(user);
-        	Profile profile = profileRepository.getProfileByUser(user);
+        	Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
+            Profile profile = null;
+            if(!optProfile.isPresent()) {
+            	profile = new Profile();
+            	profile.setUser(user);
+            	profileRepository.save(profile);
+            	System.out.println("Generating default profile! (Probably should never happen...)");
+            } else {
+            	profile = optProfile.get();
+            }
             comment.setProfile(profile);
             comment.setPost(post.get());
             post.get().setComments((Arrays.asList(comment)));
             commentRepository.save(comment);
             return comment;
+        } else {
+        	throw new IllegalStateException("This comment does not have an associated post.");
         }
-
-        throw new IllegalStateException("This comment does not have an associated post.");
     }
 
     public void deleteComment(Long commentId, User user)

@@ -40,6 +40,7 @@ public class CommentController {
     @PostMapping(path = "/submit/{postId}")
     public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId, @AuthenticationPrincipal User user)
     {
+    	System.out.println("Trying to add a comment!");
         try
         {
             return ResponseEntity.ok(commentService.addNewComment(comment, postId, user));
