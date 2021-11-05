@@ -26,7 +26,9 @@ public class LikeController {
     public ResponseEntity<Integer> getNumberOfLikes(@PathVariable Long postId)
     {
         try {
-            return ResponseEntity.ok(likeService.getNumberofLikes(postId));
+        	Integer numLikes = likeService.getNumberofLikes(postId);
+        	System.out.println("Number of likes = " + numLikes);
+            return ResponseEntity.ok(numLikes);
         }
         catch(Exception e)
         {
@@ -51,9 +53,14 @@ public class LikeController {
 
     }
 
-    @GetMapping(path = "/check-if-liked")
-    public void checkIfLiked(@PathVariable Long postId, @AuthenticationPrincipal User user)
+    @GetMapping(path = "/check-if-liked/{postId}")
+    public ResponseEntity<Boolean> checkIfLiked(@PathVariable Long postId, @AuthenticationPrincipal User user)
     {
-
+    	try {
+    		return ResponseEntity.ok(likeService.checkIfAlreadyLiked(postId, user));
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return ResponseEntity.internalServerError().build();
     }
 }
