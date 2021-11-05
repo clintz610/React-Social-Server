@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping(path = "/api/profile")
 public class ProfileController {
 
     private final ProfileRepository profileRepo;
@@ -29,52 +32,33 @@ public class ProfileController {
         this.profileRepo = profileRepo;
     }
 
-    // Get all profiles
-    @GetMapping("/profile/findall")
+    // Get all profiles   
+    @GetMapping("/findall")
     public List<Profile>getAllProfiles() {
         return profileRepo.findAll();
     }
 
-    // Get profile by id
-    @GetMapping("/profile/findprofile")
-    public ResponseEntity<Optional<Profile>> findProfileById(@AuthenticationPrincipal User user) {
-        //user_id = user.getUid();
-        //Optional<Profile> profile = profileRepo.findByUserId(user_id);
-        Optional<Profile> profile = profileRepo.findById(1);
-        return ResponseEntity.ok(profile);
+    @GetMapping("/{id}")
+    public Optional<Profile>findProfileById(@PathVariable int id) {
+        return profileRepo.findById(id);
     }  
 
     // Update profile
     // Directly map a request json object into a java object for using requestbody annotation
-    // @PutMapping("/profile/1")
-    // public Optional<Profile> updateProfile(@PathVariable int id, @RequestBody Profile profileDetail) {
-    //     Profile profile = new Profile();
-    //     profile.setFirst_name(profileDetail.getFirst_name());
-    //     profile.setLast_name(profileDetail.getLast_name());
-    //     profile.setProfile_img(profileDetail.getProfile_img());
-    //     profile.setHeader_img(profileDetail.getHeader_img());
-    //     profile.setAbout_me(profileDetail.getAbout_me());
-    //     return null;               
-
-    // }
-    @PutMapping("/profile/update")
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
-        profileRepo.saveAndFlush(profile);
-        return ResponseEntity.ok(profile);
+    @PutMapping("/profile/{id}")
+    public Optional<Profile> updateProfile(@PathVariable int id, @RequestBody Profile profileDetail) {
+        Profile profile = new Profile();
+        profile.setFirst_name(profileDetail.getFirst_name());
+        profile.setLast_name(profileDetail.getLast_name());
+        profile.setProfile_img(profileDetail.getProfile_img());
+        profile.setHeader_img(profileDetail.getHeader_img());
+        profile.setAbout_me(profileDetail.getAbout_me());
+        return null;               
 
     }
-
-    /*
-    1. user registers
-    2. a request is made to the backend to create that user model
-    3. in the previous request, a profile is also created and associated
-       to the new user
-    4. they go to their profile page
-    5. a get request is made to get their profile, which is default
-    6. they make an edit to their profile
-    7. you make a put request to the backed including the updated profile
-    8. you take the request body and saveandflush it
-    9. the user is redirected back to their profile, and a new get request is made
-    10. the new profile is returned and shown on the page
-    */    
+    
+    @GetMapping("/getUsersProfile")
+    public Optional<Profile> findThisUsersProfile(@AuthenticationPrincipal User user) {
+    	return profileRepo.getProfileByUser(user);
+    }
 }
