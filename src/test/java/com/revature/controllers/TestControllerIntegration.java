@@ -27,7 +27,7 @@ public class TestControllerIntegration {
 	@Test
 	public void devops_profile_test() throws Exception {
 
-		Profile tester = new Profile(1, "first_name", "last_name", "profile_img", "header_img", "about_me", null);
+		Profile tester = new Profile();
 
 		profilereptest.save(tester);
 

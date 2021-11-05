@@ -48,7 +48,7 @@ public class LikeController {
         catch(Exception e)
         {
             e.printStackTrace();
-           // ResponseEntity.badRequest().build();
+            ResponseEntity.internalServerError().build();
         }
 
     }
