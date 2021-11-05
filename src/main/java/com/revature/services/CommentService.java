@@ -1,8 +1,12 @@
 package com.revature.services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import com.revature.exceptions.UnauthorizedDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +56,11 @@ public class CommentService {
             } else {
             	profile = optProfile.get();
             }
+            Date date = new Date();
+            DateFormat dform = new SimpleDateFormat("MMM d yyyy HH:mm z");
+            dform.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+            String dateString = dform.format(date);
+            comment.setDate(dateString);
             comment.setProfile(profile);
             comment.setPost(post.get());
             post.get().setComments((Arrays.asList(comment)));
