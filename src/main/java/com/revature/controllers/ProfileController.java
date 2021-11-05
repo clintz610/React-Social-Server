@@ -3,6 +3,8 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import com.revature.models.Profile;
 import com.revature.models.User;
 import com.revature.repositories.ProfileRepository;
@@ -10,6 +12,7 @@ import com.revature.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProfileController {
 
     private final ProfileRepository profileRepo;
@@ -42,17 +46,24 @@ public class ProfileController {
 
     // Update profile
     // Directly map a request json object into a java object for using requestbody annotation
-    @PutMapping("/profile/{id}")
-    public Optional<Profile> updateProfile(@PathVariable int id, @RequestBody Profile profileDetail) {
-        Profile profile = new Profile();
-        profile.setFirst_name(profileDetail.getFirst_name());
-        profile.setLast_name(profileDetail.getLast_name());
-        profile.setProfile_img(profileDetail.getProfile_img());
-        profile.setHeader_img(profileDetail.getHeader_img());
-        profile.setAbout_me(profileDetail.getAbout_me());
-        return null;               
+    // @PutMapping("/profile/1")
+    // public Optional<Profile> updateProfile(@PathVariable int id, @RequestBody Profile profileDetail) {
+    //     Profile profile = new Profile();
+    //     profile.setFirst_name(profileDetail.getFirst_name());
+    //     profile.setLast_name(profileDetail.getLast_name());
+    //     profile.setProfile_img(profileDetail.getProfile_img());
+    //     profile.setHeader_img(profileDetail.getHeader_img());
+    //     profile.setAbout_me(profileDetail.getAbout_me());
+    //     return null;               
+
+    // }
+    @PutMapping("/profile/update")
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
+        profileRepo.saveAndFlush(profile);
+        return ResponseEntity.ok(profile);
 
     }
+
     /*
     1. user registers
     2. a request is made to the backend to create that user model
