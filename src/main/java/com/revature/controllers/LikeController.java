@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class LikeController {
     private LikeService likeService;
 
+    //constructor
     @Autowired
     public LikeController(LikeService likeService)
     {
         this.likeService = likeService;
     }
-
 
 }

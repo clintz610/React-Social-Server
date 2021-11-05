@@ -24,16 +24,27 @@ public class ProfileController {
         this.profileRepo = profileRepo;
     }
 
-    @GetMapping("/findall")
+    /*
+     * Get all of the profiles present in the database.
+     * no parameters
+     * returns List<Profile> */@GetMapping("/findall")
     public List<Profile>getAllProfiles() {
-        return profileRepo.findAll();
+         return profileRepo.findAll();
     }
 
+    /*
+     * Get Profile from the database by ID.
+     * Requires the integer id in the URL call
+     * returns Optional<Profile> */
     @GetMapping("/{id}")
     public Optional<Profile>findProfileById(@PathVariable int id) {
-        return profileRepo.findById(id);
-    }  
-    
+         return profileRepo.findById(id);
+    }
+
+    /*
+     * Get Profile of one specific user.
+     * requires a User object
+     * returns Optional<Profile> */
     @GetMapping("/getUsersProfile")
     public Optional<Profile> findThisUsersProfile(@AuthenticationPrincipal User user) {
     	return profileRepo.getProfileByUser(user);

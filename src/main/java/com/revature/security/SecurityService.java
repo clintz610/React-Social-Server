@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 public class SecurityService {
 
     /* Parses token from header and returns just the required portion needed. */
-
     public String getBearerToken(HttpServletRequest request) {
 
         String bearerToken = null;

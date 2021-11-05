@@ -54,6 +54,10 @@ public class CommentController {
         }
     }
 
+    /*
+     * Remove a specific comment present in the database.
+     * Parameter: Long commentId
+     * returns nothing */
     @DeleteMapping(path = "/delete/{commentId}")
     public void deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal User user)
     {
