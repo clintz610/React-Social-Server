@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepository;
@@ -31,9 +32,9 @@ public class TestControllerIntegration {
 
 		profilereptest.save(tester);
 
-		Optional<Profile> retrievedProfile = profilectrl.findProfileById(tester.getId());
+		ResponseEntity<Profile> retrievedProfile = profilectrl.findProfileById(tester.getId());
 
-		assertThat(tester.getFirst_name()).isEqualTo(retrievedProfile.get().getFirst_name());
+		assertThat(tester.getFirst_name()).isEqualTo(retrievedProfile.getBody().getFirst_name());
 
 
 	}

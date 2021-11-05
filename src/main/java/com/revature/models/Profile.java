@@ -67,9 +67,9 @@ public class Profile {
     	this.last_name = "User";
     	this.profile_img = "https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png";
     	this.header_img = "https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg";
-        this.birthday = "May 3rd";
-        this.hobby = "Soccer";
-        this.location = "Indianapolis";
+        this.birthday = "A Mystery...";
+        this.hobby = "Programming, surely";
+        this.location = "Planet Earth";
     	this.about_me = "I just joined Reverb!";
 
     }
