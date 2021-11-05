@@ -26,8 +26,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "Reverb_Profile")
 public class Profile {
-	
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 	
@@ -42,15 +41,13 @@ public class Profile {
     
     @Column(unique = false, nullable = false)
     private String header_img;
-    
-    @Column(unique = false, nullable = false)
+    @Column(unique = true, nullable = false)
     @Type(type = "text")
     private String about_me;
 
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;
-   
     public Profile() {
     	this.first_name = "Reverb";
     	this.last_name = "User";
