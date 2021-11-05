@@ -59,7 +59,13 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 			} catch (FirebaseAuthException e) {
 				e.printStackTrace();
 			}
+
+			User user = firebaseTokenToUserDto(decodedToken);
+			if(user != null) {
+				System.out.println(user.toString());
+			}
 		}
+
 	}
 
 	private User firebaseTokenToUserDto(FirebaseToken decodedToken) {
