@@ -43,9 +43,20 @@ public class Profile {
     @Column(unique = false, nullable = false)
     @Type(type = "text")
     private String header_img;
-    @Column(unique = true, nullable = false)
+
+    @Column(unique = false, nullable = false)
+    private String birthday;
+
+    @Column(unique = false, nullable = false)
+    private String hobby;
+
+    @Column(unique = false, nullable = false)
+    private String location;
+    
+    @Column(unique = false, nullable = false)
     @Type(type = "text")
     private String about_me;
+
 
     @OneToOne
     @JoinColumn(name="user_id")
@@ -56,6 +67,10 @@ public class Profile {
     	this.last_name = "User";
     	this.profile_img = "https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png";
     	this.header_img = "https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg";
+        this.birthday = "May 3rd";
+        this.hobby = "Soccer";
+        this.location = "Indianapolis";
     	this.about_me = "I just joined Reverb!";
+
     }
 }
