@@ -1,13 +1,14 @@
 package com.revature.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 import com.revature.models.Profile;
 import com.revature.models.User;
 import com.revature.repositories.ProfileRepository;
 import com.revature.repositories.UserRepository;
-import java.util.Optional;
+
+
 
 @Service
 public class UserService {
