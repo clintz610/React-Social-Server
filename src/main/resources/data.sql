@@ -1,6 +1,2 @@
--- insert reverb-user placeholder
-INSERT INTO reverb_user
-VALUES (1, 'twilightlover@email.com');
--- insert example post
-INSERT INTO post (title, post_text, imageURL)
-VALUES ('why Twilight is a work of art', '1. Edward Cullen is a true gentleman and a hottie. 2.wolves vs vampires?? yes please!', 'https://static.wikia.nocookie.net/twilightsaga/images/8/8a/Edward-376194_429619737081258_1836140990_n.jpg/revision/latest?cb=20120728050624');
+INSERT INTO reverb_profile (id, first_name, last_name, profile_img, header_img, about_me ) VALUES (DEFAULT, 'Lion', 'King', 'https://images.unsplash.com/photo-1607490703747-0519d2e398a1?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bGlvbiUyMGtpbmd8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80', 'https://static.billboard.com/files/media/the-lion-king-1994-everett-billboard-1548-compressed.jpg', 'I am a lion king and I am a king of the world');
+INSERT INTO reverb_profile (id, first_name, last_name, profile_img, header_img, about_me ) VALUES (DEFAULT, 'Paul', 'Smith', 'https://www.simplilearn.com/ice9/free_resources_article_thumb/tester-or-developer-what-suits-you-the-most.jpg', 'https://media.bitdegree.org/storage/media/images/2018/08/what-is-a-web-developer.jpg', 'I am a software engineer and I love coding everyday');
