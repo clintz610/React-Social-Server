@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.revature.exceptions.UnauthorizedDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,19 +42,27 @@ public class CommentService {
         if(post.isPresent())
         {
         	comment.setAuthor(user);
-        	Profile profile = profileRepository.getProfileByUser(user);
+        	Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
+            Profile profile = null;
+            if(!optProfile.isPresent()) {
+            	profile = new Profile();
+            	profile.setUser(user);
+            	profileRepository.save(profile);
+            	System.out.println("Generating default profile! (Probably should never happen...)");
+            } else {
+            	profile = optProfile.get();
+            }
             comment.setProfile(profile);
             comment.setPost(post.get());
             post.get().setComments((Arrays.asList(comment)));
             commentRepository.save(comment);
             return comment;
+        } else {
+        	throw new IllegalStateException("This comment does not have an associated post.");
         }
-
-        throw new IllegalStateException("This comment does not have an associated post.");
     }
 
-    public void deleteComment(Long commentId, User user)
-    {
+    public void deleteComment(Long commentId, User user) throws UnauthorizedDeleteException {
         Optional<Comment> temp = commentRepository.findById(commentId);
 
         if(temp.isPresent())
@@ -64,7 +73,7 @@ public class CommentService {
                 System.out.println("comment deleted");
             }
             else
-                throw new IllegalStateException("Unauthorized user for delete."); //custom exception for a user to delete
+                throw new UnauthorizedDeleteException("Unauthorized user tired to delete a comment."); 
         }
         else
             throw new IllegalStateException("Comment does not exist");

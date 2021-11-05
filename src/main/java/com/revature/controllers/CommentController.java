@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.exceptions.UnauthorizedDeleteException;
 import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.User;
@@ -40,6 +41,7 @@ public class CommentController {
     @PostMapping(path = "/submit/{postId}")
     public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId, @AuthenticationPrincipal User user)
     {
+    	System.out.println("Trying to add a comment!");
         try
         {
             return ResponseEntity.ok(commentService.addNewComment(comment, postId, user));
@@ -58,10 +60,9 @@ public class CommentController {
         try{
             commentService.deleteComment(commentId, user);
         }
-        catch(IllegalStateException illegalStateException)
+        catch(Exception e)
         {
-            System.out.println(illegalStateException.getMessage());
+        	e.printStackTrace();
         }
     }
-
 }
