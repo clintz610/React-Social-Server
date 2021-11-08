@@ -25,12 +25,9 @@ import com.revature.services.ProfileService;
 @RequestMapping(path = "/api/profile")
 public class ProfileController {
 
-	private final ProfileRepository profileRepo;
-
 	private final ProfileService profileService;
 
-	public ProfileController(ProfileRepository profileRepo, ProfileService profileService) {
-		this.profileRepo = profileRepo;
+	public ProfileController(ProfileService profileService) {
 		this.profileService = profileService;
 	}
 

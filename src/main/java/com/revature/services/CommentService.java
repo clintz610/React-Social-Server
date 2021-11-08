@@ -52,7 +52,6 @@ public class CommentService {
             	profile = new Profile();
             	profile.setUser(user);
             	profileRepository.save(profile);
-            	System.out.println("Generating default profile! (Probably should never happen...)");
             } else {
             	profile = optProfile.get();
             }

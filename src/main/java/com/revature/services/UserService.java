@@ -30,8 +30,8 @@ public class UserService {
     }
 
     public void loginUser(User user) {
-        Optional<User> db_user = userRepository.findById(user.getUid());
-        if (!db_user.isPresent()) {
+        Optional<User> dbUser = userRepository.findById(user.getUid());
+        if (!dbUser.isPresent()) {
             userRepository.save(user);
         }
     }

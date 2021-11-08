@@ -35,6 +35,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Type(type = "text")
     private String title;
 
     @Type(type = "text")
@@ -42,7 +43,8 @@ public class Post {
 
     @Type(type = "text")
     private String imageURL;
-    
+
+    @Type(type = "text")
     private String date;
 
     @ManyToOne
@@ -58,7 +60,7 @@ public class Post {
 
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<Comment>();
+    private List<Comment> comments = new ArrayList<>();
 
     public Post(String postText, String imageURL)
     {

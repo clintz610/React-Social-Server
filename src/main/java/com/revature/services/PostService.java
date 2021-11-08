@@ -35,9 +35,7 @@ public class PostService {
 	}
 
 	public List<Post> getPosts() {
-		List<Post> allPosts = postRepository.findAll();
-//		Collections.reverse(allPosts);
-		return allPosts;
+		return postRepository.findAll();
 	}
 
 	public Post addNewPost(Post post, User user)
@@ -49,7 +47,6 @@ public class PostService {
         	profile = new Profile();
         	profile.setUser(user);
         	profileRepository.save(profile);
-        	System.out.println("Generating default profile! (Probably should never happen...)");
         } else {
         	profile = optProfile.get();
         }

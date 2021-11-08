@@ -28,8 +28,7 @@ public class LikeController {
     {
         try {
         	Integer numLikes = likeService.getNumberofLikes(postId);
-        	System.out.println("Number of likes = " + numLikes);
-            return ResponseEntity.ok(numLikes);
+        	return ResponseEntity.ok(numLikes);
         }
         catch(Exception e)
         {

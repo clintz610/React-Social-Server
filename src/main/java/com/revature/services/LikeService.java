@@ -15,14 +15,12 @@ import java.util.Optional;
 public class LikeService {
     private PostRepository postRepository;
     private LikeRepository likeRepository;
-    private UserRepository userRepository;
 
     @Autowired
-    public LikeService(PostRepository postRepository, LikeRepository likeRepository, UserRepository userRepository)
+    public LikeService(PostRepository postRepository, LikeRepository likeRepository)
     {
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
-        this.userRepository = userRepository;
     }
 
     public Integer getNumberofLikes(Long postId)
