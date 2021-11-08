@@ -65,7 +65,12 @@ public class ProfileController {
 	 */
 	@GetMapping("/getUsersProfile")
 	public ResponseEntity<Profile> findThisUsersProfile(@AuthenticationPrincipal User user) {
-		return ResponseEntity.ok(profileService.findUsersProfile(user));
+		try {
+			return ResponseEntity.ok(profileService.findUsersProfile(user));
+		} catch (ProfileNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
 	}
 
 	/*  Must be provided an id in the URL

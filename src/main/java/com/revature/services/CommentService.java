@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
+
+import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.exceptions.UnauthorizedDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,7 @@ public class CommentService {
         Adds a new comment to the database
         Returns the comment added to the database
      */
-    public Comment addNewComment(Comment comment, Long postId, User user)
+    public Comment addNewComment(Comment comment, Long postId, User user) throws ProfileNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
 
@@ -54,9 +56,7 @@ public class CommentService {
         	Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
             Profile profile = null;
             if(!optProfile.isPresent()) {
-            	profile = new Profile();
-            	profile.setUser(user);
-            	profileRepository.save(profile);
+            	throw new ProfileNotFoundException();
             } else {
             	profile = optProfile.get();
             }
