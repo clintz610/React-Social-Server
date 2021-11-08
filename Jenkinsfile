@@ -18,7 +18,7 @@ pipeline {
 			}
 			steps {
 				withSonarQubeEnv(installationName: 'SonarCloud', credentialsId: 'CD_sonarcloud2') {
-					sh '''mvn verify sonar:sonar
+					sh '''mvn clean verify sonar:sonar
 					${scannerHome}/bin/sonar-scanner -X \
 					-Dsonar.java.binaries=target/classes   \
 					-Dsonar.sources=. \
