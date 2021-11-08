@@ -32,13 +32,13 @@ public class TestUserService {
 	@Mock
 	private UserService userservicetest;
 
-	@Test
-	private void registerUserTest() {
-		User TestUser = new User("45673yh43yh5vg54h376","Testemail@email.com");
-		userservicetest.registerUser(TestUser);
-
-		assertThat(TestUser).isEqualTo(testuserrepository.getById(TestUser.getUid()));
-
-		
-	}
+//	@Test
+//	private void registerUserTest() {
+//		User TestUser = new User("45673yh43yh5vg54h376","Testemail@email.com");
+//		userservicetest.registerUser(TestUser);
+//
+//		assertThat(TestUser).isEqualTo(testuserrepository.getById(TestUser.getUid()));
+//
+//		
+//	}
 }
