@@ -3,31 +3,77 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import com.revature.models.Profile;
-import com.revature.repositories.ProfileRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.exceptions.WrongUserException;
+import com.revature.models.Profile;
+import com.revature.models.User;
+import com.revature.repositories.ProfileRepository;
+import com.revature.services.ProfileService;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequestMapping(path = "/api/profile")
 public class ProfileController {
 
-    private final ProfileRepository profileRepo;
+	private final ProfileRepository profileRepo;
 
-    public ProfileController(ProfileRepository profileRepo) {
-        this.profileRepo = profileRepo;
-    }
+	private final ProfileService profileService;
 
-    @GetMapping("/profile/findall")
-    public List<Profile>getAllProfiles() {
-        return profileRepo.findAll();
-    }
+	public ProfileController(ProfileRepository profileRepo, ProfileService profileService) {
+		this.profileRepo = profileRepo;
+		this.profileService = profileService;
+	}
 
-    @GetMapping("/profile/{id}")
-    public Optional<Profile>findProfileById(@PathVariable int id) {
-        return profileRepo.findById(id);
-    }  
-    
+	/*
+	 * Get Profile from the database by ID. Requires the integer id in the URL call
+	 * returns Optional<Profile>
+	 */
+	@GetMapping("/{id}")
+	public ResponseEntity<Profile> findProfileById(@PathVariable int id) {
+		try {
+			return ResponseEntity.ok(profileService.findProfileById(id));
+		} catch (ProfileNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile, @AuthenticationPrincipal User user) {
+		try {
+			return ResponseEntity.ok(profileService.updateProfile(profile, user));
+		} catch (WrongUserException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(403).build();
+		}
+	}
+
+	/*
+	 * Get Profile of one specific user. requires a User object returns
+	 * Optional<Profile>
+	 */
+	@GetMapping("/getUsersProfile")
+	public ResponseEntity<Profile> findThisUsersProfile(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(profileService.findUsersProfile(user));
+	}
+	
+	@GetMapping("/checkProfileOwnership/{id}")
+	public ResponseEntity<Boolean> checkProfileOwnership(@PathVariable int id, @AuthenticationPrincipal User user) {
+		try {
+			return ResponseEntity.ok(profileService.checkProfileOwnership(id, user));
+		} catch (ProfileNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
+	}
 }

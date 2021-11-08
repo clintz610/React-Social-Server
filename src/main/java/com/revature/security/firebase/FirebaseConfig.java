@@ -17,24 +17,14 @@ import java.io.IOException;
 @Configuration
 public class FirebaseConfig {
 
-//    private final FirebaseAuth firebaseAuth;
-//
-//    public FirebaseConfig() {
-//        try {
-//            Resource serviceAccount = new ClassPathResource("firebase_config.json");
-//            FirebaseOptions options = FirebaseOptions.builder().setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream())).build();
-//            this.firebaseAuth = FirebaseAuth.getInstance(FirebaseApp.initializeApp(options));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     @Primary
     @Bean
     public void firebaseInit() throws IOException {
         Resource serviceAccount = new ClassPathResource("firebase_config.json");
-        FirebaseOptions options = FirebaseOptions.builder().setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream())).build();
-//        this.firebaseAuth = FirebaseAuth.getInstance(FirebaseApp.initializeApp(options));
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream()))
+                .build();
+
         if (FirebaseApp.getApps().isEmpty()) {
             FirebaseApp.initializeApp(options);
         }
