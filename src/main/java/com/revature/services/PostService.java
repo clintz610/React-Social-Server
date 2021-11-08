@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.models.User;
@@ -46,15 +47,13 @@ public class PostService {
 		Adds a new Post to the database, registered to specific User
 		Returns the Post added to the database
 	 */
-	public Post addNewPost(Post post, User user)
+	public Post addNewPost(Post post, User user) throws ProfileNotFoundException
     {
         post.setAuthor(user);
         Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
         Profile profile = null;
         if(!optProfile.isPresent()) {
-        	profile = new Profile();
-        	profile.setUser(user);
-        	profileRepository.save(profile);
+        	throw new ProfileNotFoundException();
         } else {
         	profile = optProfile.get();
         }

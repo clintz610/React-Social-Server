@@ -46,15 +46,12 @@ public class ProfileService {
 	/*  Parameter: User object
 		Returns the Profile of the provided User
 	 */
-    public Profile findUsersProfile(User user) {
+    public Profile findUsersProfile(User user) throws ProfileNotFoundException {
     	Optional<Profile> profile = profileRepo.getProfileByUser(user);
     	if(profile.isPresent()) {
     		return profile.get();
     	} else {
-    		Profile newprof = new Profile();
-    		newprof.setUser(user);
-    		profileRepo.save(newprof);
-    		return newprof;
+    		throw new ProfileNotFoundException();
     	}
     }
 

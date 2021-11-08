@@ -57,7 +57,6 @@ public class Profile {
     @Type(type = "text")
     private String about_me;
 
-
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;
