@@ -16,6 +16,7 @@ public class LikeService {
     private PostRepository postRepository;
     private LikeRepository likeRepository;
 
+    // constructor
     @Autowired
     public LikeService(PostRepository postRepository, LikeRepository likeRepository)
     {
@@ -23,6 +24,10 @@ public class LikeService {
         this.likeRepository = likeRepository;
     }
 
+    /*  Parameter: postID
+        Pulls number of likes on specific post from database
+        Returns Integer
+     */
     public Integer getNumberofLikes(Long postId)
     {
        Optional<Post> post = postRepository.findById(postId);

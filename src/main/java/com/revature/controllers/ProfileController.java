@@ -45,6 +45,10 @@ public class ProfileController {
 		}
 	}
 
+	/*  Must be give a Profile object in the Request body.
+		Updates the Profile in the database.
+		Returns the updated Profile.
+	 */
 	@PutMapping("/update")
 	public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile, @AuthenticationPrincipal User user) {
 		try {
@@ -63,7 +67,11 @@ public class ProfileController {
 	public ResponseEntity<Profile> findThisUsersProfile(@AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(profileService.findUsersProfile(user));
 	}
-	
+
+	/*  Must be provided an id in the URL
+		Verifies whether or not the logged in user is the owner of that Profile
+		Returns boolean value
+	 */
 	@GetMapping("/checkProfileOwnership/{id}")
 	public ResponseEntity<Boolean> checkProfileOwnership(@PathVariable int id, @AuthenticationPrincipal User user) {
 		try {
