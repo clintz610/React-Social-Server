@@ -1,14 +1,11 @@
 package com.revature.controllers;
 
-import com.revature.models.Post;
 import com.revature.models.User;
 import com.revature.services.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import javax.websocket.server.PathParam;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,13 +20,15 @@ public class LikeController {
         this.likeService = likeService;
     }
 
+    /*  Must be given postID through URL
+        Returns the number of likes for identified post
+     */
     @GetMapping(path = "/get-number-of-likes/{postId}")
     public ResponseEntity<Integer> getNumberOfLikes(@PathVariable Long postId)
     {
         try {
         	Integer numLikes = likeService.getNumberofLikes(postId);
-        	System.out.println("Number of likes = " + numLikes);
-            return ResponseEntity.ok(numLikes);
+        	return ResponseEntity.ok(numLikes);
         }
         catch(Exception e)
         {
@@ -39,6 +38,9 @@ public class LikeController {
         return ResponseEntity.internalServerError().build();
     }
 
+    /*  Must be provided postID in URL
+        Creates a new like upon identified post.
+     */
     @PutMapping(path = "/like-post/{postId}")
     public void likePost(@PathVariable Long postId, @AuthenticationPrincipal User user)
     {
@@ -54,6 +56,9 @@ public class LikeController {
 
     }
 
+    /*  Must be provide a postID in the URL
+        Returns boolean if logged in user has already liked the post.
+     */
     @GetMapping(path = "/check-if-liked/{postId}")
     public ResponseEntity<Boolean> checkIfLiked(@PathVariable Long postId, @AuthenticationPrincipal User user)
     {
