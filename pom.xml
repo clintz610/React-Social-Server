@@ -16,6 +16,8 @@
 	<description>Social media app backend for Revature project 3</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<sonar.projectKey>revature-reverb</sonar.projectKey> 
+		<sonar.organization>Revature-Reverb_backend</sonar.organization> 
 	</properties>
 	<dependencies>
 		<dependency>
