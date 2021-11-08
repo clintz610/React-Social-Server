@@ -42,6 +42,7 @@ public class ProfileService {
     	} else {
     		Profile newprof = new Profile();
     		newprof.setUser(user);
+    		profileRepo.save(newprof);
     		return newprof;
     	}
     }
