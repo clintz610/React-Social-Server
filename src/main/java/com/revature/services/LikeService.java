@@ -15,16 +15,19 @@ import java.util.Optional;
 public class LikeService {
     private PostRepository postRepository;
     private LikeRepository likeRepository;
-    private UserRepository userRepository;
 
+    // constructor
     @Autowired
-    public LikeService(PostRepository postRepository, LikeRepository likeRepository, UserRepository userRepository)
+    public LikeService(PostRepository postRepository, LikeRepository likeRepository)
     {
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
-        this.userRepository = userRepository;
     }
 
+    /*  Parameter: postID
+        Pulls number of likes on specific post from database
+        Returns Integer
+     */
     public Integer getNumberofLikes(Long postId)
     {
        Optional<Post> post = postRepository.findById(postId);

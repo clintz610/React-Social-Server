@@ -14,9 +14,14 @@ import com.revature.repositories.ProfileRepository;
 @Service
 public class ProfileService {
 
+	// dependency injection
     @Autowired
     private ProfileRepository profileRepo;
-    
+
+	/*  Parameters: Profile object, User object
+		Updates profile in database if User is owner
+		Returns the modified Profile
+	 */
     public Profile updateProfile(Profile profile, User user) throws WrongUserException {
     	if(profile.getUser().equals(user)) {
     		return profileRepo.saveAndFlush(profile);
@@ -24,7 +29,10 @@ public class ProfileService {
     		throw new WrongUserException();
     	}	
     }
-    
+
+	/*  Parameter: profileID
+		Returns the specified Profile
+	 */
     public Profile findProfileById(int profileId) throws ProfileNotFoundException {
     	Optional<Profile> profile = profileRepo.findById(profileId);
     	
@@ -34,7 +42,10 @@ public class ProfileService {
     		throw new ProfileNotFoundException();
     	}
     }
-    
+
+	/*  Parameter: User object
+		Returns the Profile of the provided User
+	 */
     public Profile findUsersProfile(User user) {
     	Optional<Profile> profile = profileRepo.getProfileByUser(user);
     	if(profile.isPresent()) {
