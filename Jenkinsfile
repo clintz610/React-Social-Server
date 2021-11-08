@@ -22,7 +22,10 @@ pipeline {
 					${scannerHome}/bin/sonar-scanner -X \
 					-Dsonar.java.binaries=target/classes   \
 					-Dsonar.sources=. \
-					'''
+					-Dsonar.java.binaries=target/classes   \
+					-Dsonar.organization=revature-reverb \
+					-Dsonar.projectKey=Revature-Reverb_backend \
+					-Dsonar.sources=. '''
 				}
 			}
 		}
