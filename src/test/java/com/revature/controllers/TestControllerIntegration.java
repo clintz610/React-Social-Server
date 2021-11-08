@@ -28,15 +28,22 @@ public class TestControllerIntegration {
 //	@Test
 //	public void devops_profile_test() throws Exception {
 //
+//	
 //		Profile tester = new Profile();
 //
+//		tester.getId();
+//		
 //		profilereptest.save(tester);
 //
 //		ResponseEntity<Profile> retrievedProfile = profilectrl.findProfileById(tester.getId());
 //
 //		assertThat(tester.getFirst_name()).isEqualTo(retrievedProfile.getBody().getFirst_name());
 //
-//
+//		profilereptest.delete(tester);
+//		
+//		retrievedProfile = profilectrl.findProfileById(tester.getId());
+//		
+//		assertThat(retrievedProfile.getBody()).isEqualTo(null);
 //	}
 
 }
