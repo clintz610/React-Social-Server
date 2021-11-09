@@ -80,6 +80,15 @@ public class TestProfileService
 			ProfileService profileService=new ProfileService();
 			assertThat(profileService.findUsersProfile(u)).isEqualTo(0);
 		}
+		@Test
+		public void checkProfileOwner() throws Exception
+		{
+			User u=new User();
+			u.setUid(null);
+			Mockito.when(profileRepository.getProfileByUser(u));
+			ProfileService profileService=new ProfileService();
+			assertThat(profileService.checkProfileOwnership(1,u)).isEqualTo(1);
+		}
 		
 	}
 	
