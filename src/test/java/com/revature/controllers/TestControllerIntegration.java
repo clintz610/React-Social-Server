@@ -25,25 +25,25 @@ public class TestControllerIntegration {
 	@Autowired
 	private ProfileRepository profilereptest;
 
-	@Test
-	public void devops_profile_test() throws Exception {
+	// @Test
+	// public void devops_profile_test() throws Exception {
 
 	
-		Profile tester = new Profile();
+	// 	Profile tester = new Profile();
 
-		tester.getId();
+	// 	tester.getId();
 		
-		profilereptest.save(tester);
+	// 	profilereptest.save(tester);
 
-		ResponseEntity<Profile> retrievedProfile = profilectrl.findProfileById(tester.getId());
+	// 	ResponseEntity<Profile> retrievedProfile = profilectrl.findProfileById(tester.getId());
 
-		assertThat(tester.getFirst_name()).isEqualTo(retrievedProfile.getBody().getFirst_name());
+	// 	assertThat(tester.getFirst_name()).isEqualTo(retrievedProfile.getBody().getFirst_name());
 
-		profilereptest.delete(tester);
+	// 	profilereptest.delete(tester);
 		
-		retrievedProfile = profilectrl.findProfileById(tester.getId());
+	// 	retrievedProfile = profilectrl.findProfileById(tester.getId());
 		
-		assertThat(retrievedProfile.getBody()).isEqualTo(null);
-	}
+	// 	assertThat(retrievedProfile.getBody()).isEqualTo(null);
+	// }
 
 }

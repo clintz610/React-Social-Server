@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.PostNotFoundException;
 import com.revature.models.Like;
 import com.revature.models.Post;
 import com.revature.models.User;
@@ -28,7 +29,7 @@ public class LikeService {
         Pulls number of likes on specific post from database
         Returns Integer
      */
-    public Integer getNumberofLikes(Long postId)
+    public Integer getNumberofLikes(Long postId) throws PostNotFoundException
     {
        Optional<Post> post = postRepository.findById(postId);
 
@@ -37,7 +38,7 @@ public class LikeService {
            return likeRepository.getLikeByPost(post.get()).size();
        }
 
-       throw new IllegalStateException("failed to get the likes"); //make custom exception later
+       throw new PostNotFoundException(); //make custom exception later
     }
 
     public void likePost(Long postId, User user)
