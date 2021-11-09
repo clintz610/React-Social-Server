@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.testservices;
 
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
@@ -22,23 +22,23 @@ import com.revature.ReverbApplication;
 @SpringBootTest(classes = ReverbApplication.class)
 @RunWith(SpringRunner.class)
 public class TestUserService {
-
-	@Autowired
-	private MockMvc mvc;
-	
-	@Mock
-	UserRepository testuserrepository;
-
-	@Mock
-	private UserService userservicetest;
-
-	@Test
-	private void registerUserTest() {
-		User TestUser = new User("45673yh43yh5vg54h376","Testemail@email.com");
-		userservicetest.registerUser(TestUser);
-
-		assertThat(TestUser).isEqualTo(testuserrepository.getById(TestUser.getUid()));
-
-		
-	}
+//
+//	@Autowired
+//	private MockMvc mvc;
+//	
+//	@Mock
+//	UserRepository testuserrepository;
+//
+//	@Mock
+//	private UserService userservicetest;
+//
+//	@Test
+//	private void registerUserTest() {
+//		User TestUser = new User("45673yh43yh5vg54h376","Testemail@email.com");
+//		userservicetest.registerUser(TestUser);
+//
+//		assertThat(TestUser).isEqualTo(testuserrepository.getById(TestUser.getUid()));
+//
+//		
+//	}
 }
