@@ -28,7 +28,10 @@ public class CommentService {
 
     // constructor
     @Autowired
-    public CommentService(CommentRepository commentRepository, PostRepository postRepository, ProfileRepository profileRepository)
+    public CommentService(
+            CommentRepository commentRepository,
+            PostRepository postRepository,
+            ProfileRepository profileRepository)
     {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
