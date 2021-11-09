@@ -45,50 +45,72 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.ReverbApplication;
 import com.revature.exceptions.PostNotFoundException;
+import com.revature.exceptions.ProfileNotFoundException;
 
+
+@SpringBootTest(classes = ReverbApplication.class)
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
 public class TestProfileService 
 {
-	@SpringBootTest(classes = ReverbApplication.class)
-	@RunWith(SpringRunner.class)
-	// @ActiveProfiles("test")
-	public class TestLikeService 
+	
+
+	private ProfileRepository profileRepository;
+
+	@BeforeEach
+	public void Setup() 
 	{
-
-		private ProfileRepository profileRepository;
-
-		@BeforeEach
-		public void Setup() 
-		{
-			//mocks the repositories for each test
-			profileRepository = Mockito.mock(ProfileRepository.class);
-			
-		}
-		
-		@Test
-		public void findProfileById() throws Exception
-		{
-			User u=new User();
-			Mockito.when(profileRepository.getProfileByUser(u));
-			ProfileService profileService=new ProfileService();
-			assertThat(profileService.findProfileById(1)).isEqualTo(0);
-		}
-		@Test
-		public void findProfileByUser() throws Exception
-		{
-			User u=new User();
-			Mockito.when(profileRepository.getProfileByUser(u));
-			ProfileService profileService=new ProfileService();
-			assertThat(profileService.findUsersProfile(u)).isEqualTo(0);
-		}
-		@Test
-		public void checkProfileOwner() throws Exception
-		{
-			User u=new User();
-			Mockito.when(profileRepository.getProfileByUser(u));
-			ProfileService profileService=new ProfileService();
-			assertThat(profileService.checkProfileOwnership(1,u)).isEqualTo(1);
-		}
+		//mocks the repositories for each test
+		profileRepository = Mockito.mock(ProfileRepository.class);
 		
 	}
+	
+	@Test
+	public void findProfileByIdPositive() throws Exception
+	{
+		Profile profile = new Profile();
+		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+		ProfileService profileService=new ProfileService(profileRepository);
+		assertThat(profileService.findProfileById(1)).isEqualTo(profile);
+	}
+
+	@Test
+	public void findProfileByIdNegative() 
+	{
+		
+		Profile profile = new Profile();
+		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.empty());
+		ProfileService profileService=new ProfileService(profileRepository);
+		
+		try {
+			profileService.findProfileById(1);
+			fail();
+		} catch (Exception e) {
+			assertEquals(e.getClass(), ProfileNotFoundException.class);
+		}
+	}
+
+	@Test
+	public void findProfileByUser() throws Exception
+	{
+		User u=new User();
+		Profile profile = new Profile();
+		Mockito.when(profileRepository.getProfileByUser(u)).thenReturn(Optional.of(profile));
+		ProfileService profileService=new ProfileService(profileRepository);
+		assertThat(profileService.findUsersProfile(u)).isEqualTo(profile);
+	}
+
+	@Test
+	public void checkProfileOwner() throws Exception
+	{
+		User u=new User();
+		Profile profile = new Profile();
+		profile.setUser(u);
+		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+		ProfileService profileService=new ProfileService(profileRepository);
+		assertThat(profileService.checkProfileOwnership(1,u)).isTrue();
+	}
+	
+
 	
 }
