@@ -22,7 +22,7 @@ import com.revature.exceptions.PostNotFoundException;
 
 @SpringBootTest(classes = ReverbApplication.class)
 @RunWith(SpringRunner.class)
-// @ActiveProfiles("test")
+@ActiveProfiles("test")
 public class TestLikeService {
 
 	private LikeRepository likeRepository;
