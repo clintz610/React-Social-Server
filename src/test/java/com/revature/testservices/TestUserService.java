@@ -22,27 +22,6 @@ import com.revature.ReverbApplication;
 @SpringBootTest(classes = ReverbApplication.class)
 @RunWith(SpringRunner.class)
 public class TestUserService {
-<<<<<<< HEAD:src/test/java/com/revature/services/TestUserService.java
-
-	@Autowired
-	private MockMvc mvc;
-	
-	@Mock
-	UserRepository testuserrepository;
-
-	@Mock
-	private UserService userservicetest;
-
-	// @Test
-	// private void registerUserTest() {
-	// 	User TestUser = new User("45673yh43yh5vg54h376","Testemail@email.com");
-	// 	userservicetest.registerUser(TestUser);
-
-	// 	assertThat(TestUser).isEqualTo(testuserrepository.getById(TestUser.getUid()));
-
-		
-	// }
-=======
 //
 //	@Autowired
 //	private MockMvc mvc;
@@ -62,5 +41,4 @@ public class TestUserService {
 //
 //		
 //	}
->>>>>>> cc4ff18caefed1df54252ca45625949747c5d537:src/test/java/com/revature/testservices/TestUserService.java
 }
