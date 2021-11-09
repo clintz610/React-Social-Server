@@ -1,4 +1,4 @@
-package com.revature.controllers;
+package com.revature.testcontrollers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.revature.ReverbApplication;
+import com.revature.controllers.ProfileController;
 import com.revature.models.Profile;
 import com.revature.models.User;
 import com.revature.repositories.ProfileRepository;
