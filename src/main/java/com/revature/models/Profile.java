@@ -57,9 +57,8 @@ public class Profile {
     @Type(type = "text")
     private String about_me;
 
-
     @OneToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", nullable = false, unique = true)
     private User user;
     
     public Profile() {

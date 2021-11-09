@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
 
+import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.exceptions.UnauthorizedDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
@@ -26,6 +26,7 @@ public class CommentService {
     private final PostRepository postRepository;
     private final ProfileRepository profileRepository;
 
+    // constructor
     @Autowired
     public CommentService(CommentRepository commentRepository, PostRepository postRepository, ProfileRepository profileRepository)
     {
@@ -33,13 +34,19 @@ public class CommentService {
         this.postRepository = postRepository;
         this.profileRepository = profileRepository;
     }
-
+    /*  No parameters
+        Returns all Comments in the database
+     */
     public List<Comment> getComments()
     {
         return commentRepository.findAll();
     }
 
-    public Comment addNewComment(Comment comment, Long postId, User user)
+    /*  Parameters: Comment to add, postID, and user
+        Adds a new comment to the database
+        Returns the comment added to the database
+     */
+    public Comment addNewComment(Comment comment, Long postId, User user) throws ProfileNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
 
@@ -49,10 +56,7 @@ public class CommentService {
         	Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
             Profile profile = null;
             if(!optProfile.isPresent()) {
-            	profile = new Profile();
-            	profile.setUser(user);
-            	profileRepository.save(profile);
-            	System.out.println("Generating default profile! (Probably should never happen...)");
+            	throw new ProfileNotFoundException();
             } else {
             	profile = optProfile.get();
             }
@@ -71,6 +75,10 @@ public class CommentService {
         }
     }
 
+    /*  Parameters:  Comment ID and User object
+        Removes Comment from the database
+        Returns nothing (void)
+     */
     public void deleteComment(Long commentId, User user) throws UnauthorizedDeleteException {
         Optional<Comment> temp = commentRepository.findById(commentId);
 

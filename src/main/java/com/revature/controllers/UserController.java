@@ -14,8 +14,9 @@ import com.revature.models.User;
 @RequestMapping("/api/user")
 public class UserController {
 
-    final private UserService userService;
+    private final UserService userService;
 
+    //constructor
     @Autowired
     UserController(UserService userService) {
         this.userService = userService;

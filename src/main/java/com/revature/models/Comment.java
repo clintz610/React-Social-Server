@@ -20,7 +20,8 @@ public class Comment {
 
     @Type(type = "text")
     private String commentText;
-    
+
+    @Type(type = "text")
     private String date;
 
     @JsonIgnore

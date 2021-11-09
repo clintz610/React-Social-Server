@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.models.User;
@@ -25,6 +26,7 @@ public class PostService {
 	private final CommentRepository commentRepository;
 	private final ProfileRepository profileRepository;
 
+	// constructor
 	@Autowired
 	public PostService(PostRepository postRepository, CommentRepository commentRepository,
 			ProfileRepository profileRepository) {
@@ -34,22 +36,24 @@ public class PostService {
 		
 	}
 
+	/*  No parameters
+		Returns all Post objects in database
+	 */
 	public List<Post> getPosts() {
-		List<Post> allPosts = postRepository.findAll();
-//		Collections.reverse(allPosts);
-		return allPosts;
+		return postRepository.findAll();
 	}
 
-	public Post addNewPost(Post post, User user)
+	/*  Parameters: Post object, User object
+		Adds a new Post to the database, registered to specific User
+		Returns the Post added to the database
+	 */
+	public Post addNewPost(Post post, User user) throws ProfileNotFoundException
     {
         post.setAuthor(user);
         Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
         Profile profile = null;
         if(!optProfile.isPresent()) {
-        	profile = new Profile();
-        	profile.setUser(user);
-        	profileRepository.save(profile);
-        	System.out.println("Generating default profile! (Probably should never happen...)");
+        	throw new ProfileNotFoundException();
         } else {
         	profile = optProfile.get();
         }
@@ -62,6 +66,10 @@ public class PostService {
         return postRepository.save(post);
     }
 
+	/*  Parameters: Post object
+		Removes specified object from the database
+		Returns nothing (void)
+	 */
 	public void deletePost(Post post) {
 		Optional<Post> temp = postRepository.findById(post.getId());
 
@@ -76,6 +84,9 @@ public class PostService {
 			throw new IllegalStateException("post does not exist");
 	}
 
+	/*  Parameter:  User UID (from Firebase)
+		Returns a list of all posts registered to the User
+	 */
 	public List<Post> getUserPosts(String authorUID) {
 		List<Post> ret = new ArrayList<Post>();
 		for (Post p : postRepository.findAll()) {
