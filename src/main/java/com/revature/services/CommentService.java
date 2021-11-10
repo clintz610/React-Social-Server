@@ -78,24 +78,4 @@ public class CommentService {
         }
     }
 
-    /*  Parameters:  Comment ID and User object
-        Removes Comment from the database
-        Returns nothing (void)
-     */
-    public void deleteComment(Long commentId, User user) throws UnauthorizedDeleteException {
-        Optional<Comment> temp = commentRepository.findById(commentId);
-
-        if(temp.isPresent())
-        {
-            if(temp.get().getAuthor().equals(user))
-            {
-                commentRepository.delete(temp.get());
-                System.out.println("comment deleted");
-            }
-            else
-                throw new UnauthorizedDeleteException("Unauthorized user tired to delete a comment."); 
-        }
-        else
-            throw new IllegalStateException("Comment does not exist");
-    }
 }

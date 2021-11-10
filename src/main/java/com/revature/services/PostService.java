@@ -66,24 +66,6 @@ public class PostService {
         return postRepository.save(post);
     }
 
-	/*  Parameters: Post object
-		Removes specified object from the database
-		Returns nothing (void)
-	 */
-	public void deletePost(Post post) {
-		Optional<Post> temp = postRepository.findById(post.getId());
-
-		if (temp.isPresent()) {
-			for (int i = 0; i < temp.get().getComments().size(); i++) {
-				commentRepository.deleteById(temp.get().getComments().get(i).getId());
-			}
-
-			postRepository.deleteById(temp.get().getId());
-			System.out.println("post deleted");
-		} else
-			throw new IllegalStateException("post does not exist");
-	}
-
 	/*  Parameter:  User UID (from Firebase)
 		Returns a list of all posts registered to the User
 	 */
