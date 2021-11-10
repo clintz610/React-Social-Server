@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,28 +68,17 @@ public class TestLikeService {
 	}
 
 	@Test
-	public void likePostTest() 
+	public void likePost() 
 	{
 		Post post = new Post();
 		User user = new User();
-
-		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.empty());
+		Like like = new Like();//for some reason the all args constructor doesn't work
+		List<Like> array = new ArrayList<Like>();
+		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.of(post));
+		Mockito.when(likeRepository.getByPostAndUser(post,user)).thenReturn(array);
 		LikeService likeService = new LikeService(postRepository, likeRepository);
-		likeService.likePost(post.getId(), user);
-
-		assertTrue(likeService.checkIfAlreadyLiked(post.getId(), user));
-	}
-
-	@Test
-	public void likeTest() 
-	{
-		Post post = new Post();
-		User user = new User();
-
-		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.empty());
-		LikeService likeService = new LikeService(postRepository, likeRepository);
-		likeService.likePost(post.getId(), user);
-
+		likeService.likePost(8L, user);
+		array.add(like);
 		assertTrue(likeService.checkIfAlreadyLiked(post, user));
 	}
 

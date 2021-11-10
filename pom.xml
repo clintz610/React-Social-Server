@@ -132,7 +132,7 @@
 				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 				<sonar.organization>revature-reverb</sonar.organization>
 				<sonar.projectKey>Revature-Reverb_backend</sonar.projectKey>
-				<sonar.coverage.exclusions>./src/test</sonar.coverage.exclusions>
+				<sonar.test.exclusions>**/test/*</sonar.test.exclusions>
 				<sonar.coverage.inclusions>./src/main</sonar.coverage.inclusions>
 			</properties>
 			<activation>
