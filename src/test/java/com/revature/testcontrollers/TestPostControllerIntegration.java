@@ -17,6 +17,7 @@ import com.revature.controllers.ProfileController;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.models.User;
+import com.revature.repositories.PostRepository;
 import com.revature.services.UserService;
 
 @RunWith(SpringRunner.class)
@@ -26,7 +27,10 @@ import com.revature.services.UserService;
 public class TestPostControllerIntegration {
 
 	@Autowired
-	private PostController prostctrl;
+	private PostController postctrl;
+	
+	@Autowired
+	private PostRepository postrep;
 	
 	@Autowired
 	private UserService userservice;
@@ -34,15 +38,35 @@ public class TestPostControllerIntegration {
 	 @Test
 	 public void getPostsTest() throws Exception {
 		
-		 assertThat(prostctrl.getPosts().getStatusCode().compareTo(HttpStatus.OK));
+		 assertThat(postctrl.getPosts().getStatusCode().compareTo(HttpStatus.OK));
 
 	 }
 	
+	 @Test
+	 public void submitPostTest() throws Exception {
+		 User testuser6 = new User("587722673987a6svf9","76876v@email.com");
+		 userservice.registerUser(testuser6);
+		 Post post = new Post();
+		 assertThat(postctrl.submitPost(post, testuser6).getStatusCode().compareTo(HttpStatus.OK));
+	 }
+	 
+	 @Test
+	 public void submitPostTestneg() throws Exception {
+		 User testuser7 = new User("58772234687a6svf9","768346v@email.com");
+		 Post post2 = new Post();
+		 assertThat(postctrl.submitPost(post2, testuser7).getStatusCode().compareTo(HttpStatus.OK));
+	 }
+
 //	 @Test
-//	 public void submitPostTest() throws Exception {
-//		 User testuser6 = new User("587722673987a6svf9","76876v@email.com");
-//		 Post post = new Post();
-//		 assertThat(prostctrl.getPosts().getStatusCode().compareTo(HttpStatus.OK));
-//
+//	 public void deletePostTest() throws Exception {
+//		 User testuser8 = new User("522344365687a6svf9","7683v@email.com");
+//		 userservice.registerUser(testuser8);
+//		 Post post3 = new Post("postText", "imageURL");
+//		 ResponseEntity<Post> addedpost = postctrl.submitPost(post3, testuser8);
+//		 postctrl.deletePost(addedpost.getBody());
+//		 Long id = postrep.findById(post3.getId()).get().getId();
+//		 assertThat(postrep.findById(id)).isEqualTo(null);
 //	 }
+	 
+	 
 }
