@@ -40,7 +40,7 @@ public class ProfileController {
 		try {
 			return ResponseEntity.ok(profileService.findProfileById(id));
 		} catch (ProfileNotFoundException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
 	}
@@ -54,7 +54,7 @@ public class ProfileController {
 		try {
 			return ResponseEntity.ok(profileService.updateProfile(profile, user));
 		} catch (WrongUserException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return ResponseEntity.status(403).build();
 		}
 	}
@@ -68,7 +68,7 @@ public class ProfileController {
 		try {
 			return ResponseEntity.ok(profileService.findUsersProfile(user));
 		} catch (ProfileNotFoundException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
 	}
@@ -82,7 +82,7 @@ public class ProfileController {
 		try {
 			return ResponseEntity.ok(profileService.checkProfileOwnership(id, user));
 		} catch (ProfileNotFoundException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
 	}

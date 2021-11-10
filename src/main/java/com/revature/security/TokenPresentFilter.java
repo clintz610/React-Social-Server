@@ -52,7 +52,7 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 					SecurityContextHolder.getContext().setAuthentication(auth);
 				}	
 			} catch (FirebaseAuthException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 
 			User user = firebaseTokenToUserDto(decodedToken);
