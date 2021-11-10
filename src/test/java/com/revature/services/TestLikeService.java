@@ -22,7 +22,7 @@ import com.revature.exceptions.PostNotFoundException;
 
 @SpringBootTest(classes = ReverbApplication.class)
 @RunWith(SpringRunner.class)
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class TestLikeService {
 
 	private LikeRepository likeRepository;
@@ -73,11 +73,11 @@ public class TestLikeService {
 		Post post = new Post();
 		User user = new User();
 
-		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.empty());
+		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.of(post));
 		LikeService likeService = new LikeService(postRepository, likeRepository);
-		likeService.likePost(post.getId(), user);
+		likeService.likePost(8L, user);
 
-		assertTrue(likeService.checkIfAlreadyLiked(post.getId(), user));
+		assertTrue(likeService.checkIfAlreadyLiked(8L, user));
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class TestLikeService {
 		Post post = new Post();
 		User user = new User();
 
-		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.empty());
+		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.of(post));
 		LikeService likeService = new LikeService(postRepository, likeRepository);
 		likeService.likePost(post.getId(), user);
 
