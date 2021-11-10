@@ -52,21 +52,4 @@ public class PostController {
         }
     }
 
-    /*
-     * Remove a post from the database.
-     * Post needs to be sent in RequestBody
-     * returns nothing */
-    @PostMapping(path = "/delete")
-    public void deletePost(@RequestBody Post post)
-    {
-        try
-        {
-            postService.deletePost(post);
-        }
-        catch(IllegalStateException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -15,8 +15,13 @@ import com.revature.repositories.ProfileRepository;
 public class ProfileService {
 
 	// dependency injection
-    @Autowired
+
     private ProfileRepository profileRepo;
+
+	public ProfileService(ProfileRepository profileRepository) {
+		this.profileRepo = profileRepository;
+	}
+
 
 	/*  Parameters: Profile object, User object
 		Updates profile in database if User is owner

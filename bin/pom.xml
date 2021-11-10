@@ -26,6 +26,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!--<dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-rest</artifactId> 
+			</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -132,7 +134,7 @@
 				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 				<sonar.organization>revature-reverb</sonar.organization>
 				<sonar.projectKey>Revature-Reverb_backend</sonar.projectKey>
-				<sonar.test.exclusions>src/test/java/***/Test*.*</sonar.test.exclusions>
+				<sonar.coverage.exclusions>./src/test</sonar.coverage.exclusions>
 				<sonar.coverage.inclusions>./src/main</sonar.coverage.inclusions>
 			</properties>
 			<activation>
