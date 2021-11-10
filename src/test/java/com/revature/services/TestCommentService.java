@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.ReverbApplication;
+import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
@@ -91,5 +92,31 @@ public class TestCommentService {
 		int after = cs.getComments().size();
 
 		assertEquals(before, after);
+	}
+	
+	@Test
+	public void addNewCommentFailure()
+	{
+		User user = new User();
+		Post post = new Post();
+		Comment comment = new Comment("Test");
+		CommentService cs = new CommentService(commentRepository, postRepository,  profileRepository);
+		Mockito.when(postRepository.findById(99999L)).thenReturn(Optional.empty());
+		try {
+			cs.addNewComment(comment, (Long)99999L, user);
+		}
+		catch(Exception e)
+		{
+			assertEquals(e.getClass(),IllegalStateException.class);
+		}
+		Mockito.when(profileRepository.getProfileByUser(user)).thenReturn(Optional.empty());
+		Mockito.when(postRepository.findById(99999L)).thenReturn(Optional.of(post));
+		try {
+			cs.addNewComment(comment, (Long)99999L, user);
+		}
+		catch(Exception e)
+		{
+			assertEquals(e.getClass(),ProfileNotFoundException.class);
+		}
 	}
 }
