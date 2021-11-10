@@ -32,7 +32,7 @@ public class LikeController {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         return ResponseEntity.internalServerError().build();
@@ -50,7 +50,7 @@ public class LikeController {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
             ResponseEntity.internalServerError().build();
         }
 
@@ -65,7 +65,7 @@ public class LikeController {
     	try {
     		return ResponseEntity.ok(likeService.checkIfAlreadyLiked(postId, user));
     	} catch (Exception e) {
-    		e.printStackTrace();
+//    		e.printStackTrace();
     	}
     	return ResponseEntity.internalServerError().build();
     }
