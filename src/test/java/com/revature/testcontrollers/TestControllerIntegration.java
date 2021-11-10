@@ -57,4 +57,30 @@ public class TestControllerIntegration {
 		 assertThat(updatedprofile.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
 
 	}
+	 
+	 @Test
+	 public void findProfileByIdTest() throws Exception {
+		 
+		 User testuser3 = new User("587722673625gfs78dv46987a6svf7","76876v84g6v68@email.com");
+		 
+		 userservice.registerUser(testuser3);
+		 		 
+		 ResponseEntity<Profile> foundprofile = profilectrl.findProfileById(1);
+
+		 assertThat(foundprofile.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+
+	}
+	 
+	 @Test
+	 public void checkProfileOwnershipTest() throws Exception {
+		 
+		 User testuser4 = new User("5877223625gfs78dv46987a6svf7","766v84g6v68@email.com");
+		 
+		 userservice.registerUser(testuser4);
+		 		 
+		 ResponseEntity<Profile> assignedprofile = profilectrl.findThisUsersProfile(testuser4);
+
+		 assertThat((profilectrl.checkProfileOwnership(assignedprofile.getBody().getId(),testuser4)).getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+
+	}
 }
