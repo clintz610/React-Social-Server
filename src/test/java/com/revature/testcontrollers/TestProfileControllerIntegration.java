@@ -34,7 +34,7 @@ public class TestProfileControllerIntegration {
 	 @Test
 	 public void profileCreationTest() throws Exception {
 		 
-		 User testuser = new User("587722673625gfs78dv6987a6svf9","76876v8g7v68@email.com");
+		 User testuser = new User("1877224573625gfs78dv69866svf9","16277g7v68@email.com");
 		 
 		 userservice.registerUser(testuser);
 		 
