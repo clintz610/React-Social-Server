@@ -58,7 +58,7 @@ public class TestProfileService
 	private ProfileRepository profileRepository;
 
 	@BeforeEach
-	public void Setup() 
+	public void setup()
 	{
 		//mocks the repositories for each test
 		profileRepository = Mockito.mock(ProfileRepository.class);
@@ -66,8 +66,7 @@ public class TestProfileService
 	}
 	
 	@Test
-	public void findProfileByIdPositive() throws Exception
-	{
+	public void findProfileByIdPositive() throws ProfileNotFoundException {
 		Profile profile = new Profile();
 		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
 		ProfileService profileService=new ProfileService(profileRepository);
@@ -91,8 +90,7 @@ public class TestProfileService
 	}
 
 	@Test
-	public void findProfileByUser() throws Exception
-	{
+	public void findProfileByUser() throws ProfileNotFoundException {
 		User u=new User();
 		Profile profile = new Profile();
 		Mockito.when(profileRepository.getProfileByUser(u)).thenReturn(Optional.of(profile));
@@ -101,8 +99,7 @@ public class TestProfileService
 	}
 
 	@Test
-	public void checkProfileOwner() throws Exception
-	{
+	public void checkProfileOwner() throws ProfileNotFoundException {
 		User u=new User();
 		Profile profile = new Profile();
 		profile.setUser(u);
@@ -110,7 +107,5 @@ public class TestProfileService
 		ProfileService profileService=new ProfileService(profileRepository);
 		assertThat(profileService.checkProfileOwnership(1,u)).isTrue();
 	}
-	
 
-	
 }

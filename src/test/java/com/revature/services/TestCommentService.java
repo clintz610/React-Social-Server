@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.ReverbApplication;
+import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
@@ -31,7 +32,7 @@ public class TestCommentService {
 	private ProfileRepository profileRepository;
 
 	@BeforeEach
-	public void Setup() {
+	public void setup() {
 		//mocks the repositories for each test
 		postRepository = Mockito.mock(PostRepository.class);
 		commentRepository = Mockito.mock(CommentRepository.class);
@@ -39,7 +40,7 @@ public class TestCommentService {
 	}
 	
 	@Test
-	public void getNumberofCommentsIsNone() throws Exception{
+	public void getNumberofCommentsIsNone() {
 		//tests getNumberofComments; new Post has none
 		Post post = new Post();
 
@@ -52,7 +53,7 @@ public class TestCommentService {
 	}
 
 	@Test
-	public void canAddComment() throws Exception {
+	public void canAddComment() throws ProfileNotFoundException {
 		Post post = new Post();
 		Profile profile = new Profile();
 		User user = new User();
@@ -72,14 +73,13 @@ public class TestCommentService {
 	}
 
 	@Test
-	public void canAddAndDeleteComment() throws Exception {
+	public void canAddAndDeleteComment() throws ProfileNotFoundException {
 		Post post = new Post();
 		Profile profile = new Profile();
 		User user = new User();
 		Comment comment = new Comment();
 
 		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.of(post));
-		//Mockito.when(commentRepository.findAll()).thenReturn(new ArrayList<Comment>());
 		Mockito.when(profileRepository.getProfileByUser(user)).thenReturn(Optional.of(profile));
 
 		CommentService cs = new CommentService(commentRepository, postRepository,  profileRepository);
