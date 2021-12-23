@@ -11,11 +11,9 @@ import com.revature.repositories.PostRepository;
 import com.revature.repositories.ProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -23,7 +21,6 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest(classes = ReverbApplication.class)
-@RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 public class TestCommentService {
 

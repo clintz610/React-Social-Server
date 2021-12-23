@@ -2,7 +2,6 @@ package com.revature.services;
 
 import com.revature.ReverbApplication;
 import com.revature.exceptions.ProfileNotFoundException;
-import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.models.User;
@@ -12,19 +11,14 @@ import com.revature.repositories.ProfileRepository;
 import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest(classes = ReverbApplication.class)
-@RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 public class TestPostService {
 

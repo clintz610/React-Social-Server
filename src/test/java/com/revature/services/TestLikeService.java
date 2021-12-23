@@ -14,15 +14,12 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import com.revature.ReverbApplication;
 import com.revature.exceptions.PostNotFoundException;
 
 @SpringBootTest(classes = ReverbApplication.class)
-@RunWith(SpringRunner.class)
 public class TestLikeService {
 
 	private LikeRepository likeRepository;
