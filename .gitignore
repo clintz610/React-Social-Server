@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Firebase Config ###
-**/firebase_config.json
+#**/firebase_config.json
