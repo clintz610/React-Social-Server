@@ -34,3 +34,5 @@ build/
 
 ### Firebase Config ###
 **/firebase_config.json
+
+application.properties
