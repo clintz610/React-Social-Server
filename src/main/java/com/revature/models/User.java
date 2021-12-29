@@ -41,9 +41,8 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 
-//    @ManyToMany
-//    @JoinColumns({})
-//    private List<User> follower;
+    @ManyToMany(mappedBy = "followedUsers", cascade = CascadeType.ALL)
+    private List<User> follower;
 
 
     @Override
@@ -51,18 +50,19 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(followedUsers, user.followedUsers) && Objects.equals(groups, user.groups);
+        return Objects.equals(id, user.id) && Objects.equals(userSettings, user.userSettings) && Objects.equals(email, user.email) && Objects.equals(followedUsers, user.followedUsers) && Objects.equals(groups, user.groups) && Objects.equals(follower, user.follower);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, followedUsers, groups);
+        return Objects.hash(id, userSettings, email, followedUsers, groups, follower);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
+                ", userSettings=" + userSettings +
                 ", email='" + email + '\'' +
                 '}';
     }
