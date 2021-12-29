@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Reverb_User")
+@Table(name = "users")
 public class User {
 	//ID is coming from firebase, will be unique for each user.
 
@@ -31,6 +31,9 @@ public class User {
     @JoinColumns({@JoinColumn(name="followee_id"),
                   @JoinColumn(name="follower_id")})
     private List<User> following;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Group> groups;
 
 //    @ManyToMany
 //    @JoinColumns({})
