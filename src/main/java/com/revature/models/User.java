@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Getter
@@ -20,7 +21,12 @@ public class User {
     //Following: join table connection between users
     @Id
     @Column(name="user_id", unique = true)
-    private String id;
+    @JoinColumn()
+    private UUID id;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private UserSettings userSettings;
 
     @Column(unique = true, nullable = false)
     private String email;

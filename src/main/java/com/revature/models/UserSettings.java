@@ -1,10 +1,9 @@
 package com.revature.models;
 
 import lombok.*;
-import org.hibernate.Hibernate;
-
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,7 +15,10 @@ import java.util.Objects;
 public class UserSettings {
 
     @Id
+    private UUID uuid;
+
     @OneToOne
+    @MapsId
     @JoinColumn(name="user_id_fk", referencedColumnName = "user_id", nullable = false, unique = true)
     private User user;
 
@@ -26,13 +28,13 @@ public class UserSettings {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         UserSettings that = (UserSettings) o;
-        return user != null && Objects.equals(user, that.user);
+        return darkMode == that.darkMode && uuid.equals(that.uuid);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(uuid, darkMode);
     }
 }
