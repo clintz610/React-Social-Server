@@ -8,10 +8,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 @ToString
-@RequiredArgsConstructor
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "groups")
 @Entity
 public class Group {
@@ -31,10 +31,10 @@ public class Group {
     @Column
     private String description;
 
-    @Column()
+    @Column(nullable = false, columnDefinition = "varchar default 'https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg'")
     private String headerImg;
 
-    @Column()
+    @Column(nullable = false, columnDefinition = "varchar default 'https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png'")
     private String profilePic;
 
     @ManyToMany()
@@ -54,6 +54,5 @@ public class Group {
     public int hashCode() {
         return Objects.hash(id, owner, name, description, headerImg, profilePic, users);
     }
-
 
 }

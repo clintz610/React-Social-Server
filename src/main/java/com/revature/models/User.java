@@ -33,9 +33,10 @@ public class User {
 
 
     @ManyToMany
-    @JoinColumns({@JoinColumn(name="followee_id"),
-                  @JoinColumn(name="follower_id")})
-    private List<User> following;
+    @JoinTable(name = "follower_following",
+        joinColumns = {@JoinColumn(name = "uid_follower_fk")},
+        inverseJoinColumns = {@JoinColumn(name = "uid_followee_fk")})
+    private List<User> followedUsers;
 
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
@@ -50,12 +51,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(following, user.following) && Objects.equals(groups, user.groups);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(followedUsers, user.followedUsers) && Objects.equals(groups, user.groups);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, following, groups);
+        return Objects.hash(id, email, followedUsers, groups);
     }
 
     @Override
