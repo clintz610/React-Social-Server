@@ -22,7 +22,7 @@ public class User {
     @Id
     @Column(name="user_id", unique = true)
     @JoinColumn()
-    private UUID id;
+    private String id;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

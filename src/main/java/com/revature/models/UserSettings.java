@@ -15,6 +15,7 @@ import java.util.UUID;
 public class UserSettings {
 
     @Id
+    @GeneratedValue
     private UUID uuid;
 
     @OneToOne
