@@ -9,7 +9,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -21,8 +20,8 @@ public class UserSettings {
     @JoinColumn(name="user_id_fk", referencedColumnName = "user_id", nullable = false, unique = true)
     private User user;
 
-    @Column(nullable = false)
-    private boolean darkTheme;
+    @Column(name="dark_mode",nullable = false)
+    private boolean darkMode;
 
     @Override
     public boolean equals(Object o) {
