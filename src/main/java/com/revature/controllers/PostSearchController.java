@@ -30,9 +30,13 @@ public class PostSearchController {
 	 * Get all Posts from a specific user.
 	 * User object in RequestBody
 	 * returns ResponseEntity<List<Post>> */
+
+    /*
 	@GetMapping(path = "/user")
 	public ResponseEntity<List<Post>> searchByUser(@RequestBody User user)
 	{
 		return ResponseEntity.ok(postService.getUserPosts(user.getUid()));
 	}
+
+     */
 }

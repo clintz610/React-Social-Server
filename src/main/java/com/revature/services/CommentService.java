@@ -49,6 +49,7 @@ public class CommentService {
         Adds a new comment to the database
         Returns the comment added to the database
      */
+    /*
     public Comment addNewComment(Comment comment, Long postId, User user) throws ProfileNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
@@ -77,5 +78,6 @@ public class CommentService {
         	throw new IllegalStateException("This comment does not have an associated post.");
         }
     }
+     */
 
 }

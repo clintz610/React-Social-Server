@@ -15,6 +15,7 @@ import com.revature.services.UserService;
 //@TestPropertySource(locations = "classpath:application-test.properties")
 @ActiveProfiles("test")
 public class TestsearchByUserIntegration {
+    /*
 
 	@Autowired
 	private PostSearchController postsearchctrl;
@@ -33,5 +34,7 @@ public class TestsearchByUserIntegration {
 	 	
 	 	
 	}
+
+     */
 	
 }

@@ -15,6 +15,7 @@ import com.revature.models.User;
 //@TestPropertySource(locations = "classpath:application-test.properties")
 @ActiveProfiles("test")
 public class TestUserControllerIntegration {
+    /*
 	
 	@Autowired
 	private UserController userctrl;
@@ -34,4 +35,6 @@ public class TestUserControllerIntegration {
 		 
 		 assertThat(userctrl.registerUser(testuser).getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
 	 }
+
+     */
 }

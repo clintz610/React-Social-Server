@@ -1,17 +1,17 @@
 package com.revature.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -19,9 +19,8 @@ public class User {
 
     //Following: join table connection between users
     @Id
-    @ManyToMany
-    @JoinColumn(name="user_id", referencedColumnName = "user_id", unique = true)
-    private String uid;
+    @Column(name="user_id", unique = true)
+    private String id;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -39,4 +38,25 @@ public class User {
 //    @JoinColumns({})
 //    private List<User> follower;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(following, user.following) && Objects.equals(groups, user.groups);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, following, groups);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

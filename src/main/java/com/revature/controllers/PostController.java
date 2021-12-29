@@ -37,6 +37,8 @@ public class PostController {
      * Submit a post to the database.
      * Post JSON as a parameter
      * returns a Post */
+
+    /*
     @PostMapping(path = "/submit")
     public ResponseEntity<Post> submitPost(@RequestBody Post post, @AuthenticationPrincipal User user)
     {
@@ -51,5 +53,7 @@ public class PostController {
             return ResponseEntity.ok(new Post());
         }
     }
+
+     */
 
 }

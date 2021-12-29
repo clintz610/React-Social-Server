@@ -33,6 +33,7 @@ public class TestPostService {
 	{
 		//Mockito.when(postRepository.findAll()).thenReturn(postArray);
 	}
+    /*
 	@Test
 	public void addNewPostPositive()
 	{
@@ -51,6 +52,10 @@ public class TestPostService {
 		}
 		assertTrue(post.getProfile().equals(profile));
 	}
+
+     */
+
+    /*
 	@Test
 	public void addNewPostNegative()
 	{
@@ -67,6 +72,8 @@ public class TestPostService {
 			assertEquals(e.getClass(), ProfileNotFoundException.class);
 		}
 	}
+
+     */
 
 //	@Test
 //	public void deletePostPositive()
