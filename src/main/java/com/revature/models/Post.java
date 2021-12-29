@@ -23,9 +23,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Data
-@ToString(exclude = {"comments"})
-@EqualsAndHashCode(exclude = {"comments"})
+//@Data
+//@ToString(exclude = {"comments"})
+//@EqualsAndHashCode(exclude = {"comments"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
