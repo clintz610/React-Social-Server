@@ -49,6 +49,7 @@ public class TestCommentService {
 		assertEquals(cs.getComments().size(), 0L);
 	}
 
+    /*
 	@Test
 	public void canAddComment() throws ProfileNotFoundException {
 		Post post = new Post();
@@ -69,6 +70,9 @@ public class TestCommentService {
 		assertEquals(before, after);
 	}
 
+     */
+
+    /*
 	@Test
 	public void canAddAndDeleteComment() throws ProfileNotFoundException {
 		Post post = new Post();
@@ -89,7 +93,10 @@ public class TestCommentService {
 
 		assertEquals(before, after);
 	}
-	
+
+     */
+
+    /*
 	@Test
 	public void addNewCommentFailure()
 	{
@@ -115,4 +122,6 @@ public class TestCommentService {
 			assertEquals(e.getClass(),ProfileNotFoundException.class);
 		}
 	}
+
+     */
 }

@@ -30,7 +30,7 @@ public class Comment {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="author", referencedColumnName="uid")
+    @JoinColumn(name="author", referencedColumnName="user_id")
     private User author;
 
     @ManyToOne

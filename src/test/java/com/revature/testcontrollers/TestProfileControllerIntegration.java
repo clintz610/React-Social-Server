@@ -18,6 +18,7 @@ import com.revature.services.UserService;
 //@TestPropertySource(locations = "classpath:application-test.properties")
 @ActiveProfiles("test")
 public class TestProfileControllerIntegration {
+    /*
 	
 	 @Autowired
 	 private ProfileController profilectrl;
@@ -117,4 +118,6 @@ public class TestProfileControllerIntegration {
 			
 		assertThat(newprofile).isEqualTo(ResponseEntity.status(404).build());
 	}
+
+     */
 }

@@ -15,11 +15,11 @@ public class Like {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "id")
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "liker_id", referencedColumnName = "uid")
+    @JoinColumn(name = "liker_id", referencedColumnName = "user_id")
     private User user;
 
 }

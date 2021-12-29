@@ -47,6 +47,7 @@ public class PostService {
 		Adds a new Post to the database, registered to specific User
 		Returns the Post added to the database
 	 */
+    /*
 	public Post addNewPost(Post post, User user) throws ProfileNotFoundException
     {
         post.setAuthor(user);
@@ -66,9 +67,13 @@ public class PostService {
         return postRepository.save(post);
     }
 
+     */
+
 	/*  Parameter:  User UID (from Firebase)
 		Returns a list of all posts registered to the User
 	 */
+
+    /*
 	public List<Post> getUserPosts(String authorUID) {
 		List<Post> ret = new ArrayList<Post>();
 		for (Post p : postRepository.findAll()) {
@@ -78,4 +83,7 @@ public class PostService {
 		}
 		return ret;
 	}
+
+     */
+
 }

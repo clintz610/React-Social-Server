@@ -42,7 +42,7 @@ public class TestCommentControllerIntegration {
 		 assertThat(commentctrl.getComments().getStatusCode().compareTo(HttpStatus.OK));
 
 	 }
-	
+	/*
 	@Test
 	 public void submitCommentTest() throws Exception {
 		
@@ -57,5 +57,7 @@ public class TestCommentControllerIntegration {
 		 assertThat(testsubcomment.getStatusCode().compareTo(HttpStatus.OK));
 
 	 }
+
+	 */
 
 }

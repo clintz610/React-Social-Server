@@ -24,7 +24,7 @@ import lombok.Setter;
 @Builder
 @EnableAutoConfiguration
 @Entity
-@Table(name = "Reverb_Profile")
+@Table(name = "profiles")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

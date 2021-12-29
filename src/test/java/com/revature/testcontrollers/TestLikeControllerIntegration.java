@@ -20,7 +20,7 @@ import com.revature.services.PostService;
 //@TestPropertySource(locations = "classpath:application-test.properties")
 @ActiveProfiles("test")
 public class TestLikeControllerIntegration {
-	
+	/*
 	@Autowired
 	private LikeController likectrl;
 	
@@ -96,4 +96,6 @@ public class TestLikeControllerIntegration {
 //		 assertThat(prostctrl.getPosts().getStatusCode().compareTo(HttpStatus.OK));
 //
 //	 }
+
+	 */
 }
