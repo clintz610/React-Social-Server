@@ -18,6 +18,7 @@ import com.revature.services.UserService;
 //@TestPropertySource(locations = "classpath:application-test.properties")
 @ActiveProfiles("test")
 public class TestPostControllerIntegration {
+    /*
 
 	@Autowired
 	private PostController postctrl;
@@ -60,6 +61,8 @@ public class TestPostControllerIntegration {
 //		 Long id = postrep.findById(post3.getId()).get().getId();
 //		 assertThat(postrep.findById(id)).isEqualTo(null);
 //	 }
+
+     */
 	 
 	 
 }

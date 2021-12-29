@@ -24,43 +24,43 @@ import lombok.Setter;
 @Builder
 @EnableAutoConfiguration
 @Entity
-@Table(name = "Reverb_Profile")
+@Table(name = "user_profile")
 public class Profile {
+
     @Id
+    @Column(name="id", unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 	
-    @Column(unique = false, nullable = false)
+    @Column(name="first_name", unique = false, nullable = false)
     private String first_name;
     
-    @Column(unique = false, nullable = false)
+    @Column(name="last_name",unique = false, nullable = false)
     private String last_name;
     
-    @Column(unique = false, nullable = false)
-    @Type(type = "text")
+    @Column(name="profile_img",unique = false, nullable = false)
     private String profile_img;
     
-    @Column(unique = false, nullable = false)
-    @Type(type = "text")
+    @Column(name="header_img",unique = false, nullable = false)
     private String header_img;
 
-    @Column(unique = false, nullable = false)
+    @Column(name="birthday",unique = false, nullable = false)
     private String birthday;
 
-    @Column(unique = false, nullable = false)
+    @Column(name="hobby",unique = false, nullable = false)
     private String hobby;
 
-    @Column(unique = false, nullable = false)
+    @Column(name="location", unique = false, nullable = false)
     private String location;
     
-    @Column(unique = false, nullable = false)
-    @Type(type = "text")
+    @Column(name="about_me", unique = false, nullable = false)
     private String about_me;
 
     @OneToOne
-    @JoinColumn(name="user_id", nullable = false, unique = true)
+    @JoinColumn(name="user_id_fk", unique = true, referencedColumnName = "user_id")
     private User user;
-    
+
+
     public Profile() {
     	this.first_name = "Reverb";
     	this.last_name = "User";
@@ -70,6 +70,5 @@ public class Profile {
         this.hobby = "Programming, surely";
         this.location = "Planet Earth";
     	this.about_me = "I just joined Reverb!";
-
     }
 }

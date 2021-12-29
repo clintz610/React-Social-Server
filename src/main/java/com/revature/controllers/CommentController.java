@@ -38,6 +38,8 @@ public class CommentController {
      * Submit a comment to the database.
      * parameters: JSON Comment, Long postId through path variable
      * returns Comment */
+
+    /*
     @PostMapping(path = "/submit/{postId}")
     public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId, @AuthenticationPrincipal User user)
     {
@@ -51,5 +53,7 @@ public class CommentController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+     */
 
 }

@@ -3,7 +3,6 @@ package com.revature.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Data
@@ -31,7 +30,7 @@ public class Comment {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="author", referencedColumnName="uid")
+    @JoinColumn(name="author", referencedColumnName="user_id")
     private User author;
 
     @ManyToOne

@@ -67,7 +67,7 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 		User user = null;
 		if (decodedToken != null) {
 			user = new User();
-			user.setUid(decodedToken.getUid());
+			user.setId(decodedToken.getUid());
 			user.setEmail(decodedToken.getEmail());
 		}
 		return user;

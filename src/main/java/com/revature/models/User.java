@@ -1,26 +1,69 @@
 package com.revature.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "Reverb_User")
+@Table(name = "users")
 public class User {
 	//ID is coming from firebase, will be unique for each user.
+
+    //Following: join table connection between users
     @Id
-    private String uid;
+    @Column(name="user_id", unique = true)
+    @JoinColumn()
+    private String id;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private UserSettings userSettings;
 
     @Column(unique = true, nullable = false)
     private String email;
+
+
+    @ManyToMany
+    @JoinTable(name = "follower_following",
+        joinColumns = {@JoinColumn(name = "uid_follower_fk")},
+        inverseJoinColumns = {@JoinColumn(name = "uid_followee_fk")})
+    private List<User> followedUsers;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Group> groups;
+
+    @ManyToMany(mappedBy = "followedUsers", cascade = CascadeType.ALL)
+    private List<User> follower;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(userSettings, user.userSettings) && Objects.equals(email, user.email) && Objects.equals(followedUsers, user.followedUsers) && Objects.equals(groups, user.groups) && Objects.equals(follower, user.follower);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userSettings, email, followedUsers, groups, follower);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", userSettings=" + userSettings +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

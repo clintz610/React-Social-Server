@@ -37,7 +37,7 @@ public class UserService {
         Returns nothing (void)
      */
     public void loginUser(User user) {
-        Optional<User> dbUser = userRepository.findById(user.getUid());
+        Optional<User> dbUser = userRepository.findById(user.getId());
         if (!dbUser.isPresent()) {
             userRepository.save(user);
         }
