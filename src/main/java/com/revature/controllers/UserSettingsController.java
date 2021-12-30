@@ -3,7 +3,6 @@ package com.revature.controllers;
 import com.revature.dtos.UserSettingsDto;
 import com.revature.models.UserSettings;
 import com.revature.repositories.UserRepository;
-import com.revature.services.UserService;
 import com.revature.services.UserSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,6 @@ public class UserSettingsController {
             //If this throws exception handler will catch.
             UserSettings savedSettings = userSettingsService.saveUserSettings(userSettingsDto);
             return new UserSettingsDto(savedSettings);
-
 
     }
 
