@@ -23,7 +23,7 @@ public class Post {
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "post_text")
+    @Column(name = "post_text", columnDefinition = "varchar(1000)")
     private String postText;
 
     @Column(name = "content_link")
