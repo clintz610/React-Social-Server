@@ -24,20 +24,26 @@ public class User {
     @JoinColumn()
     private String id;
 
+    /*
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserSettings userSettings;
+
+     */
 
     @Column(unique = true, nullable = false)
     private String email;
 
 
+    /*
     @ManyToMany
     @JoinTable(name = "follower_following",
         joinColumns = {@JoinColumn(name = "uid_follower_fk")},
         inverseJoinColumns = {@JoinColumn(name = "uid_followee_fk")})
     private List<User> following; // changed followUsers to following in order for lombok to generate getters/setters to hit UserDTO
+    */
 
+    
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 
@@ -45,12 +51,18 @@ public class User {
     private List<User> follower;
 
 
+    /*
+    @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL)
+    private List<User> follower;
+    */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) && Objects.equals(userSettings, user.userSettings) && Objects.equals(email, user.email) && Objects.equals(following, user.following) && Objects.equals(groups, user.groups) && Objects.equals(follower, user.follower);
+
     }
 
     @Override
@@ -62,7 +74,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                ", userSettings=" + userSettings +
                 ", email='" + email + '\'' +
                 '}';
     }

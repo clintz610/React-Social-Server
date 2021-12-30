@@ -7,16 +7,11 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.persistence.*;
 
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 //@Data
 //@ToString(exclude = {"comments"})
@@ -25,11 +20,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "posts")
+@Getter
+@Setter
 public class Post {
 
     @Id
     @Column(name = "post_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//database generates rather than hybernate
+    @GeneratedValue
     private UUID id;
 
     @Column(name = "post_text")
@@ -38,10 +35,18 @@ public class Post {
     @Column(name = "content_link")
     private String contentLink;
 
+    // Link to the post's meta data
+    @OneToOne
+    @JoinColumn(name="post_content_fk", referencedColumnName = "post_meta_id", unique = true)
+    private PostMeta postMeta;
+
+
+
     public Post(String postText, String contentLink)
     {
         this.postText = postText;
         this.contentLink = contentLink;
     }
+
 
 }
