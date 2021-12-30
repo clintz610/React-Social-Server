@@ -6,6 +6,7 @@ import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.models.User;
 import com.revature.repositories.CommentRepository;
+import com.revature.repositories.PostMetaRepository;
 import com.revature.repositories.PostRepository;
 import com.revature.repositories.ProfileRepository;
 import static org.junit.Assert.*;
@@ -25,7 +26,8 @@ public class TestPostService {
 	private CommentRepository commentRepository = Mockito.mock(CommentRepository.class);
 	private PostRepository postRepository = Mockito.mock(PostRepository.class);
 	private ProfileRepository profileRepository = Mockito.mock(ProfileRepository.class);
-	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository);
+	private PostMetaRepository sadRepository = Mockito.mock(PostMetaRepository.class);
+	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository, sadRepository);
 	//ArrayList<Post> postArray = new ArrayList<Post>();
 	
 	@BeforeEach

@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.dtos.NewPostRequest;
 import com.revature.models.Post;
 import com.revature.models.User;
 import com.revature.services.PostService;
@@ -38,9 +39,9 @@ public class PostController {
      * Post JSON as a parameter
      * returns a Post */
 
-    /*
+
     @PostMapping(path = "/submit")
-    public ResponseEntity<Post> submitPost(@RequestBody Post post, @AuthenticationPrincipal User user)
+    public ResponseEntity<Post> submitPost(@RequestBody NewPostRequest post, @AuthenticationPrincipal User user)
     {
         try
         {
@@ -54,6 +55,6 @@ public class PostController {
         }
     }
 
-     */
+
 
 }

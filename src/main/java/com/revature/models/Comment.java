@@ -5,9 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 
-@Data
+
 @ToString(exclude = {"post"})
-@EqualsAndHashCode(exclude = {"post"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,10 +16,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Type(type = "text")
     private String commentText;
 
-    @Type(type = "text")
     private String date;
 
     @JsonIgnore
@@ -33,9 +30,6 @@ public class Comment {
     @JoinColumn(name="author", referencedColumnName="user_id")
     private User author;
 
-    @ManyToOne
-    @JoinColumn(name="profile", referencedColumnName="")
-    private Profile profile;
 
     public Comment(String commentText)
     {
