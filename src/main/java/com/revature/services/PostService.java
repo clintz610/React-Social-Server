@@ -40,6 +40,7 @@ public class PostService {
 		Returns all Post objects in database
 	 */
 	public List<Post> getPosts() {
+		System.out.println(postRepository.findAll());
 		return postRepository.findAll();
 	}
 
@@ -65,6 +66,14 @@ public class PostService {
 
 		// Set the content type
 		newPostMeta.setContentType(post.getContentType());
+
+		// Set the link
+		if (post.getContentLink() != null) {
+			newPost.setContentLink(post.getContentLink());
+		}
+		else {
+			newPost.setContentLink(null);
+		}
 
 		// Set the content
 		newPost.setPostText(post.getPostText());

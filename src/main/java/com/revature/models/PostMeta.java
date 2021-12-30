@@ -20,12 +20,12 @@ public class PostMeta {
 
     //add unique = true whenever there is a constraint, if we want an error thrown for non-unique values
     @ManyToOne
-    @JoinColumn(name="author_id_fk", referencedColumnName="user_id", unique = true)//every foreign key should have JoinColumn
+    @JoinColumn(name="author_id_fk", referencedColumnName="user_id")//every foreign key should have JoinColumn
     private User author;
 
     // The group that a post is placed in.
     @ManyToOne
-    @JoinColumn(name="group_id_fk", referencedColumnName = "group_id", unique = true)
+    @JoinColumn(name="group_id_fk", referencedColumnName = "group_id")
     private Group group;
 
     // Options for content
@@ -33,8 +33,10 @@ public class PostMeta {
     private ContentType contentType;
 
     // Link to the post table
+    /*
     @OneToOne(mappedBy = "postMeta")
     private Post postContent;
+    */
 
     //if not pk or fk, then use @Column annotation
     @Column(name="creation_date") //name should be explicit
