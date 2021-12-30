@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @Builder
@@ -26,8 +28,8 @@ public class Profile {
 
     @Id
     @Column(name="id", unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @GeneratedValue
+    private UUID id;
 	
     @Column(name="first_name", unique = false, nullable = false)
     private String first_name;
