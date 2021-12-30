@@ -24,24 +24,24 @@ public class User {
     @JoinColumn()
     private String id;
 
-    /*
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserSettings userSettings;
 
-     */
+
 
     @Column(unique = true, nullable = false)
     private String email;
 
 
-    /*
+
     @ManyToMany
     @JoinTable(name = "follower_following",
         joinColumns = {@JoinColumn(name = "uid_follower_fk")},
         inverseJoinColumns = {@JoinColumn(name = "uid_followee_fk")})
     private List<User> following; // changed followUsers to following in order for lombok to generate getters/setters to hit UserDTO
-    */
+
 
     
     @ManyToMany(mappedBy = "users")
@@ -51,10 +51,6 @@ public class User {
     private List<User> follower;
 
 
-    /*
-    @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL)
-    private List<User> follower;
-    */
 
     @Override
     public boolean equals(Object o) {
