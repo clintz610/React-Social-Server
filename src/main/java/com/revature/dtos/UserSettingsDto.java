@@ -15,4 +15,6 @@ public class UserSettingsDto implements Serializable {
         this.darkMode = userSettings.isDarkMode();
         this.userId = userSettings.getUser().getId();
     }
+
+
 }
