@@ -26,6 +26,14 @@ public class UserSettings {
     @Column(name="dark_mode",nullable = false)
     private boolean darkMode;
 
+    public boolean isDarkMode() {
+        return darkMode;
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        this.darkMode = darkMode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
