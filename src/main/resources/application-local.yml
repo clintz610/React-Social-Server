@@ -1,25 +1,29 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/test1
+    url: jdbc:h2:mem:local
     username: local
     password:
-    initialization-mode: always
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
-    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   h2:
     console:
       enabled: true
       path: /h2-console
       settings:
-        web-allow-others: false
+        web-allow-others: true
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+amazonProperties:
+  endpointUrl: https://s3.us-east-1.amazonaws.com
+  accessKey: AKIAQKEWAQAFLHQIDLUL
+  secretKey: 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
+  bucketName: s3-4-profile
