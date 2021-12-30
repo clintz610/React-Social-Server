@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestFollowingServices {
 
@@ -37,21 +38,44 @@ public class TestFollowingServices {
     @Test
     public void test_Add_New_Follower_To_Current_User() {
     //Assemble
-    List<User> following = new ArrayList<>();
-    List<Group> groups  = new ArrayList<>();
-    List<User> follower = new ArrayList<>();
-    User newUser = new User("valid", null, "valid@valid.valid", following, groups, follower);
-    UserSettings newUserSettings = new UserSettings("valid", newUser ,false);
+        List<Group> groups  = new ArrayList<>();
+        List<User> following = new ArrayList<>();
+        List<User> follower = new ArrayList<>();
+        User newUser = new User("valid", null, "valid@valid.valid", following, groups, follower);
+        UserSettings newUserSettings = new UserSettings("valid", newUser ,false);
+        newUser.setUserSettings(newUserSettings);
 
-    newUser.setUserSettings(newUserSettings);
+        when(mockFollowRepository.findAll()).thenReturn(follower);
 
-    follower.add(newUser);
+        follower.add(newUser);
         //Act
 
         int result = sut.getFollowings().size();
 
         //Assert
 
-        Assert.assertEquals(result, 1);
+        Assert.assertEquals(1, result);
+    }
+
+    @Test
+    public void test_Add_New_Following_To_Current_User() {
+        //Assemble
+        List<Group> groups  = new ArrayList<>();
+        List<User> following = new ArrayList<>();
+        List<User> follower = new ArrayList<>();
+        User newUser = new User("valid", null, "valid@valid.valid", following, groups, follower);
+        UserSettings newUserSettings = new UserSettings("valid", newUser ,false);
+        newUser.setUserSettings(newUserSettings);
+
+        when(mockFollowRepository.findAll()).thenReturn(following);
+
+        following.add(newUser);
+        //Act
+
+        int result = sut.getFollowers().size();
+
+        //Assert
+
+        Assert.assertEquals(1, result);
     }
 }

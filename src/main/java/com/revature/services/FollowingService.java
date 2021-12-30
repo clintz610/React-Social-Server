@@ -23,6 +23,8 @@ public class FollowingService {
 
     public List<User> getFollowings() {return followRepository.findAll();}
 
+    public List<User> getFollowers() {return followRepository.findAll();}
+
     // Method to allow a user to follow another user
     public boolean followUser(User currentUser,User followUser) {
         try {
@@ -36,6 +38,7 @@ public class FollowingService {
                 return false; //TODO: change to exception (Enter invalid followUser)
             }
             followingList.add(currentUser);
+            userRepository.save(followUser);
             return true;
         } catch (Exception e) {
             e.printStackTrace(); //TODO: "probably connection error"
