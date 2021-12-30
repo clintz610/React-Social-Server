@@ -1,0 +1,27 @@
+server:
+  port: 5000
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: reverb-backend
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://java-react-enterprise-211101.c2tm2qvmfirt.us-east-1.rds.amazonaws.com:5432/postgres?currentSchema=reverb
+    username: postgres
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+cors:
+  allowed-origins: http://reverb-ui-bucket.s3-website-us-west-1.amazonaws.com
+  allowed-methods: OPTIONS, GET, PUT, POST, PATCH, DELETE
+  allowed-headers: Accept, Authorization, Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Access Control-Expose-Headers
+  exposed-headers: Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Expose-Headers, Content-Type, Authorization, Accept
+  allow-credentials: true

@@ -14,7 +14,7 @@ import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.exceptions.WrongUserException;
 import com.revature.users.User;
 
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 @RequestMapping(path = "/api/profile")
 public class ProfileController {
