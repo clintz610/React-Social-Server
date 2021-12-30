@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import com.revature.dtos.NewPostRequest;
+import com.revature.dtos.PostResponse;
 import com.revature.models.Post;
 import com.revature.models.User;
 import com.revature.services.PostService;
@@ -27,7 +29,7 @@ public class PostController {
     * no parameters
     * returns List<Post> */
     @GetMapping(path = "/get-all-posts")
-    public ResponseEntity<List<Post>> getPosts()
+    public ResponseEntity<List<PostResponse>> getPosts()
     {
         return ResponseEntity.ok(postService.getPosts());
     }
@@ -38,9 +40,9 @@ public class PostController {
      * Post JSON as a parameter
      * returns a Post */
 
-    /*
+
     @PostMapping(path = "/submit")
-    public ResponseEntity<Post> submitPost(@RequestBody Post post, @AuthenticationPrincipal User user)
+    public ResponseEntity<Post> submitPost(@RequestBody NewPostRequest post, @AuthenticationPrincipal User user)
     {
         try
         {
@@ -54,6 +56,6 @@ public class PostController {
         }
     }
 
-     */
+
 
 }

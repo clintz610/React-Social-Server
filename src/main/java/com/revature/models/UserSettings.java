@@ -16,7 +16,7 @@ public class UserSettings {
 
     @Id
     @GeneratedValue
-    private UUID uuid;
+    private String uuid; //Change back to UUID After testing
 
     @OneToOne
     @MapsId
@@ -25,6 +25,14 @@ public class UserSettings {
 
     @Column(name="dark_mode",nullable = false)
     private boolean darkMode;
+
+    public boolean isDarkMode() {
+        return darkMode;
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        this.darkMode = darkMode;
+    }
 
     @Override
     public boolean equals(Object o) {
