@@ -16,7 +16,7 @@ public class UserSettings {
 
     @Id
     @GeneratedValue
-    private UUID uuid;
+    private String uuid; //Change back to UUID After testing
 
     @OneToOne
     @MapsId

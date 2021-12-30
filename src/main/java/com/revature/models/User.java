@@ -41,7 +41,7 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 
-    @ManyToMany(mappedBy = "followedUsers", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "following", cascade = CascadeType.ALL)
     private List<User> follower;
 
 
