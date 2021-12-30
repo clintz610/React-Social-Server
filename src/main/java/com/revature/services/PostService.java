@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.dtos.NewPostRequest;
+import com.revature.dtos.PostResponse;
 import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.models.Post;
 import com.revature.models.PostMeta;
@@ -18,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -39,9 +41,10 @@ public class PostService {
 	/*  No parameters
 		Returns all Post objects in database
 	 */
-	public List<Post> getPosts() {
-		System.out.println(postRepository.findAll());
-		return postRepository.findAll();
+	public List<PostResponse> getPosts() {
+		List<Post> rawRepository = postRepository.findAll();
+
+		return postRepository.findAll().stream().map(PostResponse::new).collect(Collectors.toList());
 	}
 
 	/*  Parameters: Post object, User object
