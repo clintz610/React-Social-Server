@@ -32,11 +32,6 @@ public class PostMeta {
     @Enumerated(EnumType.STRING)
     private ContentType contentType;
 
-    // Link to the post table
-    /*
-    @OneToOne(mappedBy = "postMeta")
-    private Post postContent;
-    */
 
     //if not pk or fk, then use @Column annotation
     @Column(name="creation_date") //name should be explicit
