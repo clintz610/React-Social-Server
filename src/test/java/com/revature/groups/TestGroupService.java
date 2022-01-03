@@ -1,10 +1,12 @@
 package com.revature.groups;
 
 import com.revature.exceptions.DuplicateGroupNameException;
+import com.revature.exceptions.GroupNotFoundException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.follow.FollowRepository;
 import com.revature.follow.FollowingService;
 import com.revature.groups.dtos.GroupCreationRequest;
+import com.revature.groups.dtos.GroupResponse;
 import com.revature.users.User;
 import com.revature.users.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -12,8 +14,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -35,6 +36,42 @@ public class TestGroupService {
     @AfterEach
     public void cleanTestSetup() {
         sut = null;
+    }
+
+    @Test
+    public void test_getAllGroups_returnsAllGroupsInDatabase() {
+        Group group = new Group();
+        group.setUsers(new ArrayList<>());
+        Group[] test = {group};
+        Iterable<Group> dummyResult = Arrays.asList(test);
+        when(mockGroupRepo.findAll()).thenReturn(dummyResult);
+        List<GroupResponse> expectedList = new ArrayList<>();
+        dummyResult.iterator().forEachRemaining(g -> expectedList.add(new GroupResponse(g)));
+
+        List<GroupResponse> actualList = sut.getAllGroups();
+
+        Assertions.assertEquals(expectedList, actualList, "Expected for list to be the same but they were not");
+    }
+
+    @Test
+    public void test_getGroup_returnsGroupInDatabase_givenGroupName() {
+        Group group = new Group();
+        group.setUsers(new ArrayList<>());
+        String groupName = "test";
+        group.setName(groupName);
+        when(mockGroupRepo.findGroupByName(groupName)).thenReturn(java.util.Optional.of(group));
+        GroupResponse expectedResult = new GroupResponse(group);
+
+        GroupResponse actualResult = sut.getGroup(groupName);
+
+        Assertions.assertEquals(expectedResult, actualResult, "Expected for group to be the same but they were not");
+    }
+
+    @Test
+    public void test_getGroup_throwsGroupNotFoundException_givenUnusedGroupName() {
+        GroupNotFoundException thrown = Assertions.assertThrows(GroupNotFoundException.class, () -> sut.getGroup("unused name"), "Expected to find no group but found a group");
+
+        Assertions.assertTrue(thrown.getMessage().contains("Supplied group name was not found"));
     }
 
     @Test
