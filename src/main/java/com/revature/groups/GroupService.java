@@ -42,10 +42,9 @@ public class GroupService {
      * @return - Response entity representing group
      */
     public GroupResponse getGroup(String groupName) {
-        return groupRepository
-                .findGroupByName(groupName)
-                .map(GroupResponse::new)
-                .get();
+        Group group = groupRepository.findGroupByName(groupName)
+                                     .orElseThrow(GroupNotFoundException::new);
+        return new GroupResponse(group);
     }
 
     /**
