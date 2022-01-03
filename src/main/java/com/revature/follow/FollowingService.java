@@ -1,6 +1,7 @@
 package com.revature.follow;
 
 import com.revature.users.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.users.UserRepository;
 
@@ -15,6 +16,7 @@ public class FollowingService {
     private FollowRepository followRepository;
 
     //constructor
+    @Autowired
     public FollowingService(UserRepository userRepository, FollowRepository followRepository) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
