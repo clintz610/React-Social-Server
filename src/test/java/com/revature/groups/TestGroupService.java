@@ -461,4 +461,83 @@ public class TestGroupService {
         Assertions.assertThrows(UserNotFoundException.class, () -> sut.updateGroup(currentGroupName, notInGroup, owner));
     }
 
+    @Test
+    public void test_updateGroup_updatesCorrectFields_given_validValues() {
+
+        // Arrange
+        UUID id_1 = UUID.randomUUID();
+        UUID id_2 = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User currentOwner = new User();
+        currentOwner.setId(id_1.toString());
+        currentOwner.setEmail("email@mail.com");
+        currentOwner.setUserSettings(new UserSettings());
+
+        User newOwner = new User();
+        newOwner.setId(id_2.toString());
+        newOwner.setEmail("email2@mail.com");
+        newOwner.setUserSettings(new UserSettings());
+
+        Group validGroup_1 = new Group();
+        validGroup_1.setName("Group");
+        validGroup_1.setDescription("I am Group");
+        validGroup_1.setProfilePic("Valid");
+        validGroup_1.setHeaderImg("Valid");
+        validGroup_1.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate_1 = new GroupUpdateRequest();
+        validGroupUpdate_1.setDescription("I am Group");
+        validGroupUpdate_1.setOwnerEmail("email2@mail.com");
+
+
+        Group validGroup_2 = new Group();
+        validGroup_2.setName("Group");
+        validGroup_2.setDescription("I am Group");
+        validGroup_2.setProfilePic("Valid");
+        validGroup_2.setHeaderImg("Valid");
+        validGroup_2.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate_2 = new GroupUpdateRequest();
+        validGroupUpdate_2.setDescription("I am Group");
+        validGroupUpdate_2.setName("Group2");
+
+
+        Group validGroup_3 = new Group();
+        validGroup_3.setName("Group");
+        validGroup_3.setDescription("I am Group");
+        validGroup_3.setProfilePic("Valid");
+        validGroup_3.setHeaderImg("Valid");
+        validGroup_3.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate_3 = new GroupUpdateRequest();
+        validGroupUpdate_3.setDescription("I am New Group");
+
+
+        Group validGroup_4 = new Group();
+        validGroup_4.setName("Group");
+        validGroup_4.setDescription("I am Group");
+        validGroup_4.setProfilePic("Valid");
+        validGroup_4.setHeaderImg("Valid");
+        validGroup_4.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate_4 = new GroupUpdateRequest();
+        validGroupUpdate_4.setDescription("I am Group");
+        validGroupUpdate_4.setHeaderImg("newImg");
+
+
+        Group validGroup_5 = new Group();
+        validGroup_5.setName("Group");
+        validGroup_5.setDescription("I am Group");
+        validGroup_5.setProfilePic("Valid");
+        validGroup_5.setHeaderImg("Valid");
+        validGroup_5.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate_5 = new GroupUpdateRequest();
+        validGroupUpdate_5.setDescription("I am Group");
+        validGroupUpdate_5.setProfilePic("newImg");
+
+    }
+
 }
