@@ -1,9 +1,6 @@
 package com.revature.groups;
 
-import com.revature.exceptions.DuplicateGroupNameException;
-import com.revature.exceptions.DuplicateRequestException;
-import com.revature.exceptions.GroupNotFoundException;
-import com.revature.exceptions.InvalidRequestException;
+import com.revature.exceptions.*;
 import com.revature.follow.FollowRepository;
 import com.revature.follow.FollowingService;
 import com.revature.groups.dtos.GroupCreationRequest;
@@ -321,6 +318,84 @@ public class TestGroupService {
         verify(mockGroupRepo, times(0)).save(foundGroup);
 
         Assertions.assertEquals(0, foundGroup.getUsers().size(), "Expected Length of List to remain at 0");
+
+    }
+
+    @Test
+    public void test_deleteGroup_completesSuccessfully_givenUserIsGroupOwner() {
+
+        // Arrange
+        UUID id = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User currentOwner = new User();
+        currentOwner.setId(id.toString());
+        currentOwner.setEmail("email@mail.com");
+        currentOwner.setUserSettings(new UserSettings());
+
+        User deletingUser = new User();
+        deletingUser.setId(id.toString());
+        deletingUser.setEmail("email@mail.com");
+        deletingUser.setUserSettings(new UserSettings());
+
+        Group foundGroup = new Group();
+        foundGroup.setName("Group");
+        foundGroup.setDescription("I am Group");
+        foundGroup.setProfilePic("Valid");
+        foundGroup.setHeaderImg("Valid");
+        foundGroup.setOwner(currentOwner);
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(foundGroup));
+        doNothing().when(mockGroupRepo).delete(foundGroup);
+
+        // Act
+        sut.deleteGroup(validGroupName, deletingUser);
+
+        // Assert
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockGroupRepo, times(1)).delete(foundGroup);
+
+    }
+
+    @Test
+    public void test_deleteGroup_throwsUnauthorizedRequestException_givenUserIsNotGroupOwner() {
+
+        // Arrange
+        UUID id_1 = UUID.randomUUID();
+        UUID id_2 = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User currentOwner = new User();
+        currentOwner.setId(id_1.toString());
+        currentOwner.setEmail("email@mail.com");
+        currentOwner.setUserSettings(new UserSettings());
+
+        User deletingUser = new User();
+        deletingUser.setId(id_2.toString());
+        deletingUser.setEmail("email1@mail.com");
+        deletingUser.setUserSettings(new UserSettings());
+
+        Group foundGroup = new Group();
+        foundGroup.setName("Group");
+        foundGroup.setDescription("I am Group");
+        foundGroup.setProfilePic("Valid");
+        foundGroup.setHeaderImg("Valid");
+        foundGroup.setOwner(currentOwner);
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(foundGroup));
+        doNothing().when(mockGroupRepo).delete(foundGroup);
+
+        // Act
+        Assertions.assertThrows(
+                UnauthorizedRequestException.class,
+                () -> sut.deleteGroup(validGroupName, deletingUser),
+                "Expected Unauthorized Request Exception to be thrown when User is not owner of group");
+
+        // Assert
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockGroupRepo, times(0)).delete(foundGroup);
 
     }
 }
