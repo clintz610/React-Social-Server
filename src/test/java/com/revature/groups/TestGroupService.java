@@ -58,7 +58,7 @@ public class TestGroupService {
         group.setUsers(new ArrayList<>());
         String groupName = "test";
         group.setName(groupName);
-        when(mockGroupRepo.findGroupByName(groupName)).thenReturn(java.util.Optional.of(group));
+        when(mockGroupRepo.findGroupByName(groupName)).thenReturn(Optional.of(group));
         GroupResponse expectedResult = new GroupResponse(group);
 
         GroupResponse actualResult = sut.getGroup(groupName);
@@ -68,6 +68,9 @@ public class TestGroupService {
 
     @Test
     public void test_getGroup_throwsGroupNotFoundException_givenUnusedGroupName() {
+
+        when(mockGroupRepo.findGroupByName("unused name")).thenReturn(Optional.empty());
+
         GroupNotFoundException thrown = Assertions.assertThrows(GroupNotFoundException.class, () -> sut.getGroup("unused name"), "Expected to find no group but found a group");
 
         Assertions.assertTrue(thrown.getMessage().contains("Supplied group name was not found"));
