@@ -1,6 +1,7 @@
 package com.revature.groups;
 
 import com.revature.exceptions.DuplicateGroupNameException;
+import com.revature.exceptions.DuplicateRequestException;
 import com.revature.exceptions.GroupNotFoundException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.follow.FollowRepository;
@@ -9,6 +10,7 @@ import com.revature.groups.dtos.GroupCreationRequest;
 import com.revature.groups.dtos.GroupResponse;
 import com.revature.users.User;
 import com.revature.users.UserRepository;
+import com.revature.users.usersettings.UserSettings;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -159,6 +161,166 @@ public class TestGroupService {
         // Assert
         verify(mockGroupRepo, times(1)).findGroupByName(invalidRequest.getName());
         verify(mockGroupRepo, times(0)).save(any());
+
+    }
+
+    @Test
+    public void test_joinGroup_completesSuccessfully_givenUserIsNotInGroup() {
+
+        // Arrange
+        UUID id = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User joiningUser = new User();
+        joiningUser.setId(id.toString());
+        joiningUser.setEmail("email@mail.com");
+        joiningUser.setUserSettings(new UserSettings());
+
+        ArrayList<User> joinedUsers = new ArrayList<>();
+
+        Group foundGroup = new Group();
+        foundGroup.setName("Group");
+        foundGroup.setDescription("I am Group");
+        foundGroup.setProfilePic("Valid");
+        foundGroup.setHeaderImg("Valid");
+        foundGroup.setUsers(joinedUsers);
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(foundGroup));
+        when(mockGroupRepo.save(foundGroup)).thenReturn(foundGroup);
+
+        // Act
+        sut.joinGroup(validGroupName, joiningUser);
+
+        // Assert
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockGroupRepo, times(1)).save(foundGroup);
+
+        Assertions.assertEquals(1, foundGroup.getUsers().size(), "Expected Length of List to increase by 1");
+    }
+
+    @Test
+    public void test_joinGroup_throwsDuplicateRequestException_givenUserIsInGroup() {
+
+        // Arrange
+        UUID id = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User joinedUser = new User();
+        joinedUser.setId(id.toString());
+        joinedUser.setEmail("email@mail.com");
+        joinedUser.setUserSettings(new UserSettings());
+
+        User joiningUser = new User();
+        joiningUser.setId(id.toString());
+        joiningUser.setEmail("email@mail.com");
+        joiningUser.setUserSettings(new UserSettings());
+
+        ArrayList<User> joinedUsers = new ArrayList<>();
+        joinedUsers.add(joinedUser);
+
+        Group foundGroup = new Group();
+        foundGroup.setName("Group");
+        foundGroup.setDescription("I am Group");
+        foundGroup.setProfilePic("Valid");
+        foundGroup.setHeaderImg("Valid");
+        foundGroup.setUsers(joinedUsers);
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(foundGroup));
+        when(mockGroupRepo.save(foundGroup)).thenReturn(foundGroup);
+
+        // Act
+        Assertions.assertThrows(
+                DuplicateRequestException.class,
+                () -> sut.joinGroup(validGroupName, joiningUser),
+                "Expected Duplicate Request Exception to be thrown when User has already joined group");
+
+        // Assert
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockGroupRepo, times(0)).save(foundGroup);
+
+        Assertions.assertEquals(1, foundGroup.getUsers().size(), "Expected Length of List to remain at 1");
+
+    }
+
+    @Test
+    public void test_leaveGroup_completesSuccessfully_givenUserIsInGroup() {
+
+        // Arrange
+        UUID id = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User joinedUser = new User();
+        joinedUser.setId(id.toString());
+        joinedUser.setEmail("email@mail.com");
+        joinedUser.setUserSettings(new UserSettings());
+
+        User leavingUser = new User();
+        leavingUser.setId(id.toString());
+        leavingUser.setEmail("email@mail.com");
+        leavingUser.setUserSettings(new UserSettings());
+
+        ArrayList<User> joinedUsers = new ArrayList<>();
+        joinedUsers.add(joinedUser);
+
+        Group foundGroup = new Group();
+        foundGroup.setName("Group");
+        foundGroup.setDescription("I am Group");
+        foundGroup.setProfilePic("Valid");
+        foundGroup.setHeaderImg("Valid");
+        foundGroup.setUsers(joinedUsers);
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(foundGroup));
+        when(mockGroupRepo.save(foundGroup)).thenReturn(foundGroup);
+
+        // Act
+        sut.leaveGroup(validGroupName, leavingUser);
+
+        // Assert
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockGroupRepo, times(1)).save(foundGroup);
+
+        Assertions.assertEquals(0, foundGroup.getUsers().size(), "Expected Length of List to go down to 0");
+    }
+
+    @Test
+    public void test_leaveGroup_throwsDuplicateRequestException_givenUserIsNotInGroup() {
+
+        // Arrange
+        UUID id = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User leavingUser = new User();
+        leavingUser.setId(id.toString());
+        leavingUser.setEmail("email@mail.com");
+        leavingUser.setUserSettings(new UserSettings());
+
+        ArrayList<User> joinedUsers = new ArrayList<>();
+
+        Group foundGroup = new Group();
+        foundGroup.setName("Group");
+        foundGroup.setDescription("I am Group");
+        foundGroup.setProfilePic("Valid");
+        foundGroup.setHeaderImg("Valid");
+        foundGroup.setUsers(joinedUsers);
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(foundGroup));
+        when(mockGroupRepo.save(foundGroup)).thenReturn(foundGroup);
+
+        // Act
+        Assertions.assertThrows(
+                DuplicateRequestException.class,
+                () -> sut.leaveGroup(validGroupName, leavingUser),
+                "Expected Duplicate Request Exception to be thrown when User is not in group");
+
+        // Assert
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockGroupRepo, times(0)).save(foundGroup);
+
+        Assertions.assertEquals(0, foundGroup.getUsers().size(), "Expected Length of List to remain at 0");
 
     }
 }
