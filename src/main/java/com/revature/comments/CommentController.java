@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,7 +37,7 @@ public class CommentController {
 
 
     @PostMapping(path = "/submit/{postId}")
-    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable String postId,  User user)
+    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable UUID postId, User user)
     {
     	try
         {

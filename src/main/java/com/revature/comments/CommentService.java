@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.posts.Post;
@@ -44,7 +45,7 @@ public class CommentService {
         Returns the comment added to the database
      */
 
-    public Comment addNewComment(Comment comment, String postId, User user) throws ProfileNotFoundException
+    public Comment addNewComment(Comment comment, UUID postId, User user) throws ProfileNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
 
