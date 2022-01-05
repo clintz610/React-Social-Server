@@ -402,64 +402,6 @@ public class TestGroupService {
     }
 
     @Test
-    public void test_updateGroup_throwsGroupNotFoundException_givenGroupThatDoesNotExist() {
-        String currentGroupName = "unused name";
-
-        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(GroupNotFoundException.class, () -> sut.updateGroup(currentGroupName, new GroupUpdateRequest(), new User()));
-    }
-
-    @Test
-    public void test_updateGroup_throwsUnauthorizedRequestException_givenUserThatIsNotOwnerOfGroup() {
-        String currentGroupName = "Used Name";
-        Group group = new Group();
-        User owner = new User();
-        owner.setEmail("test@test.com");
-        group.setOwner(owner);
-        User notOwner = new User();
-
-        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.of(group));
-
-        Assertions.assertThrows(UnauthorizedRequestException.class, () -> sut.updateGroup(currentGroupName, new GroupUpdateRequest(), notOwner));
-    }
-
-    @Test
-    public void test_updateGroup_throwsUsedNotFoundException_givenUserThatDoesNotExist() {
-        String currentGroupName = "Used Name";
-        Group group = new Group();
-        User owner = new User();
-        owner.setEmail("test@test.com");
-        group.setOwner(owner);
-        GroupUpdateRequest notExist = new GroupUpdateRequest();
-        notExist.setOwnerEmail("notexisting@test.com");
-
-        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.of(group));
-        when(mockUserRepo.findUserByEmail(notExist.getOwnerEmail())).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(UserNotFoundException.class, () -> sut.updateGroup(currentGroupName, notExist, owner));
-    }
-
-    @Test
-    public void test_updateGroup_throwsUsedNotFoundException_givenUserThatIsNotInTheGroup() {
-        String currentGroupName = "Used Name";
-        Group group = new Group();
-        User owner = new User();
-        owner.setEmail("test@test.com");
-        group.setOwner(owner);
-        group.setUsers(new ArrayList<>());
-        GroupUpdateRequest notInGroup = new GroupUpdateRequest();
-        notInGroup.setOwnerEmail("notexisting@test.com");
-        User userNotInGroup = new User();
-        userNotInGroup.setEmail(notInGroup.getOwnerEmail());
-
-        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.of(group));
-        when(mockUserRepo.findUserByEmail(notInGroup.getOwnerEmail())).thenReturn(Optional.of(userNotInGroup));
-
-        Assertions.assertThrows(UserNotFoundException.class, () -> sut.updateGroup(currentGroupName, notInGroup, owner));
-    }
-
-    @Test
     public void test_updateGroup_updatesOwner_givenValidEmail() {
 
         // Arrange
@@ -679,6 +621,86 @@ public class TestGroupService {
         verify(mockUserRepo, times(0)).findUserByEmail(any());
         verify(mockGroupRepo, times(1)).save(validGroup);
 
+    }
+
+    @Test
+    public void test_updateGroup_throwsGroupNotFoundException_givenGroupThatDoesNotExist() {
+        String currentGroupName = "unused name";
+
+        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(GroupNotFoundException.class, () -> sut.updateGroup(currentGroupName, new GroupUpdateRequest(), new User()));
+    }
+
+    @Test
+    public void test_updateGroup_throwsUnauthorizedRequestException_givenUserThatIsNotOwnerOfGroup() {
+        String currentGroupName = "Used Name";
+        Group group = new Group();
+        User owner = new User();
+        owner.setEmail("test@test.com");
+        group.setOwner(owner);
+        User notOwner = new User();
+
+        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.of(group));
+
+        Assertions.assertThrows(UnauthorizedRequestException.class, () -> sut.updateGroup(currentGroupName, new GroupUpdateRequest(), notOwner));
+    }
+
+    @Test
+    public void test_updateGroup_throwsUsedNotFoundException_givenUserThatDoesNotExist() {
+        String currentGroupName = "Used Name";
+        Group group = new Group();
+        User owner = new User();
+        owner.setEmail("test@test.com");
+        group.setOwner(owner);
+        GroupUpdateRequest notExist = new GroupUpdateRequest();
+        notExist.setOwnerEmail("notexisting@test.com");
+
+        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.of(group));
+        when(mockUserRepo.findUserByEmail(notExist.getOwnerEmail())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(UserNotFoundException.class, () -> sut.updateGroup(currentGroupName, notExist, owner));
+    }
+
+    @Test
+    public void test_updateGroup_throwsUsedNotFoundException_givenUserThatIsNotInTheGroup() {
+        String currentGroupName = "Used Name";
+        Group group = new Group();
+        User owner = new User();
+        owner.setEmail("test@test.com");
+        group.setOwner(owner);
+        group.setUsers(new ArrayList<>());
+        GroupUpdateRequest notInGroup = new GroupUpdateRequest();
+        notInGroup.setOwnerEmail("notexisting@test.com");
+        User userNotInGroup = new User();
+        userNotInGroup.setEmail(notInGroup.getOwnerEmail());
+
+        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.of(group));
+        when(mockUserRepo.findUserByEmail(notInGroup.getOwnerEmail())).thenReturn(Optional.of(userNotInGroup));
+
+        Assertions.assertThrows(UserNotFoundException.class, () -> sut.updateGroup(currentGroupName, notInGroup, owner));
+    }
+
+    @Test
+    public void test_updateGroup_throwsDuplicateGroupNameException_givenGroupNameThatIsUsedAlready() {
+        String currentGroupName = "Used Name";
+        Group group = new Group();
+        Group usedGroup = new Group();
+        User owner = new User();
+        User userInGroup = new User();
+        owner.setEmail("test@test.com");
+        group.setOwner(owner);
+        group.setUsers(new ArrayList<>());
+        group.getUsers().add(userInGroup);
+        usedGroup.setName("Used Group Name");
+        GroupUpdateRequest groupNameInUseAlready = new GroupUpdateRequest();
+        groupNameInUseAlready.setName("Used Group Name");
+
+        when(mockGroupRepo.findGroupByName(currentGroupName)).thenReturn(Optional.of(group));
+        when(mockGroupRepo.findGroupByName(groupNameInUseAlready.getName())).thenReturn(Optional.of(usedGroup));
+
+        Assertions.assertThrows(DuplicateGroupNameException.class, () -> sut.updateGroup(currentGroupName, groupNameInUseAlready, owner));
+        verify(mockUserRepo, times(0)).findUserByEmail(any());
     }
 
 }

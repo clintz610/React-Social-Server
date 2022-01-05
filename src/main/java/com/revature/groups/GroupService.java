@@ -118,8 +118,11 @@ public class GroupService {
             else throw new UserNotFoundException("User is not in Group");
         }
 
-        if (notNullOrEmpty.test(updateReq.getName()))
+        if (notNullOrEmpty.test(updateReq.getName())) {
+            if(groupRepository.findGroupByName(updateReq.getName()).isPresent())
+                throw new DuplicateGroupNameException();
             group.setName(updateReq.getName());
+        }
 
         group.setDescription(updateReq.getDescription());
 
