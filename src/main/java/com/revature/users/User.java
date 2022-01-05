@@ -17,9 +17,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 public class User {
-	//ID is coming from firebase, will be unique for each user.
-
+	//ID is coming from firebase, will be unique for each user
     //Following: join table connection between users
+
     @Id
     @Column(name="user_id", unique = true)
     @JoinColumn()

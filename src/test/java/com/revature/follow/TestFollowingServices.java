@@ -55,7 +55,7 @@ public class TestFollowingServices {
         follower.add(newUser);
         //Act
 
-        int result = sut.getFollowingNumber(currentUser);
+        int result = sut.getFollowerNumber(currentUser);
 
         //Assert
 
@@ -77,7 +77,7 @@ public class TestFollowingServices {
         following.add(newUser);
         //Act
 
-        int result = sut.getFollowerNumber(currentUser);
+        int result = sut.getFollowingNumber(currentUser);
 
         //Assert
 
