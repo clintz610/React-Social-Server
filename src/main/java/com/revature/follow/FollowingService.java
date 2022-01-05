@@ -51,8 +51,9 @@ public class FollowingService {
     //TODO: update following-follower table after a user follows/unfollows someone
     //Method to allow a user to follow another user
     public boolean followUser(User currentUser,User followUser) {
-        try {
-            List<User> followingList = followUser.getFollowing();
+
+            currentUser = userRepository.findById(currentUser.getId()).get();
+            List<User> followingList = currentUser.getFollowing();
             for(int i = 0; i < followingList.size(); i++) {
                 if (followingList.get(i).equals(currentUser)) {
                     return false; //TODO: change so that it throws custom error instead
@@ -61,33 +62,27 @@ public class FollowingService {
             if (followUser == null) {
                 return false; //TODO: change to exception (Enter invalid followUser)
             }
-            followingList.add(currentUser);
-            userRepository.save(followUser);
+            followingList.add(followUser);
+            userRepository.save(currentUser);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace(); //TODO: "probably connection error"
-        }
-        return false;
+
     }
 
     // Method to allow a user to unfollow another user
-    public boolean unfollowUser(User currentUser, User unfollowUser) {
-        try {
-            List<User> followingList = unfollowUser.getFollowing();
+    public boolean unfollowUser(User currentUser, String unfollowUserId) {
+
+            currentUser = userRepository.getById(currentUser.getId());
+            List<User> followingList = currentUser.getFollowing();
             for(int i = 0; i < followingList.size(); i++) {
                 if (!followingList.get(i).equals(currentUser)) {
                     return false; //TODO: change so that it throws custom error instead
                 }
             }
-            if (unfollowUser == null) {
+            if (unfollowUserId == null) {
                 return false; //TODO: change to exception (Enter invalid unfollowUser)
             }
             followingList.remove(currentUser);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace(); //TODO: "probably connection error"
-        }
-        return false;
     }
 
     public List<User> getFollowers() {return followRepository.findAll();}

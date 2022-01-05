@@ -43,11 +43,11 @@ public class FollowingController {
         }
     }
 
-    @PutMapping(path = "/unfollow-user/{userId}")
-    public void unfollowUser(@PathVariable User unfollowUser, @AuthenticationPrincipal User currentUser) {
+    @PutMapping(path = "/unfollow-user/{unfollowUserId}")
+    public void unfollowUser(@PathVariable String unfollowUserId, @AuthenticationPrincipal User currentUser) {
 
         try {
-            followingService.unfollowUser(currentUser, unfollowUser);
+            followingService.unfollowUser(currentUser, unfollowUserId);
             ResponseEntity.ok();
         }
         catch(Exception e) {
