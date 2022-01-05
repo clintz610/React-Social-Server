@@ -1,8 +1,6 @@
 package com.revature.groups;
 
 import com.revature.exceptions.*;
-import com.revature.follow.FollowRepository;
-import com.revature.follow.FollowingService;
 import com.revature.groups.dtos.GroupCreationRequest;
 import com.revature.groups.dtos.GroupResponse;
 import com.revature.groups.dtos.GroupUpdateRequest;
@@ -462,7 +460,7 @@ public class TestGroupService {
     }
 
     @Test
-    public void test_updateGroup_updatesCorrectFields_given_validValues() {
+    public void test_updateGroup_updatesOwner_givenValidEmail() {
 
         // Arrange
         UUID id_1 = UUID.randomUUID();
@@ -480,63 +478,206 @@ public class TestGroupService {
         newOwner.setEmail("email2@mail.com");
         newOwner.setUserSettings(new UserSettings());
 
-        Group validGroup_1 = new Group();
-        validGroup_1.setName("Group");
-        validGroup_1.setDescription("I am Group");
-        validGroup_1.setProfilePic("Valid");
-        validGroup_1.setHeaderImg("Valid");
-        validGroup_1.setOwner(currentOwner);
+        ArrayList<User> joinedUsers = new ArrayList<>();
+        joinedUsers.add(currentOwner);
+        joinedUsers.add(newOwner);
 
-        GroupUpdateRequest validGroupUpdate_1 = new GroupUpdateRequest();
-        validGroupUpdate_1.setDescription("I am Group");
-        validGroupUpdate_1.setOwnerEmail("email2@mail.com");
+        Group validGroup = new Group();
+        validGroup.setName("Group");
+        validGroup.setDescription("I am Group");
+        validGroup.setProfilePic("Valid");
+        validGroup.setHeaderImg("Valid");
+        validGroup.setOwner(currentOwner);
+        validGroup.setUsers(joinedUsers);
 
+        GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
+        validGroupUpdate.setDescription("I am Group");
+        validGroupUpdate.setOwnerEmail("email2@mail.com");
 
-        Group validGroup_2 = new Group();
-        validGroup_2.setName("Group");
-        validGroup_2.setDescription("I am Group");
-        validGroup_2.setProfilePic("Valid");
-        validGroup_2.setHeaderImg("Valid");
-        validGroup_2.setOwner(currentOwner);
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(validGroup));
+        when(mockUserRepo.findUserByEmail(newOwner.getEmail())).thenReturn(Optional.of(newOwner));
+        when(mockGroupRepo.save(validGroup)).thenReturn(validGroup);
 
-        GroupUpdateRequest validGroupUpdate_2 = new GroupUpdateRequest();
-        validGroupUpdate_2.setDescription("I am Group");
-        validGroupUpdate_2.setName("Group2");
+        // Act
+        sut.updateGroup(validGroupName, validGroupUpdate, currentOwner);
 
+        // Assert
+        Assertions.assertEquals(validGroup.getOwner(), newOwner, "Expected Owner to be set to new owner");
 
-        Group validGroup_3 = new Group();
-        validGroup_3.setName("Group");
-        validGroup_3.setDescription("I am Group");
-        validGroup_3.setProfilePic("Valid");
-        validGroup_3.setHeaderImg("Valid");
-        validGroup_3.setOwner(currentOwner);
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockUserRepo, times(1)).findUserByEmail(newOwner.getEmail());
+        verify(mockGroupRepo, times(1)).save(validGroup);
 
-        GroupUpdateRequest validGroupUpdate_3 = new GroupUpdateRequest();
-        validGroupUpdate_3.setDescription("I am New Group");
+    }
 
+    @Test
+    public void test_updateGroup_updatesName_givenValidName() {
 
-        Group validGroup_4 = new Group();
-        validGroup_4.setName("Group");
-        validGroup_4.setDescription("I am Group");
-        validGroup_4.setProfilePic("Valid");
-        validGroup_4.setHeaderImg("Valid");
-        validGroup_4.setOwner(currentOwner);
+        // Arrange
+        UUID id_1 = UUID.randomUUID();
 
-        GroupUpdateRequest validGroupUpdate_4 = new GroupUpdateRequest();
-        validGroupUpdate_4.setDescription("I am Group");
-        validGroupUpdate_4.setHeaderImg("newImg");
+        String validGroupName = "Group";
 
+        User currentOwner = new User();
+        currentOwner.setId(id_1.toString());
+        currentOwner.setEmail("email@mail.com");
+        currentOwner.setUserSettings(new UserSettings());
 
-        Group validGroup_5 = new Group();
-        validGroup_5.setName("Group");
-        validGroup_5.setDescription("I am Group");
-        validGroup_5.setProfilePic("Valid");
-        validGroup_5.setHeaderImg("Valid");
-        validGroup_5.setOwner(currentOwner);
+        ArrayList<User> joinedUsers = new ArrayList<>();
+        joinedUsers.add(currentOwner);
 
-        GroupUpdateRequest validGroupUpdate_5 = new GroupUpdateRequest();
-        validGroupUpdate_5.setDescription("I am Group");
-        validGroupUpdate_5.setProfilePic("newImg");
+        Group validGroup = new Group();
+        validGroup.setName("Group");
+        validGroup.setDescription("I am Group");
+        validGroup.setProfilePic("Valid");
+        validGroup.setHeaderImg("Valid");
+        validGroup.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
+        validGroupUpdate.setDescription("I am Group");
+        validGroupUpdate.setName("Group2");
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(validGroup));
+        when(mockUserRepo.findUserByEmail(any())).thenReturn(Optional.of(currentOwner));
+        when(mockGroupRepo.save(validGroup)).thenReturn(validGroup);
+
+        // Act
+        sut.updateGroup(validGroupName, validGroupUpdate, currentOwner);
+
+        // Assert
+        Assertions.assertEquals(validGroup.getName(), validGroupUpdate.getName(), "Expected Name to be set to Group2");
+
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockUserRepo, times(0)).findUserByEmail(any());
+        verify(mockGroupRepo, times(1)).save(validGroup);
+
+    }
+
+    @Test
+    public void test_updateGroup_updatesDescription_givenValidValue() {
+
+        // Arrange
+        UUID id_1 = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User currentOwner = new User();
+        currentOwner.setId(id_1.toString());
+        currentOwner.setEmail("email@mail.com");
+        currentOwner.setUserSettings(new UserSettings());
+
+        ArrayList<User> joinedUsers = new ArrayList<>();
+        joinedUsers.add(currentOwner);
+
+        Group validGroup = new Group();
+        validGroup.setName("Group");
+        validGroup.setDescription("I am Group");
+        validGroup.setProfilePic("Valid");
+        validGroup.setHeaderImg("Valid");
+        validGroup.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
+        validGroupUpdate.setDescription("I am New Group");
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(validGroup));
+        when(mockUserRepo.findUserByEmail(any())).thenReturn(Optional.of(currentOwner));
+        when(mockGroupRepo.save(validGroup)).thenReturn(validGroup);
+
+        // Act
+        sut.updateGroup(validGroupName, validGroupUpdate, currentOwner);
+
+        // Assert
+        Assertions.assertEquals(validGroup.getDescription(), validGroupUpdate.getDescription(), "Expected Description to be set to I am New Group");
+
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockUserRepo, times(0)).findUserByEmail(any());
+        verify(mockGroupRepo, times(1)).save(validGroup);
+
+    }
+
+    @Test
+    public void test_updateGroup_updatesHeaderImg_givenValidValue() {
+
+        // Arrange
+        UUID id_1 = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User currentOwner = new User();
+        currentOwner.setId(id_1.toString());
+        currentOwner.setEmail("email@mail.com");
+        currentOwner.setUserSettings(new UserSettings());
+
+        ArrayList<User> joinedUsers = new ArrayList<>();
+        joinedUsers.add(currentOwner);
+
+        Group validGroup = new Group();
+        validGroup.setName("Group");
+        validGroup.setDescription("I am Group");
+        validGroup.setProfilePic("Valid");
+        validGroup.setHeaderImg("Valid");
+        validGroup.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
+        validGroupUpdate.setDescription("I am Group");
+        validGroupUpdate.setHeaderImg("newImg");
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(validGroup));
+        when(mockUserRepo.findUserByEmail(any())).thenReturn(Optional.of(currentOwner));
+        when(mockGroupRepo.save(validGroup)).thenReturn(validGroup);
+
+        // Act
+        sut.updateGroup(validGroupName, validGroupUpdate, currentOwner);
+
+        // Assert
+        Assertions.assertEquals(validGroup.getHeaderImg(), validGroupUpdate.getHeaderImg(), "Expected headerImg to be set to newImg");
+
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockUserRepo, times(0)).findUserByEmail(any());
+        verify(mockGroupRepo, times(1)).save(validGroup);
+
+    }
+
+    @Test
+    public void test_updateGroup_updatesProfilePic_givenValidValue() {
+
+        // Arrange
+        UUID id_1 = UUID.randomUUID();
+
+        String validGroupName = "Group";
+
+        User currentOwner = new User();
+        currentOwner.setId(id_1.toString());
+        currentOwner.setEmail("email@mail.com");
+        currentOwner.setUserSettings(new UserSettings());
+
+        ArrayList<User> joinedUsers = new ArrayList<>();
+        joinedUsers.add(currentOwner);
+
+        Group validGroup = new Group();
+        validGroup.setName("Group");
+        validGroup.setDescription("I am Group");
+        validGroup.setProfilePic("Valid");
+        validGroup.setHeaderImg("Valid");
+        validGroup.setOwner(currentOwner);
+
+        GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
+        validGroupUpdate.setDescription("I am Group");
+        validGroupUpdate.setProfilePic("newImg");
+
+        when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(validGroup));
+        when(mockUserRepo.findUserByEmail(any())).thenReturn(Optional.of(currentOwner));
+        when(mockGroupRepo.save(validGroup)).thenReturn(validGroup);
+
+        // Act
+        sut.updateGroup(validGroupName, validGroupUpdate, currentOwner);
+
+        // Assert
+        Assertions.assertEquals(validGroup.getProfilePic(), validGroupUpdate.getProfilePic(), "Expected profilePic to be set to newImg");
+
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockUserRepo, times(0)).findUserByEmail(any());
+        verify(mockGroupRepo, times(1)).save(validGroup);
 
     }
 
