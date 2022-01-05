@@ -1,7 +1,14 @@
 package com.revature.comments;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 
+import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.posts.Post;
+import com.revature.users.User;
+import com.revature.users.profiles.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.posts.PostRepository;
@@ -36,35 +43,31 @@ public class CommentService {
         Adds a new comment to the database
         Returns the comment added to the database
      */
-    /*
+
     public Comment addNewComment(Comment comment, Long postId, User user) throws ProfileNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
 
         if(post.isPresent())
         {
+            // Set the author from the user
         	comment.setAuthor(user);
-        	Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
-            Profile profile = null;
-            if(!optProfile.isPresent()) {
-            	throw new ProfileNotFoundException();
-            } else {
-            	profile = optProfile.get();
-            }
-            Date date = new Date();
-            DateFormat dform = new SimpleDateFormat("MMM d yyyy HH:mm z");
-            dform.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-            String dateString = dform.format(date);
-            comment.setDate(dateString);
-            comment.setProfile(profile);
+
+            // Set the time to current time in UTC to be offset in client to client time.
+            comment.setDate(LocalDateTime.now(ZoneOffset.UTC));
+
+            // Set the post ID
             comment.setPost(post.get());
-            post.get().setComments((Arrays.asList(comment)));
+
+            // Save the comment to the repository
             commentRepository.save(comment);
+
+            // Return the completed comment as proof.
             return comment;
         } else {
         	throw new IllegalStateException("This comment does not have an associated post.");
         }
     }
-     */
+
 
 }

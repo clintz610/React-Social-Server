@@ -6,6 +6,8 @@ import com.revature.users.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @ToString(exclude = {"post"})
@@ -13,14 +15,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "comment")
+@Getter
+@Setter
 public class Comment {
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue()
+    private UUID id;
 
     private String commentText;
 
-    private String date;
+    private LocalDateTime date;
 
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)

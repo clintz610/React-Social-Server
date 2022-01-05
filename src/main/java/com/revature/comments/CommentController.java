@@ -1,5 +1,6 @@
 package com.revature.comments;
 
+import com.revature.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +34,9 @@ public class CommentController {
      * parameters: JSON Comment, Long postId through path variable
      * returns Comment */
 
-    /*
+
     @PostMapping(path = "/submit/{postId}")
-    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId, @AuthenticationPrincipal User user)
+    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId,  User user)
     {
     	try
         {
@@ -48,6 +49,6 @@ public class CommentController {
         }
     }
 
-     */
+
 
 }
