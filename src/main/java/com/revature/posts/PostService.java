@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,7 @@ public class PostService {
 
 
 		// Set the time of the post
-        newPostMeta.setDate(LocalDateTime.now());
+        newPostMeta.setDate(LocalDateTime.now(ZoneOffset.UTC));
 
 		// Set the content type
 		newPostMeta.setContentType(post.getContentType());

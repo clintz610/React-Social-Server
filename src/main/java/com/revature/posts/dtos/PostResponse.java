@@ -3,6 +3,7 @@ package com.revature.posts.dtos;
 import com.revature.posts.Post;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
@@ -11,7 +12,7 @@ public class PostResponse {
     private String postText;
     private String contentLink;
     private String contentType;
-    private String date;
+    private LocalDateTime date;
 
     public PostResponse(Post raw) {
         // Possible TODO: change to a UUID on front end
@@ -20,7 +21,6 @@ public class PostResponse {
         this.contentLink = raw.getContentLink();
         this.contentType = String.valueOf(raw.getPostMeta().getContentType());
 
-        DateTimeFormatter dform = DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
-        this.date = raw.getPostMeta().getDate().format(dform);
+        this.date = raw.getPostMeta().getDate();
     }
 }
