@@ -21,12 +21,22 @@ public class FollowingController {
         this.currentUser = currentUser;
     }
 
-    @GetMapping(path = "/get-following/{userId}")
+    @GetMapping(path = "/get-followings/{userId")
+    public ResponseEntity<List<User>> getListOfFollowings() {
+        return ResponseEntity.ok(followingService.getFollowings(currentUser));
+    }
+
+    @GetMapping(path = "/get-followers/{userId")
+    public ResponseEntity<List<User>> getListOfFollowers() {
+        return ResponseEntity.ok(followingService.getFollowers(currentUser));
+    }
+
+    @GetMapping(path = "/get-following-number/{userId}")
     public ResponseEntity<Integer> getNumberOfFollowing() {
         return ResponseEntity.ok(followingService.getFollowingNumber(currentUser));
     }
 
-    @GetMapping(path = "/get-followers/{userId}")
+    @GetMapping(path = "/get-follower-number/{userId}")
     public ResponseEntity<Integer> getNumberOfFollowers() {
         return ResponseEntity.ok(followingService.getFollowerNumber(currentUser));
     }

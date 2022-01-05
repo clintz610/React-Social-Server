@@ -26,19 +26,16 @@ public class FollowingService {
 
 
     //TODO: Get follower number
-
     public int getFollowerNumber(User user) {
         return user.getFollower().size();
     }
 
     //TODO: Get following number
-
     public int getFollowingNumber(User user) {
         return user.getFollowing().size();
     }
 
     //TODO: Get list of followers given a specific user id
-
     public List<User> getFollowers(User user) {
         return user.getFollower();
     }
