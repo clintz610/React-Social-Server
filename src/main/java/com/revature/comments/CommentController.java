@@ -1,8 +1,11 @@
 package com.revature.comments;
 
+import com.revature.comments.dtos.AuthorDto;
+import com.revature.comments.dtos.NewCommentRequest;
 import com.revature.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +40,7 @@ public class CommentController {
 
 
     @PostMapping(path = "/submit/{postId}")
-    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable UUID postId, User user)
+    public ResponseEntity<Comment> submitComment(@RequestBody NewCommentRequest comment, @PathVariable UUID postId, @AuthenticationPrincipal User user)
     {
     	try
         {
@@ -49,6 +52,7 @@ public class CommentController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
 
 
 

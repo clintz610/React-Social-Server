@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.revature.comments.dtos.NewCommentRequest;
 import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.posts.Post;
 import com.revature.users.User;
@@ -40,31 +41,40 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
+    public List<Comment> getCommentsByPost(Post post) {
+        return commentRepository.getByPost(post);
+    }
+
     /*  Parameters: Comment to add, postID, and user
         Adds a new comment to the database
         Returns the comment added to the database
      */
 
-    public Comment addNewComment(Comment comment, UUID postId, User user) throws ProfileNotFoundException
+    public Comment addNewComment(NewCommentRequest comment, UUID postId, User user) throws ProfileNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
+        Comment returnComment = new Comment();
 
         if(post.isPresent())
         {
             // Set the author from the user
-        	comment.setAuthor(user);
+            returnComment.setAuthor(user);
 
             // Set the time to current time in UTC to be offset in client to client time.
-            comment.setDate(LocalDateTime.now(ZoneOffset.UTC));
+            returnComment.setDate(LocalDateTime.now(ZoneOffset.UTC));
 
             // Set the post ID
-            comment.setPost(post.get());
+            returnComment.setPost(post.get());
+
+            // Set the text
+            returnComment.setCommentText(comment.getCommentText());
+
 
             // Save the comment to the repository
-            commentRepository.save(comment);
+            commentRepository.save(returnComment);
 
             // Return the completed comment as proof.
-            return comment;
+            return returnComment;
         } else {
         	throw new IllegalStateException("This comment does not have an associated post.");
         }

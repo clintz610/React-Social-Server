@@ -33,7 +33,6 @@ public class Comment {
     private Post post;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="author", referencedColumnName="user_id")
     private User author;
 
