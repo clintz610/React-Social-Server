@@ -39,6 +39,22 @@ public class ProfileController {
 		}
 	}
 
+	/*
+	 * Get the profile by the author's ID.
+	 * returns the profile
+	 */
+	@GetMapping("/getByAuthor/{id}")
+	public ResponseEntity<Profile> findProfileByAuthor(@PathVariable String id) {
+		try {
+			User query = new User();
+			query.setId(id);
+			return ResponseEntity.ok(profileService.findUsersProfile(query));
+		} catch (ProfileNotFoundException e) {
+			//e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
+	}
+
 	/*  Must be give a Profile object in the Request body.
 		Updates the Profile in the database.
 		Returns the updated Profile.

@@ -36,7 +36,7 @@ public class CommentController {
 
 
     @PostMapping(path = "/submit/{postId}")
-    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId,  User user)
+    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable String postId,  User user)
     {
     	try
         {

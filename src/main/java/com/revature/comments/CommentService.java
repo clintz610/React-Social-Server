@@ -44,7 +44,7 @@ public class CommentService {
         Returns the comment added to the database
      */
 
-    public Comment addNewComment(Comment comment, Long postId, User user) throws ProfileNotFoundException
+    public Comment addNewComment(Comment comment, String postId, User user) throws ProfileNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
 

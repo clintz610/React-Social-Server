@@ -26,7 +26,7 @@ public class LikeService {
         Pulls number of likes on specific post from database
         Returns Integer
      */
-    public Integer getNumberofLikes(Long postId) throws PostNotFoundException
+    public Integer getNumberofLikes(String postId) throws PostNotFoundException
     {
        Optional<Post> post = postRepository.findById(postId);
 
@@ -38,7 +38,7 @@ public class LikeService {
        throw new PostNotFoundException(); //make custom exception later
     }
 
-    public void likePost(Long postId, User user)
+    public void likePost(String postId, User user)
     {
         Optional<Post> post = postRepository.findById(postId);
 
@@ -59,7 +59,7 @@ public class LikeService {
             throw new IllegalStateException("post does not exist");
     }
     
-    public boolean checkIfAlreadyLiked(Long postId, User user) {
+    public boolean checkIfAlreadyLiked(String postId, User user) {
     	Optional<Post> post = postRepository.findById(postId);
 
         if(post.isPresent())

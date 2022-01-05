@@ -23,7 +23,7 @@ public class LikeController {
         Returns the number of likes for identified post
      */
     @GetMapping(path = "/get-number-of-likes/{postId}")
-    public ResponseEntity<Integer> getNumberOfLikes(@PathVariable Long postId)
+    public ResponseEntity<Integer> getNumberOfLikes(@PathVariable String postId)
     {
         try {
         	Integer numLikes = likeService.getNumberofLikes(postId);
@@ -41,7 +41,7 @@ public class LikeController {
         Creates a new like upon identified post.
      */
     @PutMapping(path = "/like-post/{postId}")
-    public void likePost(@PathVariable Long postId, @AuthenticationPrincipal User user)
+    public void likePost(@PathVariable String postId, @AuthenticationPrincipal User user)
     {
         try {
             likeService.likePost(postId, user);
@@ -59,7 +59,7 @@ public class LikeController {
         Returns boolean if logged in user has already liked the post.
      */
     @GetMapping(path = "/check-if-liked/{postId}")
-    public ResponseEntity<Boolean> checkIfLiked(@PathVariable Long postId, @AuthenticationPrincipal User user)
+    public ResponseEntity<Boolean> checkIfLiked(@PathVariable String postId, @AuthenticationPrincipal User user)
     {
     	try {
     		return ResponseEntity.ok(likeService.checkIfAlreadyLiked(postId, user));

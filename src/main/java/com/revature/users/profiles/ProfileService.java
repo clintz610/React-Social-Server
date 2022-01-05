@@ -47,6 +47,7 @@ public class ProfileService {
     	}
     }
 
+
 	/*  Parameter: User object
 		Returns the Profile of the provided User
 	 */

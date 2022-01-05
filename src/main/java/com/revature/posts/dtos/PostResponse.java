@@ -13,6 +13,7 @@ public class PostResponse {
     private String contentLink;
     private String contentType;
     private LocalDateTime date;
+    private String authorID;
 
     public PostResponse(Post raw) {
         // Possible TODO: change to a UUID on front end
@@ -22,5 +23,7 @@ public class PostResponse {
         this.contentType = String.valueOf(raw.getPostMeta().getContentType());
 
         this.date = raw.getPostMeta().getDate();
+
+        this.authorID = raw.getPostMeta().getAuthor().getId();
     }
 }
