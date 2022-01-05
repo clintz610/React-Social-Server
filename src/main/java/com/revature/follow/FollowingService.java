@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.users.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,11 +23,33 @@ public class FollowingService {
         this.followRepository = followRepository;
     }
 
-    public List<User> getFollowings() {return followRepository.findAll();}
 
-    public List<User> getFollowers() {return followRepository.findAll();}
 
-    // Method to allow a user to follow another user
+    //TODO: Get follower number
+
+    public int getFollowerNumber(User user) {
+        return user.getFollower().size();
+    }
+
+    //TODO: Get following number
+
+    public int getFollowingNumber(User user) {
+        return user.getFollowing().size();
+    }
+
+    //TODO: Get list of followers given a specific user id
+
+    public List<User> getFollowers(User user) {
+        return user.getFollower();
+    }
+
+    //TODO: get list of followings given a specific user id
+    public List<User> getFollowings(User user) {
+        return user.getFollowing();
+    }
+
+    //TODO: update following-follower table after a user follows/unfollows someone
+    //Method to allow a user to follow another user
     public boolean followUser(User currentUser,User followUser) {
         try {
             List<User> followingList = followUser.getFollowing();
@@ -53,7 +76,7 @@ public class FollowingService {
             List<User> followingList = unfollowUser.getFollowing();
             for(int i = 0; i < followingList.size(); i++) {
                 if (!followingList.get(i).equals(currentUser)) {
-                    return false; //TODO: change so taht it throws custom error instead
+                    return false; //TODO: change so that it throws custom error instead
                 }
             }
             if (unfollowUser == null) {
@@ -66,4 +89,7 @@ public class FollowingService {
         }
         return false;
     }
+
+    public List<User> getFollowers() {return followRepository.findAll();}
+
 }
