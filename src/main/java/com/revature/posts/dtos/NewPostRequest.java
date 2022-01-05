@@ -1,7 +1,7 @@
 package com.revature.posts.dtos;
 
 
-import com.revature.util.ContentType;
+import com.revature.common.util.ContentType;
 import lombok.Data;
 
 @Data

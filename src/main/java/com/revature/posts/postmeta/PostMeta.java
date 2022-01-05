@@ -1,6 +1,6 @@
 package com.revature.posts.postmeta;
 import com.revature.groups.Group;
-import com.revature.util.ContentType;
+import com.revature.common.util.ContentType;
 import com.revature.users.User;
 import lombok.Getter;
 import lombok.Setter;
