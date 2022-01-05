@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface FollowRepository extends JpaRepository<User, String> {
-//    List<User> getFollowerByUser(User user);
-//    List<User> getFollowingByUser(User user);
+
 }

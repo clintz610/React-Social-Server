@@ -20,21 +20,32 @@ public class FollowingController {
         this.followingService = followingService;
     }
 
-    @GetMapping(path = "/get-following/{userId}")
+    //current user only holds id and email
+    @GetMapping(path = "/get-followings/{userId")
+    public ResponseEntity<List<User>> getListOfFollowings(@AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(followingService.getFollowings(currentUser));
+    }
+
+    @GetMapping(path = "/get-followers/{userId")
+    public ResponseEntity<List<User>> getListOfFollowers(@AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(followingService.getFollowers(currentUser));
+    }
+
+    @GetMapping(path = "/get-following-number/{userId}")
     public ResponseEntity<Integer> getNumberOfFollowing(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowingNumber(currentUser));
     }
 
-    @GetMapping(path = "/get-followers/{userId}")
+    @GetMapping(path = "/get-follower-number/{userId}")
     public ResponseEntity<Integer> getNumberOfFollowers(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowerNumber(currentUser));
     }
 
     @PutMapping(path = "/follow-user/{followUserId}")
-    public void followUser(@PathVariable User followUser, @AuthenticationPrincipal User currentUser) {
+    public void followUser(@PathVariable String followUserId, @AuthenticationPrincipal User currentUser) {
 
         try {
-            followingService.followUser(currentUser, followUser);
+            followingService.followUser(currentUser, followUserId);
             ResponseEntity.ok();
         }
         catch(Exception e) {
@@ -47,7 +58,7 @@ public class FollowingController {
     public void unfollowUser(@PathVariable String unfollowUserId, @AuthenticationPrincipal User currentUser) {
 
         try {
-            followingService.unfollowUser(currentUser, unfollowUserId);
+            followingService.unFollowUser(currentUser, unfollowUserId);
             ResponseEntity.ok();
         }
         catch(Exception e) {

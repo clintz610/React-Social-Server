@@ -26,7 +26,7 @@ public class TestFollowingServices {
     List<Group> groups  = new ArrayList<>();
     List<User> following = new ArrayList<>();
     List<User> follower = new ArrayList<>();
-    User currentUser = new User("valid", null, "valid@valid.valid", following, groups, follower);;
+    User currentUser = new User("valid", null, "valid@valid.valid", following, groups, follower);
 
     @BeforeEach
     public void setUp() {
