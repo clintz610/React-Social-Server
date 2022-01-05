@@ -4,6 +4,7 @@ import com.revature.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,7 +28,6 @@ public class LikeController {
     @GetMapping(path = "/get-number-of-likes/{postId}")
     public ResponseEntity<Integer> getNumberOfLikes(@PathVariable UUID postId)
     {
-        System.out.println("POST ID:                               " + postId);
         try {
         	Integer numLikes = likeService.getNumberofLikes(postId);
         	return ResponseEntity.ok(numLikes);
@@ -56,6 +56,21 @@ public class LikeController {
             ResponseEntity.internalServerError().build();
         }
 
+    }
+
+    /* Given a postID, checks if a user has liked it, and unlikes it
+
+     */
+    @DeleteMapping(path = "/unlike-post/{postId}")
+    public void unlikePost(@PathVariable UUID postId, @AuthenticationPrincipal User user) {
+        try {
+            likeService.unlikePost(postId, user);
+            ResponseEntity.ok();
+        }
+        catch(Exception e)
+        {
+            ResponseEntity.internalServerError().build();
+        }
     }
 
     /*  Must be provide a postID in the URL

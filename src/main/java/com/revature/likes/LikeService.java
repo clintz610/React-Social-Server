@@ -33,7 +33,6 @@ public class LikeService {
 
        if(post.isPresent())
        {
-           System.out.println("Found post!");
            return likeRepository.getLikeByPost(post.get()).size();
        }
 
@@ -59,6 +58,23 @@ public class LikeService {
         }
         else
             throw new IllegalStateException("post does not exist");
+    }
+
+    public void unlikePost(UUID postId, User user) {
+        Optional<Post> post = postRepository.findById(postId);
+
+        if(post.isPresent()) {
+            if(checkIfAlreadyLiked(post.get(), user)){
+                Post query = postRepository.getById(postId);
+                Like like = likeRepository.getByPostAndUser(query, user).get(0);
+                likeRepository.delete(like);
+            }
+            else
+                throw new IllegalStateException("User has not liked this post!");
+        }
+        else
+            throw new IllegalStateException("post does not exist");
+
     }
     
     public boolean checkIfAlreadyLiked(UUID postId, User user) {

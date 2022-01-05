@@ -36,9 +36,9 @@ public class TestProfileService
 	@Test
 	public void findProfileByIdPositive() throws ProfileNotFoundException {
 		Profile profile = new Profile();
-		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+		Mockito.when(profileRepository.findById("1")).thenReturn(Optional.of(profile));
 		ProfileService profileService=new ProfileService(profileRepository);
-		assertThat(profileService.findProfileById(1)).isEqualTo(profile);
+		assertThat(profileService.findProfileById("1")).isEqualTo(profile);
 	}
 
 	@Test
@@ -46,11 +46,11 @@ public class TestProfileService
 	{
 		
 		Profile profile = new Profile();
-		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.empty());
+		Mockito.when(profileRepository.findById("1")).thenReturn(Optional.empty());
 		ProfileService profileService=new ProfileService(profileRepository);
 		
 		try {
-			profileService.findProfileById(1);
+			profileService.findProfileById("1");
 			fail();
 		} catch (Exception e) {
 			assertEquals(e.getClass(), ProfileNotFoundException.class);
@@ -71,9 +71,9 @@ public class TestProfileService
 		User u=new User();
 		Profile profile = new Profile();
 		profile.setUser(u);
-		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+		Mockito.when(profileRepository.findById("1")).thenReturn(Optional.of(profile));
 		ProfileService profileService=new ProfileService(profileRepository);
-		assertThat(profileService.checkProfileOwnership(1,u)).isTrue();
+		assertThat(profileService.checkProfileOwnership("1",u)).isTrue();
 	}
 
 }

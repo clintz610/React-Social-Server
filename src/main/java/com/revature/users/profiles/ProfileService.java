@@ -37,7 +37,7 @@ public class ProfileService {
 	/*  Parameter: profileID
 		Returns the specified Profile
 	 */
-    public Profile findProfileById(int profileId) throws ProfileNotFoundException {
+    public Profile findProfileById(String profileId) throws ProfileNotFoundException {
     	Optional<Profile> profile = profileRepo.findById(profileId);
     	
     	if(profile.isPresent()) {
@@ -60,7 +60,7 @@ public class ProfileService {
     	}
     }
 
-	public Boolean checkProfileOwnership(int id, User user) throws ProfileNotFoundException {
+	public Boolean checkProfileOwnership(String id, User user) throws ProfileNotFoundException {
 		Optional<Profile> profile = profileRepo.findById(id);
     	
     	if(profile.isPresent()) {

@@ -30,7 +30,7 @@ public class ProfileController {
 	 * returns Optional<Profile>
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Profile> findProfileById(@PathVariable int id) {
+	public ResponseEntity<Profile> findProfileById(@PathVariable String id) {
 		try {
 			return ResponseEntity.ok(profileService.findProfileById(id));
 		} catch (ProfileNotFoundException e) {
@@ -88,7 +88,7 @@ public class ProfileController {
 		Returns boolean value
 	 */
 	@GetMapping("/checkProfileOwnership/{id}")
-	public ResponseEntity<Boolean> checkProfileOwnership(@PathVariable int id, @AuthenticationPrincipal User user) {
+	public ResponseEntity<Boolean> checkProfileOwnership(@PathVariable String id, @AuthenticationPrincipal User user) {
 		try {
 			return ResponseEntity.ok(profileService.checkProfileOwnership(id, user));
 		} catch (ProfileNotFoundException e) {
