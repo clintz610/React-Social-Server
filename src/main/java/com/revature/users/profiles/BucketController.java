@@ -32,7 +32,7 @@ public class BucketController {
 
     @PostMapping(path = "/test")
     public ResponseEntity<String> loginUser(@AuthenticationPrincipal User user) {
-        System.out.println("lfasdfjlasdjlk");
+        System.out.println("Hitting Testing Endpoint");
         return ResponseEntity.ok("Successfully added user with email " + user.getEmail());
     }
 
