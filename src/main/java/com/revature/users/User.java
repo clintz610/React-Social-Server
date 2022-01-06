@@ -17,9 +17,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 public class User {
-	//ID is coming from firebase, will be unique for each user.
-
+	//ID is coming from firebase, will be unique for each user
     //Following: join table connection between users
+
     @Id
     @Column(name="user_id", unique = true)
     @JoinColumn()
@@ -58,13 +58,13 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userSettings, user.userSettings) && Objects.equals(email, user.email) && Objects.equals(following, user.following) && Objects.equals(groups, user.groups) && Objects.equals(follower, user.follower);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email);
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userSettings, email, following, groups, follower);
+        return Objects.hash(id, email);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.revature.groups;
 
+import com.revature.groups.dtos.GroupCreationRequest;
 import com.revature.users.User;
 import lombok.*;
 
@@ -26,7 +27,7 @@ public class Group {
     @JoinColumn(name = "owner_id_fk", referencedColumnName = "user_id")
     private User owner;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column

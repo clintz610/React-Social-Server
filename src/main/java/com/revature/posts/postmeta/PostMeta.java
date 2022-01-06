@@ -4,6 +4,7 @@ import com.revature.util.ContentType;
 import com.revature.users.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class PostMeta {
     @Id
     @Column(name="post_meta_id", unique = true)
     @GeneratedValue
+    @Type(type="uuid-char")
     private UUID id;
 
     //add unique = true whenever there is a constraint, if we want an error thrown for non-unique values

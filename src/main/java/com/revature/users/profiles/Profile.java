@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.revature.users.User;
+import org.hibernate.annotations.Type;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import lombok.AllArgsConstructor;
@@ -29,19 +30,20 @@ public class Profile {
     @Id
     @Column(name="id", unique = true)
     @GeneratedValue
+    @Type(type="uuid-char")
     private UUID id;
 	
     @Column(name="first_name", unique = false, nullable = false)
-    private String first_name;
+    private String firstName;
     
     @Column(name="last_name",unique = false, nullable = false)
-    private String last_name;
+    private String lastName;
     
     @Column(name="profile_img",unique = false, nullable = false)
-    private String profile_img;
+    private String profileImg;
     
     @Column(name="header_img",unique = false, nullable = false)
-    private String header_img;
+    private String headerImg;
 
     @Column(name="birthday",unique = false, nullable = false)
     private String birthday;
@@ -53,7 +55,7 @@ public class Profile {
     private String location;
     
     @Column(name="about_me", unique = false, nullable = false)
-    private String about_me;
+    private String aboutMe;
 
     @OneToOne
     @JoinColumn(name="user_id_fk", unique = true, referencedColumnName = "user_id")
@@ -61,13 +63,13 @@ public class Profile {
 
 
     public Profile() {
-    	this.first_name = "Reverb";
-    	this.last_name = "User";
-    	this.profile_img = "https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png";
-    	this.header_img = "https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg";
+    	this.firstName = "Reverb";
+    	this.lastName = "User";
+    	this.profileImg = "https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png";
+    	this.headerImg = "https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg";
         this.birthday = "A Mystery...";
         this.hobby = "Programming, surely";
         this.location = "Planet Earth";
-    	this.about_me = "I just joined Reverb!";
+    	this.aboutMe = "I just joined Reverb!";
     }
 }
