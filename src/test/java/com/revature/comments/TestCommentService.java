@@ -33,7 +33,8 @@ public class TestCommentService {
 		commentRepository = Mockito.mock(CommentRepository.class);
 		profileRepository = Mockito.mock(ProfileRepository.class);
 	}
-	
+
+	/*
 	@Test
 	public void getNumberofCommentsIsNone() {
 		//tests getNumberofComments; new Post has none
@@ -47,7 +48,7 @@ public class TestCommentService {
 		assertEquals(cs.getComments().size(), 0L);
 	}
 
-    /*
+
 	@Test
 	public void canAddComment() throws ProfileNotFoundException {
 		Post post = new Post();

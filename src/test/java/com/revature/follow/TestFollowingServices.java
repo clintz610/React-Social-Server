@@ -23,6 +23,10 @@ public class TestFollowingServices {
 
     UserRepository mockUserRepository;
     FollowRepository mockFollowRepository;
+    List<Group> groups  = new ArrayList<>();
+    List<User> following = new ArrayList<>();
+    List<User> follower = new ArrayList<>();
+    User currentUser = new User("valid", null, "valid@valid.valid", following, groups, follower);
 
     @BeforeEach
     public void setUp() {
@@ -40,9 +44,9 @@ public class TestFollowingServices {
     public void test_Add_New_Follower_To_Current_User() {
     //Assemble
         List<Group> groups  = new ArrayList<>();
-        List<User> following = new ArrayList<>();
-        List<User> follower = new ArrayList<>();
-        User newUser = new User("valid", null, "valid@valid.valid", following, groups, follower);
+        List<User> newFollowing = new ArrayList<>();
+        List<User> newFollower = new ArrayList<>();
+        User newUser = new User("valid", null, "valid@valid.valid", newFollowing, groups, newFollower);
         UserSettings newUserSettings = new UserSettings("valid", newUser ,false);
         newUser.setUserSettings(newUserSettings);
 
@@ -51,7 +55,7 @@ public class TestFollowingServices {
         follower.add(newUser);
         //Act
 
-        int result = sut.getFollowings().size();
+        int result = sut.getFollowerNumber(currentUser);
 
         //Assert
 
@@ -62,9 +66,9 @@ public class TestFollowingServices {
     public void test_Add_New_Following_To_Current_User() {
         //Assemble
         List<Group> groups  = new ArrayList<>();
-        List<User> following = new ArrayList<>();
-        List<User> follower = new ArrayList<>();
-        User newUser = new User("valid", null, "valid@valid.valid", following, groups, follower);
+        List<User> newFollowing = new ArrayList<>();
+        List<User> newFollower = new ArrayList<>();
+        User newUser = new User("valid", null, "valid@valid.valid", newFollowing, groups, newFollower);
         UserSettings newUserSettings = new UserSettings("valid", newUser ,false);
         newUser.setUserSettings(newUserSettings);
 
@@ -73,7 +77,7 @@ public class TestFollowingServices {
         following.add(newUser);
         //Act
 
-        int result = sut.getFollowers().size();
+        int result = sut.getFollowingNumber(currentUser);
 
         //Assert
 

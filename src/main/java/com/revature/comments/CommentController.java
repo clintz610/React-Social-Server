@@ -1,13 +1,17 @@
 package com.revature.comments;
 
+import com.revature.comments.dtos.AuthorDto;
+import com.revature.comments.dtos.NewCommentRequest;
+import com.revature.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "api/comment")
 public class CommentController {
     private final CommentService commentService;
@@ -33,9 +37,9 @@ public class CommentController {
      * parameters: JSON Comment, Long postId through path variable
      * returns Comment */
 
-    /*
+
     @PostMapping(path = "/submit/{postId}")
-    public ResponseEntity<Comment> submitComment(@RequestBody Comment comment, @PathVariable Long postId, @AuthenticationPrincipal User user)
+    public ResponseEntity<Comment> submitComment(@RequestBody NewCommentRequest comment, @PathVariable UUID postId, @AuthenticationPrincipal User user)
     {
     	try
         {
@@ -48,6 +52,7 @@ public class CommentController {
         }
     }
 
-     */
+
+
 
 }
