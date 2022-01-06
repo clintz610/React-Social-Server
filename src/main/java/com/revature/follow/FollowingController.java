@@ -20,6 +20,13 @@ public class FollowingController {
         this.followingService = followingService;
     }
 
+    //get user id from profile id
+    @GetMapping(path = "/profile/{profileId}")
+    public String getUserFromProfileId(@PathVariable String profileId) {
+        User user = followingService.getUserFromProfile(profileId);
+        return user.getId();
+    }
+
     //current user only holds id and email
     @GetMapping(path = "/get-followings/{userId")
     public ResponseEntity<List<User>> getListOfFollowings(@AuthenticationPrincipal User currentUser) {

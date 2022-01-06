@@ -3,7 +3,6 @@ package com.revature.users.profiles;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.revature.users.dtos.ProfileResponse;
 import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.UserNotFoundException;
@@ -39,7 +38,7 @@ public class ProfileService {
 	/*  Parameter: profileID
 		Returns the specified Profile
 	 */
-    public Profile findProfileById(UUID profileId) throws UserNotFoundException {
+    public Profile findProfileById(String profileId) throws UserNotFoundException {
     	Optional<Profile> profile = profileRepo.findById(profileId);
     	
     	if(profile.isPresent()) {
