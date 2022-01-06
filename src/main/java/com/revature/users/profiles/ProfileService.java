@@ -4,11 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.exceptions.WrongUserException;
-import com.revature.users.profiles.Profile;
 import com.revature.users.User;
-import com.revature.users.profiles.ProfileRepository;
 
 @Service
 public class ProfileService {
@@ -37,35 +35,35 @@ public class ProfileService {
 	/*  Parameter: profileID
 		Returns the specified Profile
 	 */
-    public Profile findProfileById(int profileId) throws ProfileNotFoundException {
+    public Profile findProfileById(int profileId) throws UserNotFoundException {
     	Optional<Profile> profile = profileRepo.findById(profileId);
     	
     	if(profile.isPresent()) {
     		return profile.get();
     	} else {
-    		throw new ProfileNotFoundException();
+    		throw new UserNotFoundException();
     	}
     }
 
 	/*  Parameter: User object
 		Returns the Profile of the provided User
 	 */
-    public Profile findUsersProfile(User user) throws ProfileNotFoundException {
+    public Profile findUsersProfile(User user) throws UserNotFoundException {
     	Optional<Profile> profile = profileRepo.getProfileByUser(user);
     	if(profile.isPresent()) {
     		return profile.get();
     	} else {
-    		throw new ProfileNotFoundException();
+    		throw new UserNotFoundException();
     	}
     }
 
-	public Boolean checkProfileOwnership(int id, User user) throws ProfileNotFoundException {
+	public Boolean checkProfileOwnership(int id, User user) throws UserNotFoundException {
 		Optional<Profile> profile = profileRepo.findById(id);
     	
     	if(profile.isPresent()) {
     		return profile.get().getUser().equals(user);
     	} else {
-    		throw new ProfileNotFoundException();
+    		throw new UserNotFoundException();
     	}
 	}
 }
