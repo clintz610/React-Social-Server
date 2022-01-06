@@ -27,7 +27,8 @@ public class ProfileService {
 		Returns the modified Profile
 	 */
     public Profile updateProfile(Profile profile, User user) throws WrongUserException {
-    	if(profile.getUser().equals(user)) {
+    	if(profile.getUser().getId().equals(user.getId())) {
+//			System.out.println("pass user verification");
     		return profileRepo.saveAndFlush(profile);
     	} else {
     		throw new WrongUserException();
@@ -68,4 +69,5 @@ public class ProfileService {
     		throw new ProfileNotFoundException();
     	}
 	}
+
 }

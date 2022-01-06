@@ -21,8 +21,9 @@ public class BucketController {
 
     @PostMapping(path = "/uploadfile")
     public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
+        String url= this.amazonClient.uploadFile(file);
+        return url;
 
-        return this.amazonClient.uploadFile(file);
     }
 
     @DeleteMapping("/deleteFile")
