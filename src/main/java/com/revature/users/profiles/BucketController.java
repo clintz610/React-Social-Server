@@ -20,11 +20,18 @@ public class BucketController {
     }
 
     @PostMapping(path = "/uploadfile")
-    public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
-        String url= this.amazonClient.uploadFile(file);
-        return url;
+    public String uploadFile(@ModelAttribute Profile profile,  @RequestPart(value = "file") MultipartFile file, @AuthenticationPrincipal User user) {
 
+        return this.amazonClient.uploadFile(file);
     }
+
+//    @PostMapping(path = "/uploadfile")
+//    public String uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestPart(value = "file2") MultipartFile file2) {
+//
+//        String fileName= this.amazonClient.uploadFile(file);
+//        String fileName2= this.amazonClient.uploadFile(file2);
+//        return fileName+"----"+fileName2;
+//    }
 
     @DeleteMapping("/deleteFile")
     public String deleteFile(@RequestPart(value = "url") String fileUrl) {
