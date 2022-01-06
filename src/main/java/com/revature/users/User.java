@@ -44,7 +44,7 @@ public class User {
     private List<User> following; // changed followUsers to following in order for lombok to generate getters/setters to hit UserDTO
 
 
-    
+
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 
@@ -58,7 +58,8 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userSettings, user.userSettings) && Objects.equals(email, user.email) && Objects.equals(following, user.following) && Objects.equals(groups, user.groups) && Objects.equals(follower, user.follower);
+//        return Objects.equals(id, user.id) && Objects.equals(userSettings, user.userSettings) && Objects.equals(email, user.email) && Objects.equals(following, user.following) && Objects.equals(groups, user.groups) && Objects.equals(follower, user.follower);
+        return Objects.equals(id, user.id) && Objects.equals(userSettings, user.userSettings) && Objects.equals(email, user.email) ;
 
     }
 
