@@ -38,7 +38,7 @@ public class ProfileService {
 	/*  Parameter: profileID
 		Returns the specified Profile
 	 */
-    public Profile findProfileById(String profileId) throws UserNotFoundException {
+    public Profile findProfileById(UUID profileId) throws UserNotFoundException {
     	Optional<Profile> profile = profileRepo.findById(profileId);
     	
     	if(profile.isPresent()) {

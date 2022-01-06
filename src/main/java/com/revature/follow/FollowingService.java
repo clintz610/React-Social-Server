@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.users.UserRepository;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FollowingService {
@@ -30,7 +31,7 @@ public class FollowingService {
 
 
     public User getUserFromProfile(String profileId) {
-        Profile profile = profileService.findProfileById(profileId);
+        Profile profile = profileService.findProfileById(UUID.fromString(profileId));
         return profile.getUser();
     }
 
