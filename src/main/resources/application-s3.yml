@@ -1,0 +1,5 @@
+amazonProperties:
+  endpointUrl: https://s3.us-east-1.amazonaws.com
+  accessKey: AKIAQKEWAQAFLHQIDLUL
+  secretKey: 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
+  bucketName: s3-4-profile
