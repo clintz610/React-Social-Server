@@ -1,20 +1,20 @@
 package com.revature.users.profiles;
-import com.revature.users.profiles.Profile;
 import com.revature.users.User;
-import com.revature.users.profiles.ProfileRepository;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import java.util.Optional;
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.revature.users.profiles.ProfileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import com.revature.ReverbApplication;
-import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 
 
 @SpringBootTest(classes = ReverbApplication.class)
@@ -34,11 +34,11 @@ public class TestProfileService
 	}
 	
 	@Test
-	public void findProfileByIdPositive() throws ProfileNotFoundException {
+	public void findProfileByIdPositive() throws UserNotFoundException {
 		Profile profile = new Profile();
-		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+		Mockito.when(profileRepository.findById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).thenReturn(Optional.of(profile));
 		ProfileService profileService=new ProfileService(profileRepository);
-		assertThat(profileService.findProfileById(1)).isEqualTo(profile);
+		assertThat(profileService.findProfileById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).isEqualTo(profile);
 	}
 
 	@Test
@@ -46,19 +46,19 @@ public class TestProfileService
 	{
 		
 		Profile profile = new Profile();
-		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.empty());
+		Mockito.when(profileRepository.findById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).thenReturn(Optional.empty());
 		ProfileService profileService=new ProfileService(profileRepository);
 		
 		try {
-			profileService.findProfileById(1);
+			profileService.findProfileById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"));
 			fail();
 		} catch (Exception e) {
-			assertEquals(e.getClass(), ProfileNotFoundException.class);
+			assertEquals(e.getClass(), UserNotFoundException.class);
 		}
 	}
 
 	@Test
-	public void findProfileByUser() throws ProfileNotFoundException {
+	public void findProfileByUser() throws UserNotFoundException {
 		User u=new User();
 		Profile profile = new Profile();
 		Mockito.when(profileRepository.getProfileByUser(u)).thenReturn(Optional.of(profile));
@@ -67,13 +67,13 @@ public class TestProfileService
 	}
 
 	@Test
-	public void checkProfileOwner() throws ProfileNotFoundException {
+	public void checkProfileOwner() throws UserNotFoundException {
 		User u=new User();
 		Profile profile = new Profile();
 		profile.setUser(u);
-		Mockito.when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+		Mockito.when(profileRepository.findById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).thenReturn(Optional.of(profile));
 		ProfileService profileService=new ProfileService(profileRepository);
-		assertThat(profileService.checkProfileOwnership(1,u)).isTrue();
+		assertThat(profileService.checkProfileOwnership(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"),u)).isTrue();
 	}
 
 }

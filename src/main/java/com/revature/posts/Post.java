@@ -1,11 +1,14 @@
 package com.revature.posts;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.*;
 
+import com.revature.comments.Comment;
 import com.revature.posts.postmeta.PostMeta;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 //@Data
 //@ToString(exclude = {"comments"})
@@ -21,6 +24,7 @@ public class Post {
     @Id
     @Column(name = "post_id")
     @GeneratedValue
+    @Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "post_text", columnDefinition = "varchar(1000)")
@@ -34,6 +38,9 @@ public class Post {
     @JoinColumn(name="post_content_fk", referencedColumnName = "post_meta_id", unique = true)
     private PostMeta postMeta;
 
+    // Public list of comments
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 
 
     public Post(String postText, String contentLink)

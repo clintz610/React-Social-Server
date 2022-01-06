@@ -38,8 +38,9 @@ build/
 application-dev.yml
 
 ### AWS S3 ###
-<<<<<<< HEAD
 application-s3.yml
-=======
-application-s3.yml
->>>>>>> jsc-p3-server
+
+
+### .DS Store (Mac thing) ###
+.DS_Store
+

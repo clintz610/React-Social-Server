@@ -1,8 +1,11 @@
 package com.revature.posts;
 
+import com.revature.comments.Comment;
+import com.revature.comments.dtos.AuthorDto;
+import com.revature.comments.dtos.CommentRequest;
 import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.dtos.PostResponse;
-import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.posts.postmeta.PostMeta;
 import com.revature.users.User;
 import com.revature.comments.CommentRepository;
@@ -39,8 +42,39 @@ public class PostService {
 	 */
 	public List<PostResponse> getPosts() {
 		List<Post> rawRepository = postRepository.findAll();
+		List<PostResponse> refinedRepo = new LinkedList<>();
+		for (int i = 0; i < rawRepository.size(); i++) {
+			// Record the relevant data from the posts.
+			Post rawPost = rawRepository.get(i);
+			PostResponse refinedPost = new PostResponse(rawPost);
 
-		return postRepository.findAll().stream().map(PostResponse::new).collect(Collectors.toList());
+			// Get the post's comments
+			List<Comment> rawComments = rawPost.getComments();
+			List<CommentRequest> refinedComments = new LinkedList<>();
+			for (int j = 0; j < rawComments.size(); j++){
+				// Record the relevant data for a comment.
+				Comment rawComment = rawComments.get(j);
+				CommentRequest refinedComment = new CommentRequest();
+
+				// Get the simple values
+				refinedComment.setCommentId(rawComment.getId().toString());
+				refinedComment.setCommentText(rawComment.getCommentText());
+				refinedComment.setDate(rawComment.getDate());
+
+				// Create the author object we need
+				AuthorDto refinedAuthor = new AuthorDto(rawComment.getAuthor(), profileRepository);
+				refinedComment.setAuthor(refinedAuthor);
+
+				// Add the result to the list
+				refinedComments.add(refinedComment);
+
+			}
+			refinedPost.setComments(refinedComments);
+
+			refinedRepo.add(refinedPost);
+		}
+
+		return refinedRepo;
 	}
 
 	/*  Parameters: Post object, User object
@@ -48,7 +82,7 @@ public class PostService {
 		Returns the Post added to the database
 	 */
 
-	public Post addNewPost(NewPostRequest post, User user) throws ProfileNotFoundException
+	public Post addNewPost(NewPostRequest post, User user) throws UserNotFoundException
     {
 		// Create a post meta and a post
 		PostMeta newPostMeta = new PostMeta();

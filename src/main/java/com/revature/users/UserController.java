@@ -4,6 +4,8 @@ import com.revature.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.users.User;
 
 @RestController
+@CrossOrigin(origins = {"http://reverb-ui-bucket.s3-website-us-west-1.amazonaws.com"})
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -38,5 +41,8 @@ public class UserController {
         userService.registerUser(user);
         return ResponseEntity.ok("Successfully created user with email " + user.getEmail());
     }
+
+
+
 
 }
