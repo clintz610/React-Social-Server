@@ -29,17 +29,17 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 	
-    @Column(name="first_name", unique = false, nullable = false)
-    private String first_name;
+    @Column(name="firstName", unique = false, nullable = false)
+    private String firstName;
     
-    @Column(name="last_name",unique = false, nullable = false)
-    private String last_name;
+    @Column(name="lastName",unique = false, nullable = false)
+    private String lastName;
     
-    @Column(name="profile_img",unique = false, nullable = false)
-    private String profile_img;
+    @Column(name="profileImg",unique = false, nullable = false)
+    private String profileImg;
     
-    @Column(name="header_img",unique = false, nullable = false)
-    private String header_img;
+    @Column(name="headerImg",unique = false, nullable = false)
+    private String headerImg;
 
     @Column(name="birthday",unique = false, nullable = false)
     private String birthday;
@@ -50,8 +50,8 @@ public class Profile {
     @Column(name="location", unique = false, nullable = false)
     private String location;
     
-    @Column(name="about_me", unique = false, nullable = false)
-    private String about_me;
+    @Column(name="aboutMe", unique = false, nullable = false)
+    private String aboutMe;
 
     @OneToOne
     @JoinColumn(name="user_id_fk", unique = true, referencedColumnName = "user_id")
@@ -59,13 +59,13 @@ public class Profile {
 
 
     public Profile() {
-    	this.first_name = "Reverb";
-    	this.last_name = "User";
-    	this.profile_img = "https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png";
-    	this.header_img = "https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg";
+    	this.firstName = "Reverb";
+    	this.lastName = "User";
+    	this.profileImg = "https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png";
+    	this.headerImg = "https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg";
         this.birthday = "A Mystery...";
         this.hobby = "Programming, surely";
         this.location = "Planet Earth";
-    	this.about_me = "I just joined Reverb!";
+    	this.aboutMe = "I just joined Reverb!";
     }
 }
