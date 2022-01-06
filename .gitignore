@@ -35,3 +35,7 @@ build/
 ### Firebase Config ###
 **/firebase_config.json
 application-dev.yml
+
+### .DS Store (Mac thing) ###
+.DS_Store
+
