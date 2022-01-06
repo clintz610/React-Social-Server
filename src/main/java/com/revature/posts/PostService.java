@@ -5,7 +5,7 @@ import com.revature.comments.dtos.AuthorDto;
 import com.revature.comments.dtos.CommentRequest;
 import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.dtos.PostResponse;
-import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.posts.postmeta.PostMeta;
 import com.revature.users.User;
 import com.revature.comments.CommentRepository;
@@ -82,7 +82,7 @@ public class PostService {
 		Returns the Post added to the database
 	 */
 
-	public Post addNewPost(NewPostRequest post, User user) throws ProfileNotFoundException
+	public Post addNewPost(NewPostRequest post, User user) throws UserNotFoundException
     {
 		// Create a post meta and a post
 		PostMeta newPostMeta = new PostMeta();

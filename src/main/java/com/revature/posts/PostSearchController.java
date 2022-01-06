@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.posts.PostService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "api/search")
 public class PostSearchController {
 	private final PostService postService;
