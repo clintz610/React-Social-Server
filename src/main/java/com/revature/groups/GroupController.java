@@ -37,10 +37,10 @@ public class GroupController {
     // Create Group
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json")
-    public void createGroup(
+    public GroupResponse createGroup(
             @RequestBody GroupCreationRequest groupCreationRequest,
             @AuthenticationPrincipal User owner) {
-        groupService.createGroup(groupCreationRequest, owner);
+        return groupService.createGroup(groupCreationRequest, owner);
     }
 
     // Join Group

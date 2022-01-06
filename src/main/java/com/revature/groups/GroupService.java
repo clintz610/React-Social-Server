@@ -51,7 +51,7 @@ public class GroupService {
      * @param groupCreationRequest - contains Group Name and Description of new group.
      * @param owner - Currently logged in user gets set as owner.
      */
-    public void createGroup(GroupCreationRequest groupCreationRequest, User owner) {
+    public GroupResponse createGroup(GroupCreationRequest groupCreationRequest, User owner) {
 
         if (!notNullOrEmpty.test(groupCreationRequest.getName()))
             throw new InvalidRequestException("Invalid group name entered");
@@ -65,7 +65,7 @@ public class GroupService {
         newGroup.setName(groupCreationRequest.getName());
         newGroup.setDescription(groupCreationRequest.getDescription());
 
-        groupRepository.save(newGroup);
+        return new GroupResponse(groupRepository.save(newGroup));
     }
 
     /**
