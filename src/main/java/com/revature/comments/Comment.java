@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.posts.Post;
 import com.revature.users.User;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class Comment {
 
 	@Id
     @GeneratedValue()
+    @Type(type="uuid-char")
     private UUID id;
 
     private String commentText;

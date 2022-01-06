@@ -25,10 +25,10 @@ public class LikeController {
         Returns the number of likes for identified post
      */
     @GetMapping(path = "/get-number-of-likes/{postId}")
-    public ResponseEntity<Integer> getNumberOfLikes(@PathVariable UUID postId)
+    public ResponseEntity<Integer> getNumberOfLikes(@PathVariable String postId)
     {
         try {
-        	Integer numLikes = likeService.getNumberofLikes(postId);
+        	Integer numLikes = likeService.getNumberofLikes(UUID.fromString(postId));
         	return ResponseEntity.ok(numLikes);
         }
         catch(Exception e)
@@ -43,10 +43,10 @@ public class LikeController {
         Creates a new like upon identified post.
      */
     @PutMapping(path = "/like-post/{postId}")
-    public void likePost(@PathVariable UUID postId, @AuthenticationPrincipal User user)
+    public void likePost(@PathVariable String postId, @AuthenticationPrincipal User user)
     {
         try {
-            likeService.likePost(postId, user);
+            likeService.likePost(UUID.fromString(postId), user);
             ResponseEntity.ok();
         }
         catch(Exception e)
@@ -61,9 +61,9 @@ public class LikeController {
 
      */
     @DeleteMapping(path = "/unlike-post/{postId}")
-    public void unlikePost(@PathVariable UUID postId, @AuthenticationPrincipal User user) {
+    public void unlikePost(@PathVariable String postId, @AuthenticationPrincipal User user) {
         try {
-            likeService.unlikePost(postId, user);
+            likeService.unlikePost(UUID.fromString(postId), user);
             ResponseEntity.ok();
         }
         catch(Exception e)
@@ -76,10 +76,10 @@ public class LikeController {
         Returns boolean if logged in user has already liked the post.
      */
     @GetMapping(path = "/check-if-liked/{postId}")
-    public ResponseEntity<Boolean> checkIfLiked(@PathVariable UUID postId, @AuthenticationPrincipal User user)
+    public ResponseEntity<Boolean> checkIfLiked(@PathVariable String postId, @AuthenticationPrincipal User user)
     {
     	try {
-    		return ResponseEntity.ok(likeService.checkIfAlreadyLiked(postId, user));
+    		return ResponseEntity.ok(likeService.checkIfAlreadyLiked(UUID.fromString(postId), user));
     	} catch (Exception e) {
 //    		e.printStackTrace();
     	}

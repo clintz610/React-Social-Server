@@ -8,6 +8,7 @@ import javax.persistence.*;
 import com.revature.comments.Comment;
 import com.revature.posts.postmeta.PostMeta;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 //@Data
 //@ToString(exclude = {"comments"})
@@ -23,6 +24,7 @@ public class Post {
     @Id
     @Column(name = "post_id")
     @GeneratedValue
+    @Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "post_text", columnDefinition = "varchar(1000)")
