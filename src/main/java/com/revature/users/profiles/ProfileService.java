@@ -1,7 +1,9 @@
 package com.revature.users.profiles;
 
 import java.util.Optional;
+import java.util.UUID;
 
+import com.revature.users.dtos.ProfileResponse;
 import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.UserNotFoundException;
@@ -26,7 +28,9 @@ public class ProfileService {
 	 */
     public Profile updateProfile(Profile profile, User user) throws WrongUserException {
     	if(profile.getUser().equals(user)) {
-    		return profileRepo.saveAndFlush(profile);
+			Profile outputTest = profileRepo.saveAndFlush(profile);
+			System.out.println(outputTest);
+    		return outputTest;
     	} else {
     		throw new WrongUserException();
     	}	
@@ -35,7 +39,7 @@ public class ProfileService {
 	/*  Parameter: profileID
 		Returns the specified Profile
 	 */
-    public Profile findProfileById(String profileId) throws ProfileNotFoundException {
+    public Profile findProfileById(UUID profileId) throws UserNotFoundException {
     	Optional<Profile> profile = profileRepo.findById(profileId);
     	
     	if(profile.isPresent()) {
@@ -59,7 +63,7 @@ public class ProfileService {
     }
 
 
-	public Boolean checkProfileOwnership(String id, User user) throws ProfileNotFoundException {
+	public Boolean checkProfileOwnership(UUID id, User user) throws UserNotFoundException {
 		Optional<Profile> profile = profileRepo.findById(id);
     	
     	if(profile.isPresent()) {

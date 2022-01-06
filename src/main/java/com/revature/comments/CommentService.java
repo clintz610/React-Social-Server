@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.revature.comments.dtos.NewCommentRequest;
-import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.posts.Post;
 import com.revature.users.User;
 import com.revature.users.profiles.Profile;
@@ -50,7 +50,7 @@ public class CommentService {
         Returns the comment added to the database
      */
 
-    public Comment addNewComment(NewCommentRequest comment, UUID postId, User user) throws ProfileNotFoundException
+    public Comment addNewComment(NewCommentRequest comment, UUID postId, User user) throws UserNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
         Comment returnComment = new Comment();

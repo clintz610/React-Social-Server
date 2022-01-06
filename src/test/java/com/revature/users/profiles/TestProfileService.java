@@ -4,6 +4,8 @@ import com.revature.users.User;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import java.util.Optional;
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +36,9 @@ public class TestProfileService
 	@Test
 	public void findProfileByIdPositive() throws UserNotFoundException {
 		Profile profile = new Profile();
-		Mockito.when(profileRepository.findById("1")).thenReturn(Optional.of(profile));
+		Mockito.when(profileRepository.findById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).thenReturn(Optional.of(profile));
 		ProfileService profileService=new ProfileService(profileRepository);
-		assertThat(profileService.findProfileById("1")).isEqualTo(profile);
+		assertThat(profileService.findProfileById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).isEqualTo(profile);
 	}
 
 	@Test
@@ -44,11 +46,11 @@ public class TestProfileService
 	{
 		
 		Profile profile = new Profile();
-		Mockito.when(profileRepository.findById("1")).thenReturn(Optional.empty());
+		Mockito.when(profileRepository.findById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).thenReturn(Optional.empty());
 		ProfileService profileService=new ProfileService(profileRepository);
 		
 		try {
-			profileService.findProfileById("1");
+			profileService.findProfileById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"));
 			fail();
 		} catch (Exception e) {
 			assertEquals(e.getClass(), UserNotFoundException.class);
@@ -69,9 +71,9 @@ public class TestProfileService
 		User u=new User();
 		Profile profile = new Profile();
 		profile.setUser(u);
-		Mockito.when(profileRepository.findById("1")).thenReturn(Optional.of(profile));
+		Mockito.when(profileRepository.findById(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"))).thenReturn(Optional.of(profile));
 		ProfileService profileService=new ProfileService(profileRepository);
-		assertThat(profileService.checkProfileOwnership("1",u)).isTrue();
+		assertThat(profileService.checkProfileOwnership(UUID.fromString("d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5"),u)).isTrue();
 	}
 
 }

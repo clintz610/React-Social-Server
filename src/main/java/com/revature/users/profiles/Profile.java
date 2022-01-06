@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.revature.users.User;
+import org.hibernate.annotations.Type;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class Profile {
     @Id
     @Column(name="id", unique = true)
     @GeneratedValue
+    @Type(type="uuid-char")
     private UUID id;
 	
     @Column(name="first_name", unique = false, nullable = false)

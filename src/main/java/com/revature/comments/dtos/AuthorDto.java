@@ -1,6 +1,6 @@
 package com.revature.comments.dtos;
 
-import com.revature.exceptions.ProfileNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.users.User;
 import com.revature.users.profiles.Profile;
 import com.revature.users.profiles.ProfileRepository;
@@ -24,9 +24,9 @@ public class AuthorDto {
         Optional<Profile> optionalProfile = profileRepository.getProfileByUser(raw);
         if (optionalProfile.isPresent()){
             Profile rawProf = optionalProfile.get();
-            this.firstname = rawProf.getFirst_name();
-            this.lastname = rawProf.getLast_name();
-            this.pfId = rawProf.getId();
+            this.firstname = rawProf.getFirstName();
+            this.lastname = rawProf.getLastName();
+            this.pfId = rawProf.getId().toString();
         }
         else {
             this.firstname = null;
