@@ -25,21 +25,13 @@ public class BucketController {
         this.profileService=profileService;
     }
 
-    @PostMapping(path = "/uploadfile")
+    @PostMapping(path = "/uploadFile")
     public PicUrlDto uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestPart(value = "picCate") String picCate,
                                 @RequestPart(value = "profileId") String profileId, @AuthenticationPrincipal User user) throws ProfileNotFoundException {
 
         String savedURL = this.amazonClient.uploadFile(file);
         return profileService.updatePicUrl(picCate, savedURL, UUID.fromString(profileId), user);
     }
-
-//    @PostMapping(path = "/uploadfile")
-//    public String uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestPart(value = "file2") MultipartFile file2) {
-//
-//        String fileName= this.amazonClient.uploadFile(file);
-//        String fileName2= this.amazonClient.uploadFile(file2);
-//        return fileName+"----"+fileName2;
-//    }
 
     @DeleteMapping("/deleteFile")
     public String deleteFile(@RequestPart(value = "url") String fileUrl) {

@@ -75,11 +75,11 @@ public class ProfileService {
 	}
 
 	public PicUrlDto updatePicUrl(String picCate, String savedURL, UUID profileId, User user) {
-		profileRepo.updatePicUrl(profileId,savedURL);
-		if(profileId.equals("0")){
-			Profile profile=new Profile();
-			profile = profileRepo.saveAndFlush(profile);
-			profileId=profile.getId();
+		if(picCate.equals("header")){
+			profileRepo.updateHeaderUrl(profileId.toString(),savedURL);
+		}
+		else {
+			profileRepo.updatePicUrl(profileId.toString(),savedURL);
 		}
 		return new PicUrlDto(profileId, savedURL);
 	}
