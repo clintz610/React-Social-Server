@@ -3,6 +3,7 @@ package com.revature.users.profiles;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.revature.users.dtos.PicUrlDto;
 import com.revature.users.dtos.ProfileResponse;
 import org.springframework.stereotype.Service;
 
@@ -73,4 +74,13 @@ public class ProfileService {
     	}
 	}
 
+	public PicUrlDto updatePicUrl(String picCate, String savedURL, UUID profileId, User user) {
+		profileRepo.updatePicUrl(profileId,savedURL);
+		if(profileId.equals("0")){
+			Profile profile=new Profile();
+			profile = profileRepo.saveAndFlush(profile);
+			profileId=profile.getId();
+		}
+		return new PicUrlDto(profileId, savedURL);
+	}
 }

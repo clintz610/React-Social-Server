@@ -1,11 +1,15 @@
 package com.revature.users.profiles;
 
+import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.users.User;
+import com.revature.users.dtos.PicUrlDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -13,16 +17,20 @@ import org.springframework.web.multipart.MultipartFile;
 public class BucketController {
 
     private AmazonClientService amazonClient;
+    private ProfileService profileService;
 
     @Autowired
-    BucketController(AmazonClientService amazonClient) {
+    BucketController(AmazonClientService amazonClient, ProfileService profileService) {
         this.amazonClient = amazonClient;
+        this.profileService=profileService;
     }
 
     @PostMapping(path = "/uploadfile")
-    public String uploadFile(@ModelAttribute Profile profile,  @RequestPart(value = "file") MultipartFile file, @AuthenticationPrincipal User user) {
+    public PicUrlDto uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestPart(value = "picCate") String picCate,
+                                @RequestPart(value = "profileId") String profileId, @AuthenticationPrincipal User user) throws ProfileNotFoundException {
 
-        return this.amazonClient.uploadFile(file);
+        String savedURL = this.amazonClient.uploadFile(file);
+        return profileService.updatePicUrl(picCate, savedURL, UUID.fromString(profileId), user);
     }
 
 //    @PostMapping(path = "/uploadfile")
