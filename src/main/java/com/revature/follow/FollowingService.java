@@ -1,12 +1,14 @@
 package com.revature.follow;
 
 import com.revature.users.User;
+import com.revature.users.profiles.Profile;
+import com.revature.users.profiles.ProfileRepository;
+import com.revature.users.profiles.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.users.UserRepository;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FollowingService {
@@ -15,15 +17,23 @@ public class FollowingService {
 
     private final UserRepository userRepository;
     private FollowRepository followRepository;
+    private ProfileRepository profileRepository;
+    private final ProfileService profileService;
 
     //constructor
     @Autowired
-    public FollowingService(UserRepository userRepository, FollowRepository followRepository) {
+    public FollowingService(UserRepository userRepository, FollowRepository followRepository, ProfileRepository profileRepository, ProfileService profileService) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
+        this.profileRepository = profileRepository;
+        this.profileService = profileService;
     }
 
 
+    public User getUserFromProfile(String profileId) {
+        Profile profile = profileService.findProfileById(UUID.fromString(profileId));
+        return profile.getUser();
+    }
 
     //TODO: Get follower number
     public int getFollowerNumber(User user) {
@@ -42,6 +52,8 @@ public class FollowingService {
 
     //TODO: get list of followings given a specific user id
     public List<User> getFollowings(User user) {
+        System.out.printf("Getting followings: ");
+        System.out.println(user.getFollowing());
         return user.getFollowing();
     }
 
