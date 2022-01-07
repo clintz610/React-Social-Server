@@ -29,7 +29,7 @@ public class GroupController {
 
     //Get One Group
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{groupName}")
+    @GetMapping(value = "/{groupName}", produces = "application/json")
     public GroupResponse getOneGroup(@PathVariable String groupName) {
         return groupService.getGroup(groupName);
     }
@@ -58,13 +58,13 @@ public class GroupController {
     }
 
     // update Group
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping(name = "/update/{groupName}", consumes = "application/json")
-    public void updateGroup(
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping(name = "/update/{groupName}", consumes = "application/json", produces = "application/json")
+    public GroupResponse updateGroup(
             @PathVariable String groupName,
             @RequestBody GroupUpdateRequest updateReq,
             @AuthenticationPrincipal User currUser) {
-        groupService.updateGroup(groupName, updateReq, currUser);
+        return groupService.updateGroup(groupName, updateReq, currUser);
     }
 
     // delete group

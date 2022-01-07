@@ -64,6 +64,9 @@ public class GroupService {
         newGroup.setOwner(owner);
         newGroup.setName(groupCreationRequest.getName());
         newGroup.setDescription(groupCreationRequest.getDescription());
+        List<User> list = new ArrayList<>();
+        list.add(userRepository.findUserByEmail(owner.getEmail()).get());
+        newGroup.setUsers(list);
 
         return new GroupResponse(groupRepository.save(newGroup));
     }
@@ -105,7 +108,7 @@ public class GroupService {
      * @param currentGroupName - name of group to be edited
      * @param updateReq - fields to be updated, or null
      */
-    public void updateGroup(String currentGroupName, GroupUpdateRequest updateReq, User currUser) {
+    public GroupResponse updateGroup(String currentGroupName, GroupUpdateRequest updateReq, User currUser) {
         Group group = groupRepository.findGroupByName(currentGroupName).orElseThrow(GroupNotFoundException::new);
 
         if (!group.getOwner().equals(currUser))
@@ -132,7 +135,7 @@ public class GroupService {
         if(notNullOrEmpty.test(updateReq.getProfilePic()))
             group.setProfilePic(updateReq.getProfilePic());
 
-        groupRepository.save(group);
+        return new GroupResponse(groupRepository.save(group));
     }
 
     /**

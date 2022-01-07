@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Data
 public class GroupResponse {
 
-    private User owner;
+    private UserDto owner;
     private String name;
     private String description;
     private String headerImg;
@@ -22,7 +22,7 @@ public class GroupResponse {
 //    }
 
     public GroupResponse(Group group) {
-        this.owner = group.getOwner();
+        this.owner = new UserDto(group.getOwner());
         this.name = group.getName();
         this.description = group.getDescription();
         this.headerImg = group.getHeaderImg();
