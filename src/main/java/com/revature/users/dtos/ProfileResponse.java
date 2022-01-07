@@ -20,6 +20,8 @@ public class ProfileResponse {
     private String header_img;
     private String about_me;
     private String user_id;
+    private Integer follower_num;
+    private Integer following_num;
 
     public ProfileResponse(Profile raw){
         this.id = raw.getId().toString();
@@ -33,5 +35,8 @@ public class ProfileResponse {
         this.about_me = raw.getAboutMe();
 
         this.user_id = raw.getUser().getId();
+
+        this.follower_num = raw.getUser().getFollower().size();
+        this.following_num = raw.getUser().getFollowing().size();
     }
 }
