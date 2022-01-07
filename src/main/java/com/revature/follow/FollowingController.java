@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -61,6 +62,22 @@ public class FollowingController {
     @GetMapping(path = "/get-follower-number")
     public ResponseEntity<Integer> getNumberOfFollowers(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowerNumber(currentUser));
+    }
+
+    // Tests if the current user can follow the given user
+    @GetMapping(path = "/can-follow/{followUserId}")
+    public boolean canFollow(@PathVariable String followUserId,@AuthenticationPrincipal User currentUser) {
+        // See if they're trying to follow someone they're already following
+        List<User> following = userRepository.getById(currentUser.getId()).getFollowing();
+        if (following != null)
+        {
+            for (int i = 0; i < following.size(); i++) {
+                if (following.get(i).getId().equals(followUserId)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     // Adds the logged in user as a follower to the provided user.
