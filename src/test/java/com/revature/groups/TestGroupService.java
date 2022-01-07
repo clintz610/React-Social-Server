@@ -96,14 +96,14 @@ public class TestGroupService {
 
         when(mockGroupRepo.findGroupByName(validRequest.getName())).thenReturn(Optional.empty());
         when(mockUserRepo.findUserByEmail(owner.getEmail())).thenReturn(Optional.of(owner));
-        when(mockGroupRepo.save(group)).thenReturn(group);
+        when(mockGroupRepo.save(any())).thenReturn(group);
 
         // Act
         GroupResponse actualResult = sut.createGroup(validRequest, owner);
 
         // Assert
         verify(mockGroupRepo, times(1)).findGroupByName(validRequest.getName());
-        verify(mockGroupRepo, times(1)).save(group);
+        verify(mockGroupRepo, times(1)).save(any());
         Assertions.assertEquals(expectedResult, actualResult, "Expected to be equal but wasn't");
 
     }

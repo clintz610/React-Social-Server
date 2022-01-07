@@ -36,7 +36,7 @@ public class GroupController {
 
     // Create Group
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = "application/json")
+    @PostMapping(value = "/create", consumes = "application/json")
     public GroupResponse createGroup(
             @RequestBody GroupCreationRequest groupCreationRequest,
             @AuthenticationPrincipal User owner) {
@@ -59,7 +59,7 @@ public class GroupController {
 
     // update Group
     @ResponseStatus(HttpStatus.OK)
-    @PatchMapping(name = "/update/{groupName}", consumes = "application/json", produces = "application/json")
+    @PatchMapping(value = "/update/{groupName}", consumes = "application/json", produces = "application/json")
     public GroupResponse updateGroup(
             @PathVariable String groupName,
             @RequestBody GroupUpdateRequest updateReq,

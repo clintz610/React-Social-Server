@@ -29,9 +29,9 @@ public class UserController {
     /* On login, checks if user exists in database after firebase has authenticated the user. If the user
     does not currently exist in the cloud database, the user is created and added to it. */
     @PostMapping(path = "/login")
-    public ResponseEntity<String> loginUser(@AuthenticationPrincipal User user) {
+    public ResponseEntity<User> loginUser(@AuthenticationPrincipal User user) {
         userService.loginUser(user);
-        return ResponseEntity.ok("Successfully added user with email " + user.getEmail());
+        return ResponseEntity.ok(user);
     }
 
 
