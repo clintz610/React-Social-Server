@@ -1,7 +1,16 @@
 package com.revature.comments;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+import com.revature.comments.dtos.NewCommentRequest;
+import com.revature.exceptions.UserNotFoundException;
+import com.revature.posts.Post;
+import com.revature.users.User;
+import com.revature.users.profiles.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.posts.PostRepository;
@@ -32,39 +41,44 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
+    public List<Comment> getCommentsByPost(Post post) {
+        return commentRepository.getByPost(post);
+    }
+
     /*  Parameters: Comment to add, postID, and user
         Adds a new comment to the database
         Returns the comment added to the database
      */
-    /*
-    public Comment addNewComment(Comment comment, Long postId, User user) throws ProfileNotFoundException
+
+    public Comment addNewComment(NewCommentRequest comment, UUID postId, User user) throws UserNotFoundException
     {
         Optional<Post> post = postRepository.findById(postId);
+        Comment returnComment = new Comment();
 
         if(post.isPresent())
         {
-        	comment.setAuthor(user);
-        	Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
-            Profile profile = null;
-            if(!optProfile.isPresent()) {
-            	throw new ProfileNotFoundException();
-            } else {
-            	profile = optProfile.get();
-            }
-            Date date = new Date();
-            DateFormat dform = new SimpleDateFormat("MMM d yyyy HH:mm z");
-            dform.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-            String dateString = dform.format(date);
-            comment.setDate(dateString);
-            comment.setProfile(profile);
-            comment.setPost(post.get());
-            post.get().setComments((Arrays.asList(comment)));
-            commentRepository.save(comment);
-            return comment;
+            // Set the author from the user
+            returnComment.setAuthor(user);
+
+            // Set the time to current time in UTC to be offset in client to client time.
+            returnComment.setDate(LocalDateTime.now(ZoneOffset.UTC));
+
+            // Set the post ID
+            returnComment.setPost(post.get());
+
+            // Set the text
+            returnComment.setCommentText(comment.getCommentText());
+
+
+            // Save the comment to the repository
+            commentRepository.save(returnComment);
+
+            // Return the completed comment as proof.
+            return returnComment;
         } else {
         	throw new IllegalStateException("This comment does not have an associated post.");
         }
     }
-     */
+
 
 }

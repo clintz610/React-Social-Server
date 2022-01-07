@@ -1,9 +1,11 @@
 package com.revature.follow;
 
 import com.revature.users.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.users.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,53 +17,76 @@ public class FollowingService {
     private FollowRepository followRepository;
 
     //constructor
+    @Autowired
     public FollowingService(UserRepository userRepository, FollowRepository followRepository) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
     }
 
-    public List<User> getFollowings() {return followRepository.findAll();}
 
-    public List<User> getFollowers() {return followRepository.findAll();}
 
-    // Method to allow a user to follow another user
-    public boolean followUser(User currentUser,User followUser) {
-        try {
-            List<User> followingList = followUser.getFollowing();
+    //TODO: Get follower number
+    public int getFollowerNumber(User user) {
+        return user.getFollower().size();
+    }
+
+    //TODO: Get following number
+    public int getFollowingNumber(User user) {
+        return user.getFollowing().size();
+    }
+
+    //TODO: Get list of followers given a specific user id
+    public List<User> getFollowers(User user) {
+        return user.getFollower();
+    }
+
+    //TODO: get list of followings given a specific user id
+    public List<User> getFollowings(User user) {
+        return user.getFollowing();
+    }
+
+    //TODO: update following-follower table after a user follows/unfollows someone
+    //Method to allow a user to follow another user
+    public boolean followUser(User currentUser, String followUserId) {
+            currentUser = userRepository.findById(currentUser.getId()).get();
+            List<User> followingList = currentUser.getFollowing();
+            User followedUser = userRepository.findById(followUserId).get();
             for(int i = 0; i < followingList.size(); i++) {
-                if (followingList.get(i).equals(currentUser)) {
+                if (followingList.get(i).equals(followedUser)) {
                     return false; //TODO: change so that it throws custom error instead
                 }
             }
-            if (followUser == null) {
+            if (followUserId == null) {
                 return false; //TODO: change to exception (Enter invalid followUser)
             }
-            followingList.add(currentUser);
-            userRepository.save(followUser);
+            followingList.add(followedUser);
+            currentUser.setFollowing(followingList);
+            userRepository.save(currentUser);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace(); //TODO: "probably connection error"
-        }
-        return false;
     }
 
     // Method to allow a user to unfollow another user
-    public boolean unfollowUser(User currentUser, User unfollowUser) {
-        try {
-            List<User> followingList = unfollowUser.getFollowing();
-            for(int i = 0; i < followingList.size(); i++) {
-                if (!followingList.get(i).equals(currentUser)) {
-                    return false; //TODO: change so taht it throws custom error instead
-                }
-            }
-            if (unfollowUser == null) {
-                return false; //TODO: change to exception (Enter invalid unfollowUser)
-            }
-            followingList.remove(currentUser);
+    public boolean unFollowUser(User currentUser, String unFollowUserId) {
+        currentUser = userRepository.findById(currentUser.getId()).get();
+        List<User> followingList = currentUser.getFollowing();
+        User unFollowedUser = userRepository.findById(unFollowUserId).get();
+
+        if(followingList.contains(unFollowedUser)){
+            followingList.remove(unFollowedUser);
+            currentUser.setFollowing(followingList);
+            userRepository.save(currentUser);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace(); //TODO: "probably connection error"
         }
+
+        if (unFollowUserId == null) {
+            return false; //TODO: change to exception (Enter invalid followUser)
+        }
+
         return false;
     }
+
+
+
+    public List<User> getFollowers() {return followRepository.findAll();}
+
 }

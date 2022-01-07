@@ -490,6 +490,7 @@ public class TestGroupService {
         validGroupUpdate.setName("Group2");
 
         when(mockGroupRepo.findGroupByName(validGroupName)).thenReturn(Optional.of(validGroup));
+        when(mockGroupRepo.findGroupByName(validGroupUpdate.getName())).thenReturn(Optional.empty());
         when(mockUserRepo.findUserByEmail(any())).thenReturn(Optional.of(currentOwner));
         when(mockGroupRepo.save(validGroup)).thenReturn(validGroup);
 
@@ -500,6 +501,7 @@ public class TestGroupService {
         Assertions.assertEquals(validGroup.getName(), validGroupUpdate.getName(), "Expected Name to be set to Group2");
 
         verify(mockGroupRepo, times(1)).findGroupByName(validGroupName);
+        verify(mockGroupRepo, times(1)).findGroupByName(validGroupUpdate.getName());
         verify(mockUserRepo, times(0)).findUserByEmail(any());
         verify(mockGroupRepo, times(1)).save(validGroup);
 

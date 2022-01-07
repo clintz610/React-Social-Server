@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.posts.Post;
 import com.revature.users.User;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @ToString(exclude = {"post"})
@@ -13,14 +16,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "comment")
+@Getter
+@Setter
 public class Comment {
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue()
+    @Type(type="uuid-char")
+    private UUID id;
 
     private String commentText;
 
-    private String date;
+    private LocalDateTime date;
 
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -28,7 +35,6 @@ public class Comment {
     private Post post;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="author", referencedColumnName="user_id")
     private User author;
 
