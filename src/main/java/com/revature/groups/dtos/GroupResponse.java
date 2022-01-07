@@ -1,7 +1,6 @@
 package com.revature.groups.dtos;
 
 import com.revature.groups.Group;
-import com.revature.users.User;
 import com.revature.users.dtos.UserDto;
 import lombok.Data;
 
@@ -17,9 +16,6 @@ public class GroupResponse {
     private String headerImg;
     private String profilePic;
     private List<UserDto> joinedUsers;
-
-//    public GroupResponse() {
-//    }
 
     public GroupResponse(Group group) {
         this.owner = new UserDto(group.getOwner());

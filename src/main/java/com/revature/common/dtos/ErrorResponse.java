@@ -1,7 +1,12 @@
 package com.revature.common.dtos;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
+@Getter
+@ToString
 public class ErrorResponse {
 
     String time;
@@ -21,13 +26,4 @@ public class ErrorResponse {
         cause = t.getClass().getSimpleName();
     }
 
-    @Override
-    public String toString() {
-        return "ErrorResponse{" +
-                "time='" + time + '\'' +
-                ", message='" + message + '\'' +
-                ", cause='" + cause + '\'' +
-                ", statusCode=" + statusCode +
-                '}';
-    }
 }
