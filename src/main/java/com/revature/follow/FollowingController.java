@@ -1,6 +1,7 @@
 package com.revature.follow;
 
 import com.revature.users.User;
+import com.revature.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,11 +14,13 @@ import java.util.List;
 public class FollowingController {
 
     private final FollowingService followingService;
+    private final UserRepository userRepository;
 //    private User currentUser;
 
     @Autowired
-    public FollowingController(FollowingService followingService) {
+    public FollowingController(FollowingService followingService, UserRepository userRepository) {
         this.followingService = followingService;
+        this.userRepository = userRepository;
     }
 
     //get user id from profile id
@@ -28,14 +31,20 @@ public class FollowingController {
     }
 
     //current user only holds id and email
-    @GetMapping(path = "/get-followings/{userId")
+    @GetMapping(path = "/get-followings/{userId}")
     public ResponseEntity<List<User>> getListOfFollowings(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowings(currentUser));
     }
 
-    @GetMapping(path = "/get-followers/{userId")
+    @GetMapping(path = "/get-owner-followers/{userId}")
     public ResponseEntity<List<User>> getListOfFollowers(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowers(currentUser));
+    }
+
+    @GetMapping(path = "/get-followers/{userId}")
+    public Integer getFollowerNumber(@PathVariable String userId){
+        User user = userRepository.getById(userId);
+        return user.getFollower().size();
     }
 
     @GetMapping(path = "/get-following-number/{userId}")
