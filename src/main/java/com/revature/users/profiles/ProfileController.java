@@ -115,6 +115,4 @@ public class ProfileController {
 			return ResponseEntity.status(404).build();
 		}
 	}
-
-
 }

@@ -32,16 +32,16 @@ public class Profile {
     @Type(type="uuid-char")
     private UUID id;
 	
-    @Column(name="firstName", unique = false, nullable = false)
+    @Column(name="first_name", unique = false, nullable = false)
     private String firstName;
     
-    @Column(name="lastName",unique = false, nullable = false)
+    @Column(name="last_name",unique = false, nullable = false)
     private String lastName;
     
-    @Column(name="profileImg",unique = false, nullable = false)
+    @Column(name="profile_img",unique = false, nullable = false)
     private String profileImg;
     
-    @Column(name="headerImg",unique = false, nullable = false)
+    @Column(name="header_img",unique = false, nullable = false)
     private String headerImg;
 
     @Column(name="birthday",unique = false, nullable = false)
@@ -53,7 +53,7 @@ public class Profile {
     @Column(name="location", unique = false, nullable = false)
     private String location;
     
-    @Column(name="aboutMe", unique = false, nullable = false)
+    @Column(name="about_me", unique = false, nullable = false)
     private String aboutMe;
 
     @OneToOne

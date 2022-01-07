@@ -34,12 +34,10 @@ build/
 
 ### Firebase Config ###
 **/firebase_config.json
-**/data.sql
 application-dev.yml
 
 ### AWS S3 ###
 application-s3.yml
-
 
 ### .DS Store (Mac thing) ###
 .DS_Store
