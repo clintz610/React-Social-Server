@@ -30,33 +30,40 @@ public class FollowingController {
         return user.getId();
     }
 
-    //current user only holds id and email
-    @GetMapping(path = "/get-followings/{userId}")
+    // Gets the current user's followed users.
+    @GetMapping(path = "/get-followings")
     public ResponseEntity<List<User>> getListOfFollowings(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowings(currentUser));
     }
 
-    @GetMapping(path = "/get-owner-followers/{userId}")
+    // Get the followers of the current user
+    @GetMapping(path = "/get-owner-followers")
     public ResponseEntity<List<User>> getListOfFollowers(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowers(currentUser));
     }
 
+    // Get the number of followers of the user in the path variable
     @GetMapping(path = "/get-followers/{userId}")
     public Integer getFollowerNumber(@PathVariable String userId){
         User user = userRepository.getById(userId);
         return user.getFollower().size();
     }
 
-    @GetMapping(path = "/get-following-number/{userId}")
-    public ResponseEntity<Integer> getNumberOfFollowing(@AuthenticationPrincipal User currentUser) {
-        return ResponseEntity.ok(followingService.getFollowingNumber(currentUser));
+    // Gets the number of followed accounts of the given user
+    @GetMapping(path = "/get-following-num/{userId}")
+    public Integer getFollowingNumber(@PathVariable String userId){
+        User user = userRepository.getById(userId);
+        return user.getFollowing().size();
     }
 
-    @GetMapping(path = "/get-follower-number/{userId}")
+
+    // Get the number of followers for the logged in user
+    @GetMapping(path = "/get-follower-number")
     public ResponseEntity<Integer> getNumberOfFollowers(@AuthenticationPrincipal User currentUser) {
         return ResponseEntity.ok(followingService.getFollowerNumber(currentUser));
     }
 
+    // Adds the logged in user as a follower to the provided user.
     @PutMapping(path = "/follow-user/{followUserId}")
     public void followUser(@PathVariable String followUserId, @AuthenticationPrincipal User currentUser) {
 
@@ -70,6 +77,7 @@ public class FollowingController {
         }
     }
 
+    // Removes the logged in user as a follower to the provided user.
     @DeleteMapping(path = "/unfollow-user/{unfollowUserId}")
     public void unfollowUser(@PathVariable String unfollowUserId, @AuthenticationPrincipal User currentUser) {
 
