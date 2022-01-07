@@ -44,7 +44,7 @@ public class User {
     private List<User> following; // changed followUsers to following in order for lombok to generate getters/setters to hit UserDTO
 
 
-    
+
     @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 
