@@ -1,10 +1,8 @@
 package com.revature.comments.dtos;
 
-import com.revature.exceptions.UserNotFoundException;
 import com.revature.users.User;
 import com.revature.users.profiles.Profile;
 import com.revature.users.profiles.ProfileRepository;
-import com.revature.users.profiles.ProfileService;
 import lombok.Data;
 
 import java.util.Optional;
