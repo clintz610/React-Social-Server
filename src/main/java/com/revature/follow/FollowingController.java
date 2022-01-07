@@ -70,7 +70,7 @@ public class FollowingController {
         }
     }
 
-    @PutMapping(path = "/unfollow-user/{unfollowUserId}")
+    @DeleteMapping(path = "/unfollow-user/{unfollowUserId}")
     public void unfollowUser(@PathVariable String unfollowUserId, @AuthenticationPrincipal User currentUser) {
 
         try {
