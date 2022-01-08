@@ -62,7 +62,8 @@ public class GroupService {
         Group newGroup = new Group();
 
         newGroup.setOwner(owner);
-        newGroup.setName(groupCreationRequest.getName());
+        //TODO: sidenote, do we want to trim here as well? UI already does, not necessary here
+        newGroup.setName(groupCreationRequest.getName().trim());
         newGroup.setDescription(groupCreationRequest.getDescription());
         List<User> list = new ArrayList<>();
         list.add(userRepository.findUserByEmail(owner.getEmail()).get());
@@ -124,7 +125,7 @@ public class GroupService {
         if (notNullOrEmpty.test(updateReq.getName())) {
             if(groupRepository.findGroupByName(updateReq.getName()).isPresent())
                 throw new DuplicateGroupNameException();
-            group.setName(updateReq.getName());
+            group.setName(updateReq.getName().trim());
         }
 
         group.setDescription(updateReq.getDescription());

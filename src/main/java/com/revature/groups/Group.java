@@ -4,6 +4,7 @@ import com.revature.groups.dtos.GroupCreationRequest;
 import com.revature.users.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Group {
     @Id
     @Column(name = "group_id")
     @GeneratedValue()
+    @Type(type="uuid-char")
     private UUID id;
 
     @ManyToOne

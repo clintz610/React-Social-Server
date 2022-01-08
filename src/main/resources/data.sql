@@ -13,3 +13,12 @@ insert into user_profile (ID, ABOUT_ME, BIRTHDAY, FIRST_NAME, HEADER_IMG, HOBBY,
 values ('d921e5f2-86cb-4a0f-abd9-b9ec4aafa3c5', 'I just joined Reverb!', 'A Mystery...', 'Genius', 'https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg',
         'Programming, surely', 'Prodigy', 'Planet Earth', 'https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png', 'AQwW2BHeQLQkvCbGJbNdfGzujVt1');
 
+insert into groups (group_id, description, name, owner_id_fk, header_img, profile_pic)
+ values ('121a0e62-6790-41ef-b975-bb406691e16b', 'Wezleys Batch', '211101-java-react-enterprise', 'e3mkyWLcXnY0KpKwK8WBtHxJvn72',
+          'https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg', 'https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png');
+insert into groups_users (groups_group_id, users_user_id) values ('121a0e62-6790-41ef-b975-bb406691e16b','e3mkyWLcXnY0KpKwK8WBtHxJvn72');
+
+insert into groups (group_id, description, name, owner_id_fk, header_img, profile_pic)
+ values ('e2e4e098-3cda-4a57-9bbb-8882f60687b5', 'Test Description', 'Group Test', 'e3mkyWLcXnY0KpKwK8WBtHxJvn72',
+          'https://www.windowslatest.com/wp-content/uploads/2017/10/Windows-XP-min.jpg', 'https://i.pinimg.com/originals/ca/f3/93/caf393479404b953bc5368a63c32e4e4.png');
+insert into groups_users (groups_group_id, users_user_id) values ('e2e4e098-3cda-4a57-9bbb-8882f60687b5','e3mkyWLcXnY0KpKwK8WBtHxJvn72');
