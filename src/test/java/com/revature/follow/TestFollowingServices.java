@@ -3,6 +3,8 @@ package com.revature.follow;
 import com.revature.follow.FollowingService;
 import com.revature.groups.Group;
 import com.revature.users.User;
+import com.revature.users.profiles.ProfileRepository;
+import com.revature.users.profiles.ProfileService;
 import com.revature.users.usersettings.UserSettings;
 import com.revature.follow.FollowRepository;
 import com.revature.users.UserRepository;
@@ -23,6 +25,8 @@ public class TestFollowingServices {
 
     UserRepository mockUserRepository;
     FollowRepository mockFollowRepository;
+    ProfileRepository mockProfileRepository;
+    ProfileService mockProfileService;
     List<Group> groups  = new ArrayList<>();
     List<User> following = new ArrayList<>();
     List<User> follower = new ArrayList<>();
@@ -32,7 +36,9 @@ public class TestFollowingServices {
     public void setUp() {
         mockUserRepository = mock(UserRepository.class);
         mockFollowRepository = mock(FollowRepository.class);
-        sut = new FollowingService(mockUserRepository, mockFollowRepository);
+        mockProfileRepository = mock(ProfileRepository.class);
+        mockProfileService = mock(ProfileService.class);
+        sut = new FollowingService(mockUserRepository, mockFollowRepository, mockProfileRepository, mockProfileService);
     }
 
     @AfterEach
