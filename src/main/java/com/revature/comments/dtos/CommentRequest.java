@@ -10,4 +10,5 @@ public class CommentRequest {
     private String commentText;
     private LocalDateTime date;
     private AuthorDto author;
+
 }

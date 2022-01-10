@@ -20,6 +20,7 @@ public class PostResponse {
     private String contentType;
     private LocalDateTime date;
     private String authorID;
+    private String groupName;
     private List<CommentRequest> comments;
 
     public PostResponse(Post raw) {
@@ -28,6 +29,8 @@ public class PostResponse {
         this.contentLink = raw.getContentLink();
         this.contentType = String.valueOf(raw.getPostMeta().getContentType());
         this.date = raw.getPostMeta().getDate();
+        if (raw.getPostMeta().getGroup() != null)
+            this.groupName = raw.getPostMeta().getGroup().getName();
         this.authorID = raw.getPostMeta().getAuthor().getId();
 
     }

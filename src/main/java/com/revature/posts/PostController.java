@@ -4,6 +4,7 @@ import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.dtos.PostResponse;
 import com.revature.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -42,17 +43,10 @@ public class PostController {
 
 
     @PostMapping(path = "/submit")
-    public ResponseEntity<Post> submitPost(@RequestBody NewPostRequest post, @AuthenticationPrincipal User user) {
-        try
-        {
-        	Post postToReturn = postService.addNewPost(post, user);
-            return ResponseEntity.ok(postToReturn);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            return ResponseEntity.ok(new Post());
-        }
+    public ResponseEntity<Void> submitPost(@RequestBody NewPostRequest post, @AuthenticationPrincipal User user) {
+        	postService.addNewPost(post, user);
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
+
     }
 
 
