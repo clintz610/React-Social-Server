@@ -31,6 +31,16 @@ public class PostController {
         return ResponseEntity.ok(postService.getPosts());
     }
 
+    /**
+     * @param userId of of logged-in user
+     * @return list of PostResponses attached to a given user
+     */
+    @PutMapping(path = "/get-following-posts")
+    public ResponseEntity<List<PostResponse>> getFollowingPosts(String userId)
+    {
+        return ResponseEntity.ok(postService.getPostsOfFollowing(userId));
+    }
+
 
     /*
      * Submit a post to the database.
@@ -52,7 +62,5 @@ public class PostController {
             return ResponseEntity.ok(new Post());
         }
     }
-
-
 
 }

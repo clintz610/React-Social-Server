@@ -2,6 +2,7 @@ package com.revature.posts;
 
 import com.revature.ReverbApplication;
 import com.revature.comments.CommentRepository;
+import com.revature.follow.FollowRepository;
 import com.revature.posts.PostService;
 import com.revature.posts.postmeta.PostMetaRepository;
 import com.revature.posts.PostRepository;
@@ -21,7 +22,8 @@ public class TestPostService {
 	private PostRepository postRepository = Mockito.mock(PostRepository.class);
 	private ProfileRepository profileRepository = Mockito.mock(ProfileRepository.class);
 	private PostMetaRepository sadRepository = Mockito.mock(PostMetaRepository.class);
-	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository, sadRepository);
+	private FollowRepository followRepository = Mockito.mock(FollowRepository.class);
+	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository, sadRepository, followRepository);
 	//ArrayList<Post> postArray = new ArrayList<Post>();
 	
 	@BeforeEach
