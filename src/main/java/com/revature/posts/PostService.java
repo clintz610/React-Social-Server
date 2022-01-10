@@ -3,6 +3,9 @@ package com.revature.posts;
 import com.revature.comments.Comment;
 import com.revature.comments.dtos.AuthorDto;
 import com.revature.comments.dtos.CommentRequest;
+import com.revature.exceptions.GroupNotFoundException;
+import com.revature.groups.Group;
+import com.revature.groups.GroupRepository;
 import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.dtos.PostResponse;
 import com.revature.exceptions.UserNotFoundException;
@@ -26,15 +29,17 @@ public class PostService {
 	private final CommentRepository commentRepository;
 	private final ProfileRepository profileRepository;
 	private final PostMetaRepository postMetaRepository;
+    private final GroupRepository groupRepository;
 
 	// constructor
 	@Autowired
 	public PostService(PostRepository postRepository, CommentRepository commentRepository,
-			ProfileRepository profileRepository, PostMetaRepository postMetaRepository) {
+			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, GroupRepository groupRepository) {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.profileRepository = profileRepository;
 		this.postMetaRepository = postMetaRepository;
+        this.groupRepository = groupRepository;
 	}
 
 	/*  No parameters
@@ -76,6 +81,24 @@ public class PostService {
 
 		return refinedRepo;
 	}
+
+    public List<PostResponse> getGroupPosts(String groupName) {
+
+        Group group = groupRepository.findGroupByName(groupName).orElseThrow(GroupNotFoundException::new);
+        List<PostMeta> postMetas = new ArrayList<>(postMetaRepository.findPostMetaByGroup(group));
+        List<Post> actualPosts = new ArrayList<>();
+
+        for(PostMeta posts : postMetas) {
+            actualPosts.add(postRepository.findPostByPostMetaId(posts.getId()));
+        }
+        System.out.println("We here");
+        System.out.println(actualPosts);
+        System.out.println("We over here");
+        return actualPosts.stream()
+                          .map(PostResponse::new)
+                          .collect(Collectors.toList());
+
+    }
 
 	/*  Parameters: Post object, User object
 		Adds a new Post to the database, registered to specific User

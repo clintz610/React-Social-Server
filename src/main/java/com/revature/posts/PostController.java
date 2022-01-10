@@ -16,8 +16,7 @@ public class PostController {
     private final PostService postService;
 
     @Autowired
-    public PostController(PostService postService)
-    {
+    public PostController(PostService postService) {
         this.postService = postService;
     }
 
@@ -26,9 +25,13 @@ public class PostController {
     * no parameters
     * returns List<Post> */
     @GetMapping(path = "/get-all-posts")
-    public ResponseEntity<List<PostResponse>> getPosts()
-    {
+    public ResponseEntity<List<PostResponse>> getPosts() {
         return ResponseEntity.ok(postService.getPosts());
+    }
+
+    @GetMapping(path = "/get-group-posts/{groupName}")
+    public ResponseEntity<List<PostResponse>> getGroupPosts(@PathVariable String groupName) {
+        return ResponseEntity.ok(postService.getGroupPosts(groupName));
     }
 
 
@@ -39,8 +42,7 @@ public class PostController {
 
 
     @PostMapping(path = "/submit")
-    public ResponseEntity<Post> submitPost(@RequestBody NewPostRequest post, @AuthenticationPrincipal User user)
-    {
+    public ResponseEntity<Post> submitPost(@RequestBody NewPostRequest post, @AuthenticationPrincipal User user) {
         try
         {
         	Post postToReturn = postService.addNewPost(post, user);
