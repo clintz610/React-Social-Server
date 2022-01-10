@@ -9,6 +9,7 @@ public class NewPostRequest {
     private ContentType contentType;
     private String postText;
     private String contentLink;
+    private String groupID;
 
 
 }

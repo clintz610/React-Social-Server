@@ -111,6 +111,10 @@ public class PostService {
 		PostMeta newPostMeta = new PostMeta();
 		Post newPost = new Post();
 
+		if (post.getGroupID() != null && !post.getGroupID().trim().equals("")) {
+			newPostMeta.setGroup(groupRepository.findById(UUID.fromString(post.getGroupID())).get());
+		}
+
 		// Set the author
         newPostMeta.setAuthor(user);
 
