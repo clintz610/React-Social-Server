@@ -3,6 +3,8 @@ package com.revature.users.profiles;
 import java.util.Optional;
 import java.util.UUID;
 
+
+import com.revature.users.dtos.PicUrlDto;
 import com.revature.users.dtos.ProfileResponse;
 import org.springframework.stereotype.Service;
 
@@ -71,5 +73,15 @@ public class ProfileService {
     	} else {
     		throw new UserNotFoundException();
     	}
+	}
+
+	public PicUrlDto updatePicUrl(String picCate, String savedURL, UUID profileId, User user) {
+		if(picCate.equals("header")){
+			profileRepo.updateHeaderUrl(profileId.toString(),savedURL);
+		}
+		else {
+			profileRepo.updatePicUrl(profileId.toString(),savedURL);
+		}
+		return new PicUrlDto(profileId, savedURL);
 	}
 }
