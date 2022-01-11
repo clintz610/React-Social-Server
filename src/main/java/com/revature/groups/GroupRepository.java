@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface GroupRepository extends CrudRepository<Group, UUID> {
-    Optional<Group> findGroupByName(String groupName);
+    Optional<Group> findGroupByName(String name);
 }
