@@ -13,4 +13,5 @@ import java.util.UUID;
 public interface PostRepository extends JpaRepository<Post, UUID> {
     @Query("from Post p join PostMeta pm on p.postMeta = pm.id where pm.group = :group")
     public List<Post> findPostsByGroupId(Group group);
+
 }
