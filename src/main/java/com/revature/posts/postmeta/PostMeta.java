@@ -41,13 +41,8 @@ public class PostMeta {
     @Enumerated(EnumType.STRING)
     private ContentType contentType;
 
-
     //if not pk or fk, then use @Column annotation
     @Column(name="creation_date") //name should be explicit
     private LocalDateTime date;
-
-
-
-
 
 }

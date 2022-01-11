@@ -4,6 +4,8 @@ import com.revature.comments.Comment;
 import com.revature.comments.dtos.AuthorDto;
 import com.revature.comments.dtos.CommentRequest;
 import com.revature.exceptions.GroupNotFoundException;
+import com.revature.exceptions.UnauthorizedRequestException;
+import com.revature.exceptions.UserNotInGroupException;
 import com.revature.groups.Group;
 import com.revature.groups.GroupRepository;
 import com.revature.posts.dtos.NewPostRequest;
@@ -72,7 +74,16 @@ public class PostService {
 
 		if (post.getGroupID() != null && !post.getGroupID().trim().equals("")) {
 			newPostMeta.setGroup(groupRepository.findById(UUID.fromString(post.getGroupID())).get());
-		}
+
+            List<User> users = newPostMeta.getGroup()
+                                          .getUsers()
+                                          .stream()
+                                          .filter(e -> e.getEmail().equals(user.getEmail()))
+                                          .collect(Collectors.toList());
+            if(users.size() != 1) {
+                throw new UserNotInGroupException();
+            }
+        }
 
 		// Set the author
         newPostMeta.setAuthor(user);

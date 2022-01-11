@@ -36,7 +36,7 @@ public class ExceptionHandlerAspect {
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler({WrongUserException.class})
+    @ExceptionHandler({WrongUserException.class, UserNotInGroupException.class})
     public ErrorResponse forbiddenExceptionHandler(Exception e) {
         return new ErrorResponse(403, e);
     }
