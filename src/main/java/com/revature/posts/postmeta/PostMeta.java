@@ -1,9 +1,13 @@
 package com.revature.posts.postmeta;
 import com.revature.groups.Group;
 import com.revature.common.util.ContentType;
+import com.revature.posts.Post;
 import com.revature.users.User;
+import com.revature.users.usersettings.UserSettings;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -28,8 +32,9 @@ public class PostMeta {
     private User author;
 
     // The group that a post is placed in.
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="group_id_fk", referencedColumnName = "group_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 
     // Options for content

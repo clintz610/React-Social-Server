@@ -69,7 +69,7 @@ public class GroupController {
 
     // delete group
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{groupName}")
+    @DeleteMapping("/delete/{groupName}")
     public void deleteGroup(@PathVariable String groupName, @AuthenticationPrincipal User currUser) {
         groupService.deleteGroup(groupName, currUser);
     }

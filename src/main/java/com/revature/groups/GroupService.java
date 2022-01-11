@@ -123,15 +123,16 @@ public class GroupService {
         }
 
         if (notNullOrEmpty.test(updateReq.getName())) {
-            if(groupRepository.findGroupByName(updateReq.getName()).isPresent())
+            if(!updateReq.getName().equals(currentGroupName) && groupRepository.findGroupByName(updateReq.getName()).isPresent())
                 throw new DuplicateGroupNameException();
             group.setName(updateReq.getName().trim());
         }
 
         group.setDescription(updateReq.getDescription());
 
-        if (notNullOrEmpty.test(updateReq.getHeaderImg()))
+        if (notNullOrEmpty.test(updateReq.getHeaderImg())) {
             group.setHeaderImg(updateReq.getHeaderImg());
+        }
 
         if(notNullOrEmpty.test(updateReq.getProfilePic()))
             group.setProfilePic(updateReq.getProfilePic());
