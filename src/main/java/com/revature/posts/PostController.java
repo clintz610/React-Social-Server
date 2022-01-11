@@ -46,25 +46,20 @@ public class PostController {
      * @return list of PostResponses attached to a given user
      */
     @GetMapping(path = "/get-following-posts")
-    public ResponseEntity<List<PostResponse>> getFollowingPosts(@AuthenticationPrincipal User user)
-    {
-        System.out.println("\n\n");
-        List<PostResponse> posts = postService.getPostsOfFollowing(user.getId());
-        for(PostResponse p : posts){
-            System.out.println(p);
-        }
-        System.out.println("\n\n");
-
+    public ResponseEntity<List<PostResponse>> getFollowingPosts(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(postService.getPostsOfFollowing(user.getId()));
     }
 
+    @GetMapping(path = "/get-personal-posts")
+    public ResponseEntity<List<PostResponse>> getPersonalPosts(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(postService.getPersonalPosts(user.getId()));
+    }
 
-    /*
+
+    /**
      * Submit a post to the database.
      * Post JSON as a parameter
      * returns a Post */
-
-
     @PostMapping(path = "/submit")
     public ResponseEntity<Void> submitPost(@RequestBody NewPostRequest post, @AuthenticationPrincipal User user) {
         	postService.addNewPost(post, user);

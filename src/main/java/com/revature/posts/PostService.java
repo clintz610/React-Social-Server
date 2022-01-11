@@ -15,6 +15,7 @@ import com.revature.posts.postmeta.PostMeta;
 import com.revature.users.User;
 import com.revature.comments.CommentRepository;
 import com.revature.posts.postmeta.PostMetaRepository;
+import com.revature.users.UserRepository;
 import com.revature.users.profiles.ProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,21 +33,23 @@ public class PostService {
 	private final CommentRepository commentRepository;
 	private final ProfileRepository profileRepository;
 	private final PostMetaRepository postMetaRepository;
+	private final UserRepository userRepository;
     private final GroupRepository groupRepository;
 
 	// constructor
 	@Autowired
 	public PostService(PostRepository postRepository, CommentRepository commentRepository,
-			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, FollowRepository followRepository, GroupRepository groupRepository) {
+			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, FollowRepository followRepository, GroupRepository groupRepository, UserRepository userRepository) {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.profileRepository = profileRepository;
 		this.postMetaRepository = postMetaRepository;
         this.groupRepository = groupRepository;
 		this.followRepository = followRepository;
+		this.userRepository = userRepository;
 	}
 
-	/*  No parameters
+	/**  No parameters
 		Returns all Post objects in database
 	 */
 	public List<PostResponse> getPosts() {
@@ -63,8 +66,6 @@ public class PostService {
 
     }
 
-
-
 	/**
 	 * @param userId
 	 * @return all post objects attached to a userId
@@ -77,10 +78,37 @@ public class PostService {
 				filteredPosts.add(allPosts.get(i));
 			}
 		}
-		if(filteredPosts.size() == 0) return null; //TODO: make exception to throw here
-		else return filteredPosts;
+		return filteredPosts;
 	}
 
+	public List<PostResponse> getPersonalPosts(String userId){
+		//combined list of group posts, user posts, and following posts
+        Set<PostResponse> personalPosts = new HashSet<>();
+
+		//retrieve following posts
+		List<PostResponse> followingPosts = getPostsOfFollowing(userId);
+		//retrieve user posts
+		List<PostResponse> userPosts = getPostsOfUserId(userId);
+		//get the groups attached to a user
+		User user = userRepository.getById(userId);
+		List<Group> groups = user.getGroups();
+
+		//find all posts in groups that user belongs to
+		for(Group g : groups){
+            personalPosts.addAll(getGroupPosts(g.getName()));
+		}
+
+        personalPosts.addAll(followingPosts);
+        personalPosts.addAll(userPosts);
+
+		//sorts post by date. .reversed() should sort newest to oldest
+
+		List<PostResponse> list = personalPosts.stream()
+				.sorted(Comparator.comparing(PostResponse::getDate))
+				.collect(Collectors.toList());
+        System.out.println(list);
+        return list;
+	}
 
 	/**
 	 * no parameters
@@ -97,11 +125,11 @@ public class PostService {
 			List<PostResponse> filteredPosts = getPostsOfUserId(following.get(i).getId());
 			followingPosts.addAll(filteredPosts);
 		}
-		System.out.println("right before followingPost returns");
+		//System.out.println("right before followingPost returns");
 		return followingPosts;
 	}
 
-	/*  Parameters: Post object, User object
+	/**  Parameters: Post object, User object
 		Adds a new Post to the database, registered to specific User
 		Returns the Post added to the database
 	 */
@@ -129,7 +157,6 @@ public class PostService {
         newPostMeta.setAuthor(user);
 
 		//post.setId(UUID.randomUUID());
-
 
 		// Set the time of the post
         newPostMeta.setDate(LocalDateTime.now(ZoneOffset.UTC));
@@ -191,24 +218,5 @@ public class PostService {
 		}
 		return refinedRepo;
 	}
-
-
-
-	/*  Parameter:  User UID (from Firebase)
-		Returns a list of all posts registered to the User
-	 */
-
-    /*
-	public List<Post> getUserPosts(String authorUID) {
-		List<Post> ret = new ArrayList<Post>();
-		for (Post p : postRepository.findAll()) {
-			if (p.getAuthor().getUid().equals(authorUID)) {
-				ret.add(p);
-			}
-		}
-		return ret;
-	}
-
-     */
 
 }
