@@ -115,7 +115,7 @@ public class PostService {
 			List<PostResponse> filteredPosts = getPostsOfUserId(following.get(i).getId());
 			followingPosts.addAll(filteredPosts);
 		}
-
+		System.out.println("right before followingPost returns");
 		return followingPosts;
 	}
 

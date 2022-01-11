@@ -46,7 +46,7 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 				decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
 				User user = firebaseTokenToUserDto(decodedToken);
 				if (user != null) {
-					System.out.println(user.toString());
+//					System.out.println(user.toString());
 					UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, null);
 					auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(auth);
@@ -56,9 +56,9 @@ public class TokenPresentFilter extends OncePerRequestFilter {
 			}
 
 			User user = firebaseTokenToUserDto(decodedToken);
-			if(user != null) {
-				System.out.println(user.toString());
-			}
+//			if(user != null) {
+////				System.out.println(user.toString());
+//			}
 		}
 
 	}
