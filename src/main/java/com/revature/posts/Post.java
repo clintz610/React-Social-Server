@@ -8,6 +8,8 @@ import javax.persistence.*;
 import com.revature.comments.Comment;
 import com.revature.posts.postmeta.PostMeta;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
 //@Data
@@ -20,7 +22,6 @@ import org.hibernate.annotations.Type;
 @Getter
 @Setter
 public class Post {
-
     @Id
     @Column(name = "post_id")
     @GeneratedValue
@@ -36,6 +37,7 @@ public class Post {
     // Link to the post's meta data
     @OneToOne
     @JoinColumn(name="post_content_fk", referencedColumnName = "post_meta_id", unique = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PostMeta postMeta;
 
     // Public list of comments
