@@ -20,7 +20,6 @@ import org.hibernate.annotations.Type;
 @Getter
 @Setter
 public class Post {
-
     @Id
     @Column(name = "post_id")
     @GeneratedValue

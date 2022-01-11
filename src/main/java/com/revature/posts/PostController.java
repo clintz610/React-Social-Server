@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,6 +32,23 @@ public class PostController {
         return ResponseEntity.ok(postService.getPosts());
     }
 
+    /**
+     * @param user of of logged-in user
+     * @return list of PostResponses attached to a given user
+     */
+    @GetMapping(path = "/get-following-posts")
+    public ResponseEntity<List<PostResponse>> getFollowingPosts(@AuthenticationPrincipal User user)
+    {
+        System.out.println("\n\n");
+        List<PostResponse> posts = postService.getPostsOfFollowing(user.getId());
+        for(PostResponse p : posts){
+            System.out.println(p);
+        }
+        System.out.println("\n\n");
+
+        return ResponseEntity.ok(postService.getPostsOfFollowing(user.getId()));
+    }
+
 
     /*
      * Submit a post to the database.
@@ -52,7 +70,5 @@ public class PostController {
             return ResponseEntity.ok(new Post());
         }
     }
-
-
 
 }
