@@ -8,9 +8,6 @@ import com.revature.exceptions.UserNotInGroupException;
 import com.revature.groups.Group;
 import com.revature.groups.GroupRepository;
 import com.revature.follow.FollowRepository;
-import com.revature.groups.Group;
-import com.revature.groups.GroupRepository;
-import com.revature.groups.dtos.GroupResponse;
 import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.dtos.PostResponse;
 import com.revature.exceptions.UserNotFoundException;
@@ -52,7 +49,7 @@ public class PostService {
 		this.userRepository = userRepository;
 	}
 
-	/*  No parameters
+	/**  No parameters
 		Returns all Post objects in database
 	 */
 	public List<PostResponse> getPosts() {
@@ -69,8 +66,6 @@ public class PostService {
 
     }
 
-
-
 	/**
 	 * @param userId
 	 * @return all post objects attached to a userId
@@ -83,28 +78,52 @@ public class PostService {
 				filteredPosts.add(allPosts.get(i));
 			}
 		}
-		if(filteredPosts.size() == 0) return null; //TODO: make exception to throw here
-		else return filteredPosts;
+		return filteredPosts;
 	}
 
 	public List<PostResponse> getPersonalPosts(String userId){
+		//combined list of group posts, user posts, and following posts
 		List<PostResponse> personalPosts = new ArrayList<>();
+
+		//retrieve following posts
 		List<PostResponse> followingPosts = getPostsOfFollowing(userId);
 		//retrieve user posts
 		List<PostResponse> userPosts = getPostsOfUserId(userId);
 		//retrieve group posts
+		//get the groups attached to a user
 		User user = userRepository.getById(userId);
 		List<Group> groups = user.getGroups();
+
+		List<PostResponse> groupPosts = new ArrayList<>();
+		//find all posts in groups that user belongs to
 		for(Group g : groups){
-			g.getId();
-			//find posts by groupId
-			//public List<Post> findPostsByGroupId(Group group);
+			System.out.println("for loop start");
+			System.out.println(g);
+			List<Post> posts = postRepository.findPostsByGroupId(g);
+			System.out.println(posts.get(0));
+			System.out.println(posts.get(0).getPostText());
+			System.out.println(posts.get(0).getPostMeta().getId());
+			System.out.println(posts.get(0).getComments() +"\n\n\n");
+
+			System.out.println(posts.size());
+			List<PostResponse> list = postRepository.findPostsByGroupId(g).stream().map(PostResponse::new).collect(Collectors.toList());
+			for(PostResponse p : list){
+				groupPosts.add(p);
+			}
+			System.out.println("for loop end");
 		}
 
 		//combine lists
 		//int size = followingPosts.size() + userPosts.size(); //+ groupPosts.size();
+		System.out.println("\n\n Following Posts size: "+ followingPosts.size());
+		System.out.println("User Posts size: "+ userPosts.size());
+		System.out.println("Group Posts size: "+ groupPosts.size());
+		System.out.println("Personal Posts size: "+ personalPosts.size()+"\n\n");
+
+
 		for(PostResponse p : followingPosts) personalPosts.add(p);
 		for(PostResponse p : userPosts) personalPosts.add(p);
+		for(PostResponse p : groupPosts) personalPosts.add(p);
 		//for(PostResponse p : groupPosts) personalPosts.add(p);
 
 		//TODO: sort combined list by date
@@ -114,13 +133,11 @@ public class PostService {
 		personalPosts.stream()
 				.sorted(Comparator.comparing(PostResponse::getDate).reversed())
 				.collect(Collectors.toList());
-
-
+		System.out.println("bread crum for for each loop \n");
+		personalPosts.forEach(p -> System.out.println(p));
+		System.out.println();
 		return personalPosts;
 	}
-
-//	public List<PostResponse> sortPosts(ListPost
-
 
 	/**
 	 * no parameters
@@ -141,7 +158,7 @@ public class PostService {
 		return followingPosts;
 	}
 
-	/*  Parameters: Post object, User object
+	/**  Parameters: Post object, User object
 		Adds a new Post to the database, registered to specific User
 		Returns the Post added to the database
 	 */
@@ -169,7 +186,6 @@ public class PostService {
         newPostMeta.setAuthor(user);
 
 		//post.setId(UUID.randomUUID());
-
 
 		// Set the time of the post
         newPostMeta.setDate(LocalDateTime.now(ZoneOffset.UTC));
@@ -231,24 +247,5 @@ public class PostService {
 		}
 		return refinedRepo;
 	}
-
-
-
-	/*  Parameter:  User UID (from Firebase)
-		Returns a list of all posts registered to the User
-	 */
-
-    /*
-	public List<Post> getUserPosts(String authorUID) {
-		List<Post> ret = new ArrayList<Post>();
-		for (Post p : postRepository.findAll()) {
-			if (p.getAuthor().getUid().equals(authorUID)) {
-				ret.add(p);
-			}
-		}
-		return ret;
-	}
-
-     */
 
 }
