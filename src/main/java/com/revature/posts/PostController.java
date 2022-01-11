@@ -32,13 +32,13 @@ public class PostController {
     }
 
     /**
-     * @param userId of of logged-in user
+     * @param user of of logged-in user
      * @return list of PostResponses attached to a given user
      */
-    @PutMapping(path = "/get-following-posts")
-    public ResponseEntity<List<PostResponse>> getFollowingPosts(String userId)
+    @GetMapping(path = "/get-following-posts")
+    public ResponseEntity<List<PostResponse>> getFollowingPosts(@AuthenticationPrincipal User user)
     {
-        return ResponseEntity.ok(postService.getPostsOfFollowing(userId));
+        return ResponseEntity.ok(postService.getPostsOfFollowing(user.getId()));
     }
 
 
