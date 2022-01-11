@@ -39,12 +39,14 @@ public class TestGroupService {
     @Test
     public void test_getAllGroups_returnsAllGroupsInDatabase() {
         Group group = new Group();
+        User user = new User();
+        group.setOwner(user);
         group.setUsers(new ArrayList<>());
-        Group[] test = {group};
-        Iterable<Group> dummyResult = Arrays.asList(test);
+        Group[] toIterable = {group};
+        Iterable<Group> dummyResult = Arrays.asList(toIterable);
         when(mockGroupRepo.findAll()).thenReturn(dummyResult);
         List<GroupResponse> expectedList = new ArrayList<>();
-        dummyResult.iterator().forEachRemaining(g -> expectedList.add(new GroupResponse(g)));
+        dummyResult.iterator().forEachRemaining(group1 -> expectedList.add(new GroupResponse(group1)));
 
         List<GroupResponse> actualList = sut.getAllGroups();
 
@@ -54,6 +56,8 @@ public class TestGroupService {
     @Test
     public void test_getGroup_returnsGroupInDatabase_givenGroupName() {
         Group group = new Group();
+        User user = new User();
+        group.setOwner(user);
         group.setUsers(new ArrayList<>());
         String groupName = "test";
         group.setName(groupName);
@@ -82,20 +86,25 @@ public class TestGroupService {
         GroupCreationRequest validRequest = new GroupCreationRequest();
         validRequest.setDescription("Valid Description");
         validRequest.setName("Valid");
-
-        User validUser = new User();
-        validUser.setId(UUID.randomUUID().toString());
-        validUser.setEmail("real@email.com");
+        User owner = new User();
+        owner.setId("1afsagzgd14412321a");
+        owner.setEmail("real@email.com");
+        Group group = new Group();
+        group.setOwner(owner);
+        group.setUsers(new ArrayList<>());
+        GroupResponse expectedResult = new GroupResponse(group);
 
         when(mockGroupRepo.findGroupByName(validRequest.getName())).thenReturn(Optional.empty());
-        when(mockGroupRepo.save(any())).thenReturn(new Group());
+        when(mockUserRepo.findUserByEmail(owner.getEmail())).thenReturn(Optional.of(owner));
+        when(mockGroupRepo.save(any())).thenReturn(group);
 
         // Act
-        sut.createGroup(validRequest, validUser);
+        GroupResponse actualResult = sut.createGroup(validRequest, owner);
 
         // Assert
         verify(mockGroupRepo, times(1)).findGroupByName(validRequest.getName());
         verify(mockGroupRepo, times(1)).save(any());
+        Assertions.assertEquals(expectedResult, actualResult, "Expected to be equal but wasn't");
 
     }
 
@@ -474,6 +483,7 @@ public class TestGroupService {
         validGroup.setProfilePic("Valid");
         validGroup.setHeaderImg("Valid");
         validGroup.setOwner(currentOwner);
+        validGroup.setUsers(joinedUsers);
 
         GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
         validGroupUpdate.setDescription("I am Group");
@@ -485,7 +495,7 @@ public class TestGroupService {
         when(mockGroupRepo.save(validGroup)).thenReturn(validGroup);
 
         // Act
-        sut.updateGroup(validGroupName, validGroupUpdate, currentOwner);
+        GroupResponse actualResult = sut.updateGroup(validGroupName, validGroupUpdate, currentOwner);
 
         // Assert
         Assertions.assertEquals(validGroup.getName(), validGroupUpdate.getName(), "Expected Name to be set to Group2");
@@ -519,6 +529,7 @@ public class TestGroupService {
         validGroup.setProfilePic("Valid");
         validGroup.setHeaderImg("Valid");
         validGroup.setOwner(currentOwner);
+        validGroup.setUsers(joinedUsers);
 
         GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
         validGroupUpdate.setDescription("I am New Group");
@@ -561,6 +572,7 @@ public class TestGroupService {
         validGroup.setProfilePic("Valid");
         validGroup.setHeaderImg("Valid");
         validGroup.setOwner(currentOwner);
+        validGroup.setUsers(joinedUsers);
 
         GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
         validGroupUpdate.setDescription("I am Group");
@@ -604,6 +616,7 @@ public class TestGroupService {
         validGroup.setProfilePic("Valid");
         validGroup.setHeaderImg("Valid");
         validGroup.setOwner(currentOwner);
+        validGroup.setUsers(joinedUsers);
 
         GroupUpdateRequest validGroupUpdate = new GroupUpdateRequest();
         validGroupUpdate.setDescription("I am Group");

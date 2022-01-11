@@ -26,7 +26,9 @@ public class TestPostService {
 	private PostMetaRepository sadRepository = Mockito.mock(PostMetaRepository.class);
 	private FollowRepository followRepository = Mockito.mock(FollowRepository.class);
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
-	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository, sadRepository, followRepository, userRepository);
+    private GroupRepository groupRepository = Mockito.mock(GroupRepository.class);
+	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository, sadRepository, followRepository, groupRepository, userRepository);
+
 	//ArrayList<Post> postArray = new ArrayList<Post>();
 	
 	@BeforeEach

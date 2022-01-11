@@ -52,6 +52,8 @@ public class FollowingService {
 
     //TODO: get list of followings given a specific user id
     public List<User> getFollowings(User user) {
+        System.out.printf("Getting followings: ");
+        System.out.println(user.getFollowing());
         return user.getFollowing();
     }
 

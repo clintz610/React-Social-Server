@@ -3,6 +3,10 @@ package com.revature.posts;
 import com.revature.comments.Comment;
 import com.revature.comments.dtos.AuthorDto;
 import com.revature.comments.dtos.CommentRequest;
+import com.revature.exceptions.GroupNotFoundException;
+import com.revature.exceptions.UserNotInGroupException;
+import com.revature.groups.Group;
+import com.revature.groups.GroupRepository;
 import com.revature.follow.FollowRepository;
 import com.revature.groups.Group;
 import com.revature.groups.GroupRepository;
@@ -33,15 +37,17 @@ public class PostService {
 	private final ProfileRepository profileRepository;
 	private final PostMetaRepository postMetaRepository;
 	private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
 	// constructor
 	@Autowired
 	public PostService(PostRepository postRepository, CommentRepository commentRepository,
-			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, FollowRepository followRepository, UserRepository userRepository) {
+			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, FollowRepository followRepository, GroupRepository groupRepository, UserRepository userRepository) {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.profileRepository = profileRepository;
 		this.postMetaRepository = postMetaRepository;
+        this.groupRepository = groupRepository;
 		this.followRepository = followRepository;
 		this.userRepository = userRepository;
 	}
@@ -51,41 +57,17 @@ public class PostService {
 	 */
 	public List<PostResponse> getPosts() {
 		List<Post> rawRepository = postRepository.findAll();
-		List<PostResponse> refinedRepo = new LinkedList<>();
 
-		for (int i = 0; i < rawRepository.size(); i++) {
-			// Record the relevant data from the posts.
-			Post rawPost = rawRepository.get(i);
-			PostResponse refinedPost = new PostResponse(rawPost);
-
-			// Get the post's comments
-			List<Comment> rawComments = rawPost.getComments();
-			List<CommentRequest> refinedComments = new LinkedList<>();
-			for (int j = 0; j < rawComments.size(); j++){
-				// Record the relevant data for a comment.
-				Comment rawComment = rawComments.get(j);
-				CommentRequest refinedComment = new CommentRequest();
-
-				// Get the simple values
-				refinedComment.setCommentId(rawComment.getId().toString());
-				refinedComment.setCommentText(rawComment.getCommentText());
-				refinedComment.setDate(rawComment.getDate());
-
-				// Create the author object we need
-				AuthorDto refinedAuthor = new AuthorDto(rawComment.getAuthor(), profileRepository);
-				refinedComment.setAuthor(refinedAuthor);
-
-				// Add the result to the list
-				refinedComments.add(refinedComment);
-
-			}
-			refinedPost.setComments(refinedComments);
-
-			refinedRepo.add(refinedPost);
-		}
-
-		return refinedRepo;
+		return getComments(rawRepository);
 	}
+
+    public List<PostResponse> getGroupPosts(String groupName) {
+
+        Group group = groupRepository.findGroupByName(groupName).orElseThrow(GroupNotFoundException::new);
+        List<Post> actualPosts = postRepository.findPostsByGroupId(group);
+        return getComments(actualPosts);
+
+    }
 
 
 
@@ -116,7 +98,7 @@ public class PostService {
 		for(Group g : groups){
 			g.getId();
 			//find posts by groupId
-			// public List<Post> findPostsByGroupId(Group group);
+			//public List<Post> findPostsByGroupId(Group group);
 		}
 
 		//combine lists
@@ -170,6 +152,19 @@ public class PostService {
 		PostMeta newPostMeta = new PostMeta();
 		Post newPost = new Post();
 
+		if (post.getGroupID() != null && !post.getGroupID().trim().equals("")) {
+			newPostMeta.setGroup(groupRepository.findById(UUID.fromString(post.getGroupID())).get());
+
+            List<User> users = newPostMeta.getGroup()
+                                          .getUsers()
+                                          .stream()
+                                          .filter(e -> e.getEmail().equals(user.getEmail()))
+                                          .collect(Collectors.toList());
+            if(users.size() != 1) {
+                throw new UserNotInGroupException();
+            }
+        }
+
 		// Set the author
         newPostMeta.setAuthor(user);
 
@@ -200,6 +195,42 @@ public class PostService {
 		// Save the new post and return the status
         return postRepository.save(newPost);
     }
+
+	private List<PostResponse> getComments(List<Post> posts) {
+		List<PostResponse> refinedRepo = new LinkedList<>();
+
+		for (int i = 0; i < posts.size(); i++) {
+			// Record the relevant data from the posts.
+			Post rawPost = posts.get(i);
+			PostResponse refinedPost = new PostResponse(rawPost);
+
+			// Get the post's comments
+			List<Comment> rawComments = rawPost.getComments();
+			List<CommentRequest> refinedComments = new LinkedList<>();
+			for (int j = 0; j < rawComments.size(); j++){
+				// Record the relevant data for a comment.
+				Comment rawComment = rawComments.get(j);
+				CommentRequest refinedComment = new CommentRequest();
+
+				// Get the simple values
+				refinedComment.setCommentId(rawComment.getId().toString());
+				refinedComment.setCommentText(rawComment.getCommentText());
+				refinedComment.setDate(rawComment.getDate());
+
+				// Create the author object we need
+				AuthorDto refinedAuthor = new AuthorDto(rawComment.getAuthor(), profileRepository);
+				refinedComment.setAuthor(refinedAuthor);
+
+				// Add the result to the list
+				refinedComments.add(refinedComment);
+
+			}
+			refinedPost.setComments(refinedComments);
+
+			refinedRepo.add(refinedPost);
+		}
+		return refinedRepo;
+	}
 
 
 
