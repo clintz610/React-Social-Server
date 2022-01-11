@@ -83,60 +83,31 @@ public class PostService {
 
 	public List<PostResponse> getPersonalPosts(String userId){
 		//combined list of group posts, user posts, and following posts
-		List<PostResponse> personalPosts = new ArrayList<>();
+        Set<PostResponse> personalPosts = new HashSet<>();
 
 		//retrieve following posts
 		List<PostResponse> followingPosts = getPostsOfFollowing(userId);
 		//retrieve user posts
 		List<PostResponse> userPosts = getPostsOfUserId(userId);
-		//retrieve group posts
 		//get the groups attached to a user
 		User user = userRepository.getById(userId);
 		List<Group> groups = user.getGroups();
 
-		List<PostResponse> groupPosts = new ArrayList<>();
 		//find all posts in groups that user belongs to
 		for(Group g : groups){
-			System.out.println("for loop start");
-			System.out.println(g);
-			List<Post> posts = postRepository.findPostsByGroupId(g);
-			System.out.println(posts.get(0));
-			System.out.println(posts.get(0).getPostText());
-			System.out.println(posts.get(0).getPostMeta().getId());
-			System.out.println(posts.get(0).getComments() +"\n\n\n");
-
-			System.out.println(posts.size());
-			List<PostResponse> list = postRepository.findPostsByGroupId(g).stream().map(PostResponse::new).collect(Collectors.toList());
-			for(PostResponse p : list){
-				groupPosts.add(p);
-			}
-			System.out.println("for loop end");
+            personalPosts.addAll(getGroupPosts(g.getName()));
 		}
 
-		//combine lists
-		//int size = followingPosts.size() + userPosts.size(); //+ groupPosts.size();
-		System.out.println("\n\n Following Posts size: "+ followingPosts.size());
-		System.out.println("User Posts size: "+ userPosts.size());
-		System.out.println("Group Posts size: "+ groupPosts.size());
-		System.out.println("Personal Posts size: "+ personalPosts.size()+"\n\n");
-
-
-		for(PostResponse p : followingPosts) personalPosts.add(p);
-		for(PostResponse p : userPosts) personalPosts.add(p);
-		for(PostResponse p : groupPosts) personalPosts.add(p);
-		//for(PostResponse p : groupPosts) personalPosts.add(p);
-
-		//TODO: sort combined list by date
-//		personalPosts.sort(e -> e.getDate().getNano());
+        personalPosts.addAll(followingPosts);
+        personalPosts.addAll(userPosts);
 
 		//sorts post by date. .reversed() should sort newest to oldest
-		personalPosts.stream()
-				.sorted(Comparator.comparing(PostResponse::getDate).reversed())
+
+		List<PostResponse> list = personalPosts.stream()
+				.sorted(Comparator.comparing(PostResponse::getDate))
 				.collect(Collectors.toList());
-		System.out.println("bread crum for for each loop \n");
-		personalPosts.forEach(p -> System.out.println(p));
-		System.out.println();
-		return personalPosts;
+        System.out.println(list);
+        return list;
 	}
 
 	/**
