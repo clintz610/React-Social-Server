@@ -4,10 +4,10 @@ import com.revature.comments.Comment;
 import com.revature.comments.dtos.AuthorDto;
 import com.revature.comments.dtos.CommentRequest;
 import com.revature.exceptions.GroupNotFoundException;
-import com.revature.exceptions.UnauthorizedRequestException;
 import com.revature.exceptions.UserNotInGroupException;
 import com.revature.groups.Group;
 import com.revature.groups.GroupRepository;
+import com.revature.follow.FollowRepository;
 import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.dtos.PostResponse;
 import com.revature.exceptions.UserNotFoundException;
@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class PostService {
+	private final FollowRepository followRepository;
 	private final PostRepository postRepository;
 	private final CommentRepository commentRepository;
 	private final ProfileRepository profileRepository;
@@ -36,12 +37,13 @@ public class PostService {
 	// constructor
 	@Autowired
 	public PostService(PostRepository postRepository, CommentRepository commentRepository,
-			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, GroupRepository groupRepository) {
+			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, FollowRepository followRepository, GroupRepository groupRepository) {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.profileRepository = profileRepository;
 		this.postMetaRepository = postMetaRepository;
         this.groupRepository = groupRepository;
+		this.followRepository = followRepository;
 	}
 
 	/*  No parameters
@@ -60,6 +62,44 @@ public class PostService {
         return getComments(actualPosts);
 
     }
+
+
+
+	/**
+	 * @param userId
+	 * @return all post objects attached to a userId
+	 */
+	public List<PostResponse> getPostsOfUserId(String userId) {
+		List<PostResponse> allPosts = getPosts();
+		List<PostResponse> filteredPosts = new ArrayList<>();
+		for(int i = 0; i < allPosts.size(); i++){
+			if(allPosts.get(i).getAuthorID().equals(userId)){
+				filteredPosts.add(allPosts.get(i));
+			}
+		}
+		if(filteredPosts.size() == 0) return null; //TODO: make exception to throw here
+		else return filteredPosts;
+	}
+
+
+	/**
+	 * no parameters
+	 * @returns all post objects attached to the userIds that the logged-in user is following
+	 */
+	public List<PostResponse> getPostsOfFollowing(String userId) {
+		List<PostResponse> followingPosts = new ArrayList<>();
+
+		//get all people following a given user and pull out user Ids.
+		User followingUser = followRepository.findById(userId).get();
+		List<User> following = followingUser.getFollowing();
+
+		for(int i = 0; i < following.size(); i++){
+			List<PostResponse> filteredPosts = getPostsOfUserId(following.get(i).getId());
+			followingPosts.addAll(filteredPosts);
+		}
+		System.out.println("right before followingPost returns");
+		return followingPosts;
+	}
 
 	/*  Parameters: Post object, User object
 		Adds a new Post to the database, registered to specific User

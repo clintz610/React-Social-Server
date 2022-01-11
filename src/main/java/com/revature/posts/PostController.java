@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,9 +31,31 @@ public class PostController {
         return ResponseEntity.ok(postService.getPosts());
     }
 
+    /**
+     * @param groupName of group being queried
+     * @return list of PostResponses attached to a given group
+     */
     @GetMapping(path = "/get-group-posts/{groupName}")
     public ResponseEntity<List<PostResponse>> getGroupPosts(@PathVariable String groupName) {
         return ResponseEntity.ok(postService.getGroupPosts(groupName));
+
+    }
+
+    /**
+     * @param user of logged-in user
+     * @return list of PostResponses attached to a given user
+     */
+    @GetMapping(path = "/get-following-posts")
+    public ResponseEntity<List<PostResponse>> getFollowingPosts(@AuthenticationPrincipal User user)
+    {
+        System.out.println("\n\n");
+        List<PostResponse> posts = postService.getPostsOfFollowing(user.getId());
+        for(PostResponse p : posts){
+            System.out.println(p);
+        }
+        System.out.println("\n\n");
+
+        return ResponseEntity.ok(postService.getPostsOfFollowing(user.getId()));
     }
 
 
@@ -48,7 +71,5 @@ public class PostController {
             return new ResponseEntity<Void>(HttpStatus.CREATED);
 
     }
-
-
 
 }
