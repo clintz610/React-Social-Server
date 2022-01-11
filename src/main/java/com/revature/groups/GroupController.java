@@ -29,18 +29,18 @@ public class GroupController {
 
     //Get One Group
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{groupName}")
+    @GetMapping(value = "/{groupName}", produces = "application/json")
     public GroupResponse getOneGroup(@PathVariable String groupName) {
         return groupService.getGroup(groupName);
     }
 
     // Create Group
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = "application/json")
-    public void createGroup(
+    @PostMapping(value = "/create", consumes = "application/json")
+    public GroupResponse createGroup(
             @RequestBody GroupCreationRequest groupCreationRequest,
             @AuthenticationPrincipal User owner) {
-        groupService.createGroup(groupCreationRequest, owner);
+        return groupService.createGroup(groupCreationRequest, owner);
     }
 
     // Join Group
@@ -58,18 +58,18 @@ public class GroupController {
     }
 
     // update Group
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping(name = "/update/{groupName}", consumes = "application/json")
-    public void updateGroup(
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping(value = "/update/{groupName}", consumes = "application/json", produces = "application/json")
+    public GroupResponse updateGroup(
             @PathVariable String groupName,
             @RequestBody GroupUpdateRequest updateReq,
             @AuthenticationPrincipal User currUser) {
-        groupService.updateGroup(groupName, updateReq, currUser);
+        return groupService.updateGroup(groupName, updateReq, currUser);
     }
 
     // delete group
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{groupName}")
+    @DeleteMapping("/delete/{groupName}")
     public void deleteGroup(@PathVariable String groupName, @AuthenticationPrincipal User currUser) {
         groupService.deleteGroup(groupName, currUser);
     }

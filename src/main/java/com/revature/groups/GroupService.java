@@ -51,7 +51,7 @@ public class GroupService {
      * @param groupCreationRequest - contains Group Name and Description of new group.
      * @param owner - Currently logged in user gets set as owner.
      */
-    public void createGroup(GroupCreationRequest groupCreationRequest, User owner) {
+    public GroupResponse createGroup(GroupCreationRequest groupCreationRequest, User owner) {
 
         if (!notNullOrEmpty.test(groupCreationRequest.getName()))
             throw new InvalidRequestException("Invalid group name entered");
@@ -62,10 +62,14 @@ public class GroupService {
         Group newGroup = new Group();
 
         newGroup.setOwner(owner);
-        newGroup.setName(groupCreationRequest.getName());
+        //TODO: sidenote, do we want to trim here as well? UI already does, not necessary here
+        newGroup.setName(groupCreationRequest.getName().trim());
         newGroup.setDescription(groupCreationRequest.getDescription());
+        List<User> list = new ArrayList<>();
+        list.add(userRepository.findUserByEmail(owner.getEmail()).get());
+        newGroup.setUsers(list);
 
-        groupRepository.save(newGroup);
+        return new GroupResponse(groupRepository.save(newGroup));
     }
 
     /**
@@ -105,7 +109,7 @@ public class GroupService {
      * @param currentGroupName - name of group to be edited
      * @param updateReq - fields to be updated, or null
      */
-    public void updateGroup(String currentGroupName, GroupUpdateRequest updateReq, User currUser) {
+    public GroupResponse updateGroup(String currentGroupName, GroupUpdateRequest updateReq, User currUser) {
         Group group = groupRepository.findGroupByName(currentGroupName).orElseThrow(GroupNotFoundException::new);
 
         if (!group.getOwner().equals(currUser))
@@ -119,20 +123,21 @@ public class GroupService {
         }
 
         if (notNullOrEmpty.test(updateReq.getName())) {
-            if(groupRepository.findGroupByName(updateReq.getName()).isPresent())
+            if(!updateReq.getName().equals(currentGroupName) && groupRepository.findGroupByName(updateReq.getName()).isPresent())
                 throw new DuplicateGroupNameException();
-            group.setName(updateReq.getName());
+            group.setName(updateReq.getName().trim());
         }
 
         group.setDescription(updateReq.getDescription());
 
-        if (notNullOrEmpty.test(updateReq.getHeaderImg()))
+        if (notNullOrEmpty.test(updateReq.getHeaderImg())) {
             group.setHeaderImg(updateReq.getHeaderImg());
+        }
 
         if(notNullOrEmpty.test(updateReq.getProfilePic()))
             group.setProfilePic(updateReq.getProfilePic());
 
-        groupRepository.save(group);
+        return new GroupResponse(groupRepository.save(group));
     }
 
     /**
