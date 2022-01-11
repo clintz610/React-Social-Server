@@ -3,9 +3,11 @@ package com.revature.posts;
 import com.revature.ReverbApplication;
 import com.revature.comments.CommentRepository;
 import com.revature.follow.FollowRepository;
+import com.revature.groups.GroupRepository;
 import com.revature.posts.PostService;
 import com.revature.posts.postmeta.PostMetaRepository;
 import com.revature.posts.PostRepository;
+import com.revature.users.UserRepository;
 import com.revature.users.profiles.ProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
@@ -23,7 +25,8 @@ public class TestPostService {
 	private ProfileRepository profileRepository = Mockito.mock(ProfileRepository.class);
 	private PostMetaRepository sadRepository = Mockito.mock(PostMetaRepository.class);
 	private FollowRepository followRepository = Mockito.mock(FollowRepository.class);
-	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository, sadRepository, followRepository);
+	private UserRepository userRepository = Mockito.mock(UserRepository.class);
+	private PostService postService =  new PostService(postRepository, commentRepository, profileRepository, sadRepository, followRepository, userRepository);
 	//ArrayList<Post> postArray = new ArrayList<Post>();
 	
 	@BeforeEach

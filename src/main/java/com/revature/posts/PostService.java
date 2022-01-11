@@ -4,6 +4,9 @@ import com.revature.comments.Comment;
 import com.revature.comments.dtos.AuthorDto;
 import com.revature.comments.dtos.CommentRequest;
 import com.revature.follow.FollowRepository;
+import com.revature.groups.Group;
+import com.revature.groups.GroupRepository;
+import com.revature.groups.dtos.GroupResponse;
 import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.dtos.PostResponse;
 import com.revature.exceptions.UserNotFoundException;
@@ -11,6 +14,7 @@ import com.revature.posts.postmeta.PostMeta;
 import com.revature.users.User;
 import com.revature.comments.CommentRepository;
 import com.revature.posts.postmeta.PostMetaRepository;
+import com.revature.users.UserRepository;
 import com.revature.users.profiles.ProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +32,18 @@ public class PostService {
 	private final CommentRepository commentRepository;
 	private final ProfileRepository profileRepository;
 	private final PostMetaRepository postMetaRepository;
+	private final UserRepository userRepository;
 
 	// constructor
 	@Autowired
 	public PostService(PostRepository postRepository, CommentRepository commentRepository,
-			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, FollowRepository followRepository) {
+			ProfileRepository profileRepository, PostMetaRepository postMetaRepository, FollowRepository followRepository, UserRepository userRepository) {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.profileRepository = profileRepository;
 		this.postMetaRepository = postMetaRepository;
 		this.followRepository = followRepository;
+		this.userRepository = userRepository;
 	}
 
 	/*  No parameters
@@ -99,6 +105,40 @@ public class PostService {
 		else return filteredPosts;
 	}
 
+	public List<PostResponse> getPersonalPosts(String userId){
+		List<PostResponse> personalPosts = new ArrayList<>();
+		List<PostResponse> followingPosts = getPostsOfFollowing(userId);
+		//retrieve user posts
+		List<PostResponse> userPosts = getPostsOfUserId(userId);
+		//retrieve group posts
+		User user = userRepository.getById(userId);
+		List<Group> groups = user.getGroups();
+		for(Group g : groups){
+			g.getId();
+			//find posts by groupId
+			// public List<Post> findPostsByGroupId(Group group);
+		}
+
+		//combine lists
+		//int size = followingPosts.size() + userPosts.size(); //+ groupPosts.size();
+		for(PostResponse p : followingPosts) personalPosts.add(p);
+		for(PostResponse p : userPosts) personalPosts.add(p);
+		//for(PostResponse p : groupPosts) personalPosts.add(p);
+
+		//TODO: sort combined list by date
+//		personalPosts.sort(e -> e.getDate().getNano());
+
+		//sorts post by date. .reversed() should sort newest to oldest
+		personalPosts.stream()
+				.sorted(Comparator.comparing(PostResponse::getDate).reversed())
+				.collect(Collectors.toList());
+
+
+		return personalPosts;
+	}
+
+//	public List<PostResponse> sortPosts(ListPost
+
 
 	/**
 	 * no parameters
@@ -115,7 +155,7 @@ public class PostService {
 			List<PostResponse> filteredPosts = getPostsOfUserId(following.get(i).getId());
 			followingPosts.addAll(filteredPosts);
 		}
-		System.out.println("right before followingPost returns");
+		//System.out.println("right before followingPost returns");
 		return followingPosts;
 	}
 
