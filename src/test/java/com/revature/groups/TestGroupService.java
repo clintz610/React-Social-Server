@@ -41,10 +41,15 @@ public class TestGroupService {
         Group group = new Group();
         User user = new User();
         group.setOwner(user);
+
         group.setUsers(new ArrayList<>());
+        group.setId(UUID.randomUUID());
+
         Group[] toIterable = {group};
         Iterable<Group> dummyResult = Arrays.asList(toIterable);
+
         when(mockGroupRepo.findAll()).thenReturn(dummyResult);
+
         List<GroupResponse> expectedList = new ArrayList<>();
         dummyResult.iterator().forEachRemaining(group1 -> expectedList.add(new GroupResponse(group1)));
 
@@ -58,6 +63,7 @@ public class TestGroupService {
         Group group = new Group();
         User user = new User();
         group.setOwner(user);
+        group.setId(UUID.randomUUID());
         group.setUsers(new ArrayList<>());
         String groupName = "test";
         group.setName(groupName);
@@ -91,6 +97,7 @@ public class TestGroupService {
         owner.setEmail("real@email.com");
         Group group = new Group();
         group.setOwner(owner);
+        group.setId(UUID.randomUUID());
         group.setUsers(new ArrayList<>());
         GroupResponse expectedResult = new GroupResponse(group);
 
@@ -434,6 +441,7 @@ public class TestGroupService {
         joinedUsers.add(newOwner);
 
         Group validGroup = new Group();
+        validGroup.setId(UUID.randomUUID());
         validGroup.setName("Group");
         validGroup.setDescription("I am Group");
         validGroup.setProfilePic("Valid");
@@ -478,6 +486,7 @@ public class TestGroupService {
         joinedUsers.add(currentOwner);
 
         Group validGroup = new Group();
+        validGroup.setId(UUID.randomUUID());
         validGroup.setName("Group");
         validGroup.setDescription("I am Group");
         validGroup.setProfilePic("Valid");
@@ -524,6 +533,7 @@ public class TestGroupService {
         joinedUsers.add(currentOwner);
 
         Group validGroup = new Group();
+        validGroup.setId(UUID.randomUUID());
         validGroup.setName("Group");
         validGroup.setDescription("I am Group");
         validGroup.setProfilePic("Valid");
@@ -567,6 +577,7 @@ public class TestGroupService {
         joinedUsers.add(currentOwner);
 
         Group validGroup = new Group();
+        validGroup.setId(UUID.randomUUID());
         validGroup.setName("Group");
         validGroup.setDescription("I am Group");
         validGroup.setProfilePic("Valid");
@@ -611,6 +622,7 @@ public class TestGroupService {
         joinedUsers.add(currentOwner);
 
         Group validGroup = new Group();
+        validGroup.setId(UUID.randomUUID());
         validGroup.setName("Group");
         validGroup.setDescription("I am Group");
         validGroup.setProfilePic("Valid");
