@@ -1,7 +1,9 @@
 package com.revature.users;
 
 import com.revature.groups.Group;
+import com.revature.search.Searchable;
 import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.List;
