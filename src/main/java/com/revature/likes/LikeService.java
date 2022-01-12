@@ -86,7 +86,6 @@ public class LikeService {
         }
         else
             throw new IllegalStateException("post does not exist");
-        
     }
     
     public boolean checkIfAlreadyLiked(Post post, User user) {
