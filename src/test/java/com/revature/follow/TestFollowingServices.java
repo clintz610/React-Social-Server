@@ -107,6 +107,34 @@ public class TestFollowingServices {
         Assertions.assertEquals(validUser, actualUser);
     }
 
+    @Test
+    public void test_followUser_returnsTrue_givenValidUserAndValidFollowUserId() {
+        // Arrange
+        User validUser = new User();
+        validUser.setId(UUID.randomUUID().toString());
+        List<User> followingList = new ArrayList<>();
+        validUser.setFollowing(followingList);
 
+        String validFollowUserId = UUID.randomUUID().toString();
+
+        User followUser = new User();
+        followUser.setId(validFollowUserId);
+
+        when(mockUserRepository.findById(validUser.getId())).thenReturn(Optional.of(validUser));
+        when(mockUserRepository.findById(validFollowUserId)).thenReturn(Optional.of(followUser));
+        when(mockUserRepository.save(validUser)).thenReturn(validUser);
+
+        // Act
+        boolean actualResult = sut.followUser(validUser, validFollowUserId);
+
+        // Assert
+        verify(mockUserRepository, times(1)).findById(validUser.getId());
+        verify(mockUserRepository, times(1)).findById(validFollowUserId);
+        verify(mockUserRepository, times(1)).save(validUser);
+
+        Assertions.assertTrue(actualResult, "Expected to return true");
+        Assertions.assertEquals(validUser.getFollowing().size(), 1, "Expected size of following list to increase from 0 to 1");
+
+    }
 
 }

@@ -7,6 +7,7 @@ import com.revature.groups.dtos.GroupUpdateRequest;
 import com.revature.users.User;
 import com.revature.users.UserRepository;
 import com.revature.users.usersettings.UserSettings;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
