@@ -1,6 +1,5 @@
 package com.revature.users.profiles;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,15 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, UUID> {
-	Optional<Profile> getProfileByUser(User user);
+    Optional<Profile> getProfileByUser(User user);
 
     @Modifying
     @Transactional
-    @Query(value="update user_profile u set u.profile_img = :url where u.id = :id", nativeQuery=true)
+    @Query(value="update user_profile set profile_img = :url where id = :id", nativeQuery=true)
     void updatePicUrl(@Param(value="id") String id, @Param(value="url") String url);
 
     @Modifying
     @Transactional
-    @Query(value="update user_profile u set u.header_img = :url where u.id = :id", nativeQuery=true)
+    @Query(value="update user_profile set header_img = :url where id = :id", nativeQuery=true)
     void updateHeaderUrl(@Param(value="id") String id, @Param(value="url") String url);
 }
