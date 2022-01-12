@@ -43,7 +43,7 @@ public class ProfileService {
 	 */
     public Profile findProfileById(UUID profileId) throws UserNotFoundException {
     	Optional<Profile> profile = profileRepo.findById(profileId);
-    	
+		System.out.println("breadcrumbs..."+profileId);
     	if(profile.isPresent()) {
     		return profile.get();
     	} else {
