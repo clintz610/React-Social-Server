@@ -21,6 +21,7 @@ import org.mockito.invocation.InvocationOnMock;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -61,6 +62,49 @@ public class TestPostService {
 	public void cleanTestSetup(){
 		postService = null;
 	}
+
+	// Get posts test
+	@Test
+	public void getPostsWithAnyRepo()
+	{
+		//Arrange
+		when(mockPostRepository.findAll()).thenReturn(new ArrayList<Post>());
+		//Act
+		postService.getPosts();
+		//Assert
+		verify(mockPostRepository, times(1)).findAll();
+
+	}
+
+	// Get group posts tests
+	@Test
+	public void getGroupPosts(){
+		//Arrange
+
+		// Mock the group
+		ArrayList<User> joinedUsers = new ArrayList<>();
+
+		Group foundGroup = new Group();
+		foundGroup.setName("Group");
+		foundGroup.setDescription("I am Group");
+		foundGroup.setProfilePic("Valid");
+		foundGroup.setHeaderImg("Valid");
+		foundGroup.setUsers(joinedUsers);
+		foundGroup.setId(UUID.randomUUID());
+
+		when(mockGroupRepository.findGroupByName(foundGroup.getName())).thenReturn(Optional.of(foundGroup));
+		when(mockPostRepository.findPostsByGroupId(foundGroup)).thenReturn(new ArrayList<Post>());
+
+		//Act
+		postService.getGroupPosts(foundGroup.getName());
+
+
+		//Assert
+		verify(mockGroupRepository, times(1)).findGroupByName(foundGroup.getName());
+		verify(mockPostRepository, times(1)).findPostsByGroupId(foundGroup);
+	}
+
+	// Add post tests
 
 	@Test
 	public void addNewPostWithNoLinkNoGroup()
