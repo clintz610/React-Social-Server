@@ -36,18 +36,19 @@ class TestLikeService {
 		likeRepository = Mockito.mock(LikeRepository.class);
 	}
 
+
 	@Test
 	void getNumberOfLikesPositive() throws PostNotFoundException {
 		//tests getNumberofLikes for no likes on a new post
 		Post post = new Post();
 		UUID uuid = UUID.randomUUID();
+    
 		Mockito.when(postRepository.findById(uuid)).thenReturn(Optional.of(post));
 		Mockito.when(likeRepository.getLikeByPost(post)).thenReturn(new ArrayList<Like>());
-
+    
 		LikeService likeService = new LikeService(postRepository, likeRepository);
 
 		assertThat(likeService.getNumberofLikes(uuid)).isZero();
-
 	}
 
 
@@ -62,6 +63,7 @@ class TestLikeService {
 		try {
 			likeService.getNumberofLikes(uuid);
 			Assertions.fail();
+
 		} catch (Exception e) {
 			Assertions.assertEquals(e.getClass(), PostNotFoundException.class);
 		}
@@ -73,6 +75,8 @@ class TestLikeService {
 		Post post = new Post();
 		User user = new User();
 		Like like = new Like();//for some reason the all args constructor doesn't work
+		UUID id = UUID.randomUUID();
+
 		List<Like> array = new ArrayList<Like>();
 		UUID uuid = UUID.randomUUID();
 		Mockito.when(postRepository.findById(uuid)).thenReturn(Optional.of(post));
@@ -82,6 +86,7 @@ class TestLikeService {
 		array.add(like);
 		assertTrue(likeService.checkIfAlreadyLiked(post, user));
 	}
+
 
 	@Test
 	void checkIfAlreadyLiked_valid()
