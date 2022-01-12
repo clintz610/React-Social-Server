@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,18 +38,19 @@ public class TestLikeService {
 	
 	}
 
-	/*
+
 	@Test
 	public void getNumberofLikesPositive() throws PostNotFoundException {
 		//tests getNumberofLikes for no likes on a new post
 		Post post = new Post();
+		UUID id = UUID.randomUUID();
 
-		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.of(post));
+		Mockito.when(postRepository.findById(id)).thenReturn(Optional.of(post));
 		Mockito.when(likeRepository.getLikeByPost(post)).thenReturn(new ArrayList<Like>());
 
 		LikeService likeService = new LikeService(postRepository, likeRepository);
 
-		assertThat(likeService.getNumberofLikes(8L)).isEqualTo(0);
+		assertThat(likeService.getNumberofLikes(id)).isEqualTo(0);
 	}
 
 
@@ -55,12 +58,13 @@ public class TestLikeService {
 	public void getNumberofLikesNegative() {
 		//tests the post does not exist exception
 		Post post = new Post();
+		UUID id = UUID.randomUUID();
 		
-		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.empty());
+		Mockito.when(postRepository.findById(id)).thenReturn(Optional.empty());
 		Mockito.when(likeRepository.getLikeByPost(post)).thenReturn(new ArrayList<Like>());
 		LikeService likeService = new LikeService(postRepository, likeRepository);
 		try {
-			likeService.getNumberofLikes(8L);
+			likeService.getNumberofLikes(id);
 			fail();
 		} catch (Exception e) {
 			assertEquals(e.getClass(), PostNotFoundException.class);
@@ -73,14 +77,16 @@ public class TestLikeService {
 		Post post = new Post();
 		User user = new User();
 		Like like = new Like();//for some reason the all args constructor doesn't work
+		UUID id = UUID.randomUUID();
+
 		List<Like> array = new ArrayList<Like>();
-		Mockito.when(postRepository.findById(8L)).thenReturn(Optional.of(post));
+		Mockito.when(postRepository.findById(id)).thenReturn(Optional.of(post));
 		Mockito.when(likeRepository.getByPostAndUser(post,user)).thenReturn(array);
 		LikeService likeService = new LikeService(postRepository, likeRepository);
-		likeService.likePost(8L, user);
+		likeService.likePost(id, user);
 		array.add(like);
 		assertTrue(likeService.checkIfAlreadyLiked(post, user));
 	}
-	 */
+
 
 }
