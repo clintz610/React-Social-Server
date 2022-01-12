@@ -1,9 +1,7 @@
 package com.revature.posts.postmeta;
 import com.revature.groups.Group;
 import com.revature.common.util.ContentType;
-import com.revature.posts.Post;
 import com.revature.users.User;
-import com.revature.users.usersettings.UserSettings;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
