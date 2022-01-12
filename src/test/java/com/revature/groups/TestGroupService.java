@@ -6,8 +6,6 @@ import com.revature.groups.dtos.GroupResponse;
 import com.revature.groups.dtos.GroupUpdateRequest;
 import com.revature.users.User;
 import com.revature.users.UserRepository;
-import com.revature.users.usersettings.UserSettings;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -191,7 +189,6 @@ public class TestGroupService {
         User joiningUser = new User();
         joiningUser.setId(id.toString());
         joiningUser.setEmail("email@mail.com");
-        joiningUser.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
 
@@ -226,12 +223,10 @@ public class TestGroupService {
         User joinedUser = new User();
         joinedUser.setId(id.toString());
         joinedUser.setEmail("email@mail.com");
-        joinedUser.setUserSettings(new UserSettings());
 
         User joiningUser = new User();
         joiningUser.setId(id.toString());
         joiningUser.setEmail("email@mail.com");
-        joiningUser.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
         joinedUsers.add(joinedUser);
@@ -271,12 +266,10 @@ public class TestGroupService {
         User joinedUser = new User();
         joinedUser.setId(id.toString());
         joinedUser.setEmail("email@mail.com");
-        joinedUser.setUserSettings(new UserSettings());
 
         User leavingUser = new User();
         leavingUser.setId(id.toString());
         leavingUser.setEmail("email@mail.com");
-        leavingUser.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
         joinedUsers.add(joinedUser);
@@ -312,7 +305,6 @@ public class TestGroupService {
         User leavingUser = new User();
         leavingUser.setId(id.toString());
         leavingUser.setEmail("email@mail.com");
-        leavingUser.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
 
@@ -351,12 +343,10 @@ public class TestGroupService {
         User currentOwner = new User();
         currentOwner.setId(id.toString());
         currentOwner.setEmail("email@mail.com");
-        currentOwner.setUserSettings(new UserSettings());
 
         User deletingUser = new User();
         deletingUser.setId(id.toString());
         deletingUser.setEmail("email@mail.com");
-        deletingUser.setUserSettings(new UserSettings());
 
         Group foundGroup = new Group();
         foundGroup.setName("Group");
@@ -389,12 +379,10 @@ public class TestGroupService {
         User currentOwner = new User();
         currentOwner.setId(id_1.toString());
         currentOwner.setEmail("email@mail.com");
-        currentOwner.setUserSettings(new UserSettings());
 
         User deletingUser = new User();
         deletingUser.setId(id_2.toString());
         deletingUser.setEmail("email1@mail.com");
-        deletingUser.setUserSettings(new UserSettings());
 
         Group foundGroup = new Group();
         foundGroup.setName("Group");
@@ -430,12 +418,10 @@ public class TestGroupService {
         User currentOwner = new User();
         currentOwner.setId(id_1.toString());
         currentOwner.setEmail("email@mail.com");
-        currentOwner.setUserSettings(new UserSettings());
 
         User newOwner = new User();
         newOwner.setId(id_2.toString());
         newOwner.setEmail("email2@mail.com");
-        newOwner.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
         joinedUsers.add(currentOwner);
@@ -481,7 +467,6 @@ public class TestGroupService {
         User currentOwner = new User();
         currentOwner.setId(id_1.toString());
         currentOwner.setEmail("email@mail.com");
-        currentOwner.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
         joinedUsers.add(currentOwner);
@@ -528,7 +513,6 @@ public class TestGroupService {
         User currentOwner = new User();
         currentOwner.setId(id_1.toString());
         currentOwner.setEmail("email@mail.com");
-        currentOwner.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
         joinedUsers.add(currentOwner);
@@ -572,7 +556,6 @@ public class TestGroupService {
         User currentOwner = new User();
         currentOwner.setId(id_1.toString());
         currentOwner.setEmail("email@mail.com");
-        currentOwner.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
         joinedUsers.add(currentOwner);
@@ -617,7 +600,6 @@ public class TestGroupService {
         User currentOwner = new User();
         currentOwner.setId(id_1.toString());
         currentOwner.setEmail("email@mail.com");
-        currentOwner.setUserSettings(new UserSettings());
 
         ArrayList<User> joinedUsers = new ArrayList<>();
         joinedUsers.add(currentOwner);

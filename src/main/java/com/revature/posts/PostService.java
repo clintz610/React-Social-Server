@@ -156,8 +156,6 @@ public class PostService {
 		// Set the author
         newPostMeta.setAuthor(user);
 
-		//post.setId(UUID.randomUUID());
-
 		// Set the time of the post
         newPostMeta.setDate(LocalDateTime.now(ZoneOffset.UTC));
 
@@ -178,6 +176,7 @@ public class PostService {
 		// Save the meta to the repository
 		postMetaRepository.save(newPostMeta);
 		newPost.setPostMeta(newPostMeta);
+
 
 		// Save the new post and return the status
         return postRepository.save(newPost);

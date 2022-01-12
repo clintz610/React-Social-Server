@@ -1,8 +1,6 @@
 package com.revature.users;
 
 import com.revature.groups.Group;
-import com.revature.search.Searchable;
-import com.revature.users.usersettings.UserSettings;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,9 +22,7 @@ public class User implements Searchable {
     @JoinColumn()
     private String id;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private UserSettings userSettings;
+
 
     @Column(unique = true, nullable = false)
     private String email;

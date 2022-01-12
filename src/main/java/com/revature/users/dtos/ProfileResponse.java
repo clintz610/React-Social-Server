@@ -36,6 +36,7 @@ public class ProfileResponse {
 
         this.user_id = raw.getUser().getId();
 
+
         this.follower_num = raw.getUser().getFollower().size();
         this.following_num = raw.getUser().getFollowing().size();
     }
