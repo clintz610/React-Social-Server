@@ -82,7 +82,7 @@ public class ProfileController {
 			updateTarget.setUser(user);
 
 			return ResponseEntity.ok(new ProfileResponse(profileService.updateProfile(updateTarget, user)));
-		} catch (WrongUserException e) {
+		} catch (Exception e) {
 //			e.printStackTrace();
 			return ResponseEntity.status(403).build();
 		}
