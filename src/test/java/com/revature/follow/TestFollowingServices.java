@@ -107,6 +107,44 @@ public class TestFollowingServices {
         Assertions.assertEquals(validUser, actualUser);
     }
 
+    @Test
+    public void test_unfollowUser_returnsTrue_givenValidUserAndId(){
+        //Arrange
+        User validUser = new User();
+        String validUnfollowUserId = UUID.randomUUID().toString();
+        List<User> followingList = new ArrayList<>();
+        followingList.add(validUser);
+        validUser.setFollowing(followingList);
+
+        when(mockUserRepository.findById(validUser.getId())).thenReturn(Optional.of(validUser));
+        when(mockUserRepository.findById(validUnfollowUserId)).thenReturn(Optional.of(validUser));
+        when(mockUserRepository.save(validUser)).thenReturn(validUser);
+
+        boolean result = sut.unFollowUser(validUser, validUnfollowUserId);
+
+        Assertions.assertTrue(result);
+        Assertions.assertEquals(0, validUser.getFollowing().size());
+        verify(mockUserRepository, times(1)).findById(validUser.getId());
+        verify(mockUserRepository, times(1)).findById(validUnfollowUserId);
+        verify(mockUserRepository, times(1)).save(validUser);
+    }
+
+//    @Test
+//    public void test_unfollowUser_returnsFalse_givenInvalidUserAndId(){
+//        //Arrange
+//        User validUser = new User();
+//        String validFollowUserId = UUID.randomUUID().toString();
+//        List<User> followingList = new ArrayList<>();
+//        followingList.add(validUser);
+//
+//        boolean result = false;
+//        if(followingList.size() == 1) result = true;
+//        else result = false;
+//
+//        Assertions.assertTrue(true);
+//
+//    }
+
 
 
 }
