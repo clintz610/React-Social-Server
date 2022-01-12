@@ -42,6 +42,7 @@ public class Post {
 
     // Public list of comments
     @OneToMany(mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments;
 
 
