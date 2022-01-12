@@ -1,10 +1,13 @@
 package com.revature.posts;
 
 import com.revature.comments.CommentRepository;
+import com.revature.common.util.ContentType;
+import com.revature.exceptions.UserNotInGroupException;
 import com.revature.follow.FollowRepository;
 import com.revature.groups.Group;
 import com.revature.groups.GroupRepository;
 import com.revature.posts.dtos.NewPostRequest;
+import com.revature.posts.postmeta.PostMeta;
 import com.revature.posts.postmeta.PostMetaRepository;
 import com.revature.users.User;
 import com.revature.users.UserRepository;
@@ -18,6 +21,8 @@ import org.mockito.invocation.InvocationOnMock;
 
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
@@ -29,7 +34,7 @@ public class TestPostService {
 	private CommentRepository mockCommentRepository;
 	private PostRepository mockPostRepository;
 	private ProfileRepository mockProfileRepository;
-	private PostMetaRepository mockPostMetaRepositroy;
+	private PostMetaRepository mockPostMetaRepository;
 	private FollowRepository mockFollowRepository;
 	private UserRepository mockUserRepository ;
     private GroupRepository mockGroupRepository;
@@ -42,12 +47,12 @@ public class TestPostService {
 		mockCommentRepository = mock(CommentRepository.class);
 		mockPostRepository = mock(PostRepository.class);
 		mockProfileRepository = mock(ProfileRepository.class);
-		mockPostMetaRepositroy = mock(PostMetaRepository.class);
+		mockPostMetaRepository = mock(PostMetaRepository.class);
 		mockFollowRepository = mock(FollowRepository.class);
 		mockUserRepository = mock(UserRepository.class);
 		mockGroupRepository = mock(GroupRepository.class);
 
-		postService = new PostService(mockPostRepository, mockCommentRepository, mockProfileRepository, mockPostMetaRepositroy, mockFollowRepository, mockGroupRepository, mockUserRepository);
+		postService = new PostService(mockPostRepository, mockCommentRepository, mockProfileRepository, mockPostMetaRepository, mockFollowRepository, mockGroupRepository, mockUserRepository);
 
 
 	}
@@ -74,7 +79,11 @@ public class TestPostService {
 				(InvocationOnMock invocation) -> targetCatch.getValue()
 		);
 
-
+		// Grab the meta (so we don't save to the repo)
+		ArgumentCaptor<PostMeta> metaCatch = ArgumentCaptor.forClass(PostMeta.class);
+		when(mockPostMetaRepository.save(metaCatch.capture())).thenAnswer(
+				(InvocationOnMock invocation) -> metaCatch.getValue()
+		);
 
 
 		// Act
@@ -91,6 +100,106 @@ public class TestPostService {
 	{
 		// Arrange
 
+		// Mock the user
+		User user = new User();
+		user.setEmail("test@test.com");
+		user.setId("0dVqG3mQr01tWwuIsghJMQm6oZKb");
+
+		// Mock the group
+		ArrayList<User> joinedUsers = new ArrayList<>();
+		joinedUsers.add(user);
+
+
+		Group foundGroup = new Group();
+		foundGroup.setName("Group");
+		foundGroup.setDescription("I am Group");
+		foundGroup.setProfilePic("Valid");
+		foundGroup.setHeaderImg("Valid");
+		foundGroup.setUsers(joinedUsers);
+		foundGroup.setId(UUID.randomUUID());
+
+		// Create a mock of our DTO
+		NewPostRequest post = new NewPostRequest();
+		post.setGroupID(foundGroup.getId().toString());
+		post.setPostText("Test text");
+
+
+
+		when(mockGroupRepository.findById(foundGroup.getId())).thenReturn(Optional.of(foundGroup));
+
+		// Grabs the post
+		ArgumentCaptor<Post> targetCatch = ArgumentCaptor.forClass(Post.class);
+		when(mockPostRepository.save(targetCatch.capture())).thenAnswer(
+				(InvocationOnMock invocation) -> targetCatch.getValue()
+		);
+
+		// Grab the meta (so we don't save to the repo)
+		ArgumentCaptor<PostMeta> metaCatch = ArgumentCaptor.forClass(PostMeta.class);
+		when(mockPostMetaRepository.save(metaCatch.capture())).thenAnswer(
+				(InvocationOnMock invocation) -> metaCatch.getValue()
+		);
+
+		// Act
+		postService.addNewPost(post, user);
+
+		// Assert
+		verify(mockGroupRepository, times(1)).findById(foundGroup.getId());
+
+		Assertions.assertTrue(targetCatch.getValue().getPostMeta().getGroup().getId().equals(foundGroup.getId()));
+		Assertions.assertTrue(metaCatch.getValue().getAuthor().getId().equals(user.getId()));
+
+
+	}
+
+	@Test
+	public void saveValidUserWithContentLink()
+	{
+		// Arrange
+		// Create a mock of our DTO and our User
+		User user = new User();
+		user.setEmail("test@test.com");
+		user.setId("0dVqG3mQr01tWwuIsghJMQm6oZKb");
+
+		NewPostRequest post = new NewPostRequest();
+		post.setPostText("Test text");
+		post.setContentType(ContentType.VID);
+		post.setContentLink("https://youtu.be/dQw4w9WgXcQ");
+
+		// Whenever we run the addNewPost, we need to catch the value of the Post that results from it
+		ArgumentCaptor<Post> targetCatch = ArgumentCaptor.forClass(Post.class);
+		when(mockPostRepository.save(targetCatch.capture())).thenAnswer(
+				(InvocationOnMock invocation) -> targetCatch.getValue()
+		);
+
+		// Grab the meta (so we don't save to the repo)
+		ArgumentCaptor<PostMeta> metaCatch = ArgumentCaptor.forClass(PostMeta.class);
+		when(mockPostMetaRepository.save(metaCatch.capture())).thenAnswer(
+				(InvocationOnMock invocation) -> metaCatch.getValue()
+		);
+
+
+		// Act
+		postService.addNewPost(post, user);
+
+
+		// Assert
+		Assertions.assertTrue(targetCatch.getValue().getContentLink().equals(post.getContentLink()));
+		Assertions.assertTrue(metaCatch.getValue().getAuthor().getId().equals(user.getId()));
+		verify(mockPostRepository, times(1)).save(targetCatch.getValue());
+
+	}
+
+
+	@Test
+	public void throwsNotInGroupWhenSavingInvalid()
+	{
+		// Arrange
+
+		// Mock the user
+		User user = new User();
+		user.setEmail("test@test.com");
+		user.setId("0dVqG3mQr01tWwuIsghJMQm6oZKb");
+
 		// Mock the group
 		ArrayList<User> joinedUsers = new ArrayList<>();
 
@@ -101,16 +210,39 @@ public class TestPostService {
 		foundGroup.setProfilePic("Valid");
 		foundGroup.setHeaderImg("Valid");
 		foundGroup.setUsers(joinedUsers);
+		foundGroup.setId(UUID.randomUUID());
 
-		// Create a mock of our DTO and our User
+		// Create a mock of our DTO
 		NewPostRequest post = new NewPostRequest();
-		User user = new User();
-		user.setEmail("test@test.com");
-		user.setId("0dVqG3mQr01tWwuIsghJMQm6oZKb");
+		post.setGroupID(foundGroup.getId().toString());
 		post.setPostText("Test text");
 
 
 
+		when(mockGroupRepository.findById(foundGroup.getId())).thenReturn(Optional.of(foundGroup));
+
+		// Grabs the post
+		ArgumentCaptor<Post> targetCatch = ArgumentCaptor.forClass(Post.class);
+		when(mockPostRepository.save(targetCatch.capture())).thenAnswer(
+				(InvocationOnMock invocation) -> targetCatch.getValue()
+		);
+
+		// Grab the meta (so we don't save to the repo)
+		ArgumentCaptor<PostMeta> metaCatch = ArgumentCaptor.forClass(PostMeta.class);
+		when(mockPostMetaRepository.save(metaCatch.capture())).thenAnswer(
+				(InvocationOnMock invocation) -> metaCatch.getValue()
+		);
+
+		// Act
+		Assertions.assertThrows(
+				UserNotInGroupException.class,
+				() -> postService.addNewPost(post, user),
+				"Expected User Not In Group Exception to be thrown when User not in Group."
+		);
+
+		// Assert
+		verify(mockGroupRepository, times(1)).findById(foundGroup.getId());
+		verify(mockPostRepository, times(0)).save(any());
 
 	}
 
