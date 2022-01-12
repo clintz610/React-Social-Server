@@ -35,12 +35,10 @@ public class FollowingService {
         return profile.getUser();
     }
 
-    //TODO: Get follower number
     public int getFollowerNumber(User user) {
         return user.getFollower().size();
     }
 
-    //TODO: Get following number
     public int getFollowingNumber(User user) {
         return user.getFollowing().size();
     }

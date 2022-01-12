@@ -3,6 +3,7 @@ package com.revature.follow;
 import com.revature.follow.FollowingService;
 import com.revature.groups.Group;
 import com.revature.users.User;
+import com.revature.users.profiles.Profile;
 import com.revature.users.profiles.ProfileRepository;
 import com.revature.users.profiles.ProfileService;
 import com.revature.users.usersettings.UserSettings;
@@ -10,15 +11,17 @@ import com.revature.follow.FollowRepository;
 import com.revature.users.UserRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.*;
 public class TestFollowingServices {
 
     FollowingService sut;
@@ -65,7 +68,7 @@ public class TestFollowingServices {
 
         //Assert
 
-        Assert.assertEquals(1, result);
+        Assertions.assertEquals(1, result);
     }
 
     @Test
@@ -77,9 +80,7 @@ public class TestFollowingServices {
         User newUser = new User("valid", null, "valid@valid.valid", newFollowing, groups, newFollower);
         UserSettings newUserSettings = new UserSettings("valid", newUser ,false);
         newUser.setUserSettings(newUserSettings);
-
         when(mockFollowRepository.findAll()).thenReturn(following);
-
         following.add(newUser);
         //Act
 
@@ -87,6 +88,25 @@ public class TestFollowingServices {
 
         //Assert
 
-        Assert.assertEquals(1, result);
+        Assertions.assertEquals(1, result);
     }
+
+    @Test
+    public void test_getUserFromProfile_returnsValidUser_givenValidProfileId(){
+        //assemble
+        UUID validUUID = UUID.randomUUID();
+        User validUser = new User();
+        Profile validProfile = new Profile();
+        validProfile.setUser(validUser);
+        when(mockProfileService.findProfileById(validUUID)).thenReturn(validProfile);
+
+        //act
+        User actualUser = sut.getUserFromProfile(validUUID.toString());
+
+        verify(mockProfileService, times(1)).findProfileById(validUUID);
+        Assertions.assertEquals(validUser, actualUser);
+    }
+
+
+
 }
