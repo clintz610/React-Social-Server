@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://Reverbapiapplication-env.eba-qjeevjhg.us-west-1.elasticbeanstalk.com")
 @RequestMapping(path = "/api/search")
 public class SearchController {
 
