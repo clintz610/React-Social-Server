@@ -137,6 +137,70 @@ public class TestFollowingServices {
 
     }
 
+    @Test
+    public void test_followUser_returnsFalse_givenExistingFollower() {
+        // Arrange
+        String validFollowUserId = UUID.randomUUID().toString();
+
+        User followUser = new User();
+        followUser.setId(validFollowUserId);
+
+        User validUser = new User();
+        validUser.setId(UUID.randomUUID().toString());
+        List<User> followingList = new ArrayList<>();
+        validUser.setFollowing(followingList);
+        validUser.getFollowing().add(validUser);
+        validUser.getFollowing().add(followUser);
+
+        when(mockUserRepository.findById(validUser.getId())).thenReturn(Optional.of(validUser));
+        when(mockUserRepository.findById(validFollowUserId)).thenReturn(Optional.of(followUser));
+        when(mockUserRepository.save(validUser)).thenReturn(validUser);
+
+        // Act
+        boolean actualResult = sut.followUser(validUser, validFollowUserId);
+
+        // Assert
+        verify(mockUserRepository, times(1)).findById(validUser.getId());
+        verify(mockUserRepository, times(1)).findById(validFollowUserId);
+        verify(mockUserRepository, times(0)).save(validUser);
+
+        Assertions.assertFalse(actualResult, "Expected to return false");
+        Assertions.assertEquals(validUser.getFollowing().size(), 2, "Expected size of following list to remain the same");
+
+    }
+
+    @Test
+    public void test_followUser_returnsFalse_givenValidUserAndInvalidFollowUserId() {
+        // Arrange
+        User validUser = new User();
+        validUser.setId(UUID.randomUUID().toString());
+        List<User> followingList = new ArrayList<>();
+        validUser.setFollowing(followingList);
+        validUser.getFollowing().add(validUser);
+
+        String invalidUserFollowId = "";
+
+        User followUser = new User();
+        followUser.setId(invalidUserFollowId);
+
+        when(mockUserRepository.findById(validUser.getId())).thenReturn(Optional.of(validUser));
+        when(mockUserRepository.findById(invalidUserFollowId)).thenReturn(Optional.of(followUser));
+        when(mockUserRepository.save(validUser)).thenReturn(validUser);
+
+        // Act
+        boolean actualResult = sut.followUser(validUser, invalidUserFollowId);
+
+        // Assert
+        verify(mockUserRepository, times(0)).findById(validUser.getId());
+        verify(mockUserRepository, times(0)).findById(invalidUserFollowId);
+        verify(mockUserRepository, times(0)).save(validUser);
+
+        Assertions.assertFalse(actualResult, "Expected to return false");
+        Assertions.assertEquals(validUser.getFollowing().size(), 1, "Expected size of following list to remain at 1");
+
+    }
+
+    @Test
     public void test_unfollowUser_returnsTrue_givenValidUserAndId(){
         //Arrange
         User validUser = new User();
@@ -157,5 +221,55 @@ public class TestFollowingServices {
         verify(mockUserRepository, times(1)).findById(validUnfollowUserId);
         verify(mockUserRepository, times(1)).save(validUser);
     }
+
+    @Test
+    public void test_unfollowUser_returnsFalse_givenInvalidUserAndValidId(){
+        //Arrange
+        User invalidUser = new User();
+        String validUnfollowUserId = "";
+        List<User> followingList = new ArrayList<>();
+        followingList.add(invalidUser);
+        invalidUser.setFollowing(followingList);
+
+        when(mockUserRepository.findById(invalidUser.getId())).thenReturn(Optional.of(invalidUser));
+        when(mockUserRepository.findById(validUnfollowUserId)).thenReturn(Optional.of(invalidUser));
+        when(mockUserRepository.save(invalidUser)).thenReturn(invalidUser);
+
+        boolean result = sut.unFollowUser(invalidUser, validUnfollowUserId);
+
+
+        verify(mockUserRepository, times(0)).findById(invalidUser.getId());
+        verify(mockUserRepository, times(0)).findById(validUnfollowUserId);
+        verify(mockUserRepository, times(0)).save(invalidUser);
+
+        Assertions.assertFalse(result, "Expected to return false");
+        Assertions.assertEquals(1, invalidUser.getFollowing().size());
+    }
+
+    @Test
+    public void test_unfollowUser_returnsFalse_givenNonExistingFollowing(){
+        //Arrange
+        User validUser = new User();
+        String validUnfollowUserId = UUID.randomUUID().toString();
+        List<User> followingList = new ArrayList<>();
+        //followingList.add(validUser);
+        validUser.setFollowing(followingList);
+
+        when(mockUserRepository.findById(validUser.getId())).thenReturn(Optional.of(validUser));
+        when(mockUserRepository.findById(validUnfollowUserId)).thenReturn(Optional.of(validUser));
+        when(mockUserRepository.save(validUser)).thenReturn(validUser);
+
+        boolean result = sut.unFollowUser(validUser, validUnfollowUserId);
+
+
+        verify(mockUserRepository, times(1)).findById(validUser.getId());
+        verify(mockUserRepository, times(1)).findById(validUnfollowUserId);
+        verify(mockUserRepository, times(0)).save(validUser);
+
+        Assertions.assertFalse(result, "Expected to return true");
+        Assertions.assertEquals(0, validUser.getFollowing().size());
+    }
+
+
 
 }

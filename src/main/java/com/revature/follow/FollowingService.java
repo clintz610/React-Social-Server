@@ -58,6 +58,9 @@ public class FollowingService {
     //TODO: update following-follower table after a user follows/unfollows someone
     //Method to allow a user to follow another user
     public boolean followUser(User currentUser, String followUserId) {
+            if (followUserId == null || followUserId.equals("")) {
+                return false; //TODO: change to exception (Enter invalid followUser)
+            }
             currentUser = userRepository.findById(currentUser.getId()).get();
             List<User> followingList = currentUser.getFollowing();
             User followedUser = userRepository.findById(followUserId).get();
@@ -65,9 +68,6 @@ public class FollowingService {
                 if (followingList.get(i).equals(followedUser)) {
                     return false; //TODO: change so that it throws custom error instead
                 }
-            }
-            if (followUserId == null) {
-                return false; //TODO: change to exception (Enter invalid followUser)
             }
             followingList.add(followedUser);
             currentUser.setFollowing(followingList);
@@ -77,6 +77,9 @@ public class FollowingService {
 
     // Method to allow a user to unfollow another user
     public boolean unFollowUser(User currentUser, String unFollowUserId) {
+        if (unFollowUserId == null || unFollowUserId.equals("")) {
+            return false; //TODO: change to exception (Enter invalid followUser)
+        }
         currentUser = userRepository.findById(currentUser.getId()).get();
         List<User> followingList = currentUser.getFollowing();
         User unFollowedUser = userRepository.findById(unFollowUserId).get();
@@ -86,10 +89,6 @@ public class FollowingService {
             currentUser.setFollowing(followingList);
             userRepository.save(currentUser);
             return true;
-        }
-
-        if (unFollowUserId == null) {
-            return false; //TODO: change to exception (Enter invalid followUser)
         }
 
         return false;
