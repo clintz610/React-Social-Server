@@ -1,34 +1,27 @@
 package com.revature.posts;
 
-import com.revature.ReverbApplication;
 import com.revature.comments.CommentRepository;
-import com.revature.exceptions.ProfileNotFoundException;
 import com.revature.follow.FollowRepository;
+import com.revature.groups.Group;
 import com.revature.groups.GroupRepository;
 import com.revature.posts.dtos.NewPostRequest;
 import com.revature.posts.postmeta.PostMetaRepository;
 import com.revature.users.User;
 import com.revature.users.UserRepository;
-import com.revature.users.profiles.Profile;
 import com.revature.users.profiles.ProfileRepository;
-
-import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-
-
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+
 
 import java.util.ArrayList;
-import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+
 
 
 public class TestPostService {
@@ -46,13 +39,13 @@ public class TestPostService {
 	@BeforeEach
 	public void Setup() 
 	{
-		mockCommentRepository = Mockito.mock(CommentRepository.class);
-		mockPostRepository = Mockito.mock(PostRepository.class);
-		mockProfileRepository = Mockito.mock(ProfileRepository.class);
-		mockPostMetaRepositroy = Mockito.mock(PostMetaRepository.class);
-		mockFollowRepository = Mockito.mock(FollowRepository.class);
-		mockUserRepository = Mockito.mock(UserRepository.class);
-		mockGroupRepository = Mockito.mock(GroupRepository.class);
+		mockCommentRepository = mock(CommentRepository.class);
+		mockPostRepository = mock(PostRepository.class);
+		mockProfileRepository = mock(ProfileRepository.class);
+		mockPostMetaRepositroy = mock(PostMetaRepository.class);
+		mockFollowRepository = mock(FollowRepository.class);
+		mockUserRepository = mock(UserRepository.class);
+		mockGroupRepository = mock(GroupRepository.class);
 
 		postService = new PostService(mockPostRepository, mockCommentRepository, mockProfileRepository, mockPostMetaRepositroy, mockFollowRepository, mockGroupRepository, mockUserRepository);
 
@@ -65,7 +58,7 @@ public class TestPostService {
 	}
 
 	@Test
-	public void addNewPostWithNoLink()
+	public void addNewPostWithNoLinkNoGroup()
 	{
 		// Arrange
 		// Create a mock of our DTO and our User
@@ -77,9 +70,10 @@ public class TestPostService {
 
 		// Whenever we run the addNewPost, we need to catch the value of the Post that results from it
 		ArgumentCaptor<Post> targetCatch = ArgumentCaptor.forClass(Post.class);
-		Mockito.when(mockPostRepository.save(targetCatch.capture())).thenAnswer(
+		when(mockPostRepository.save(targetCatch.capture())).thenAnswer(
 				(InvocationOnMock invocation) -> targetCatch.getValue()
 		);
+
 
 
 
@@ -92,7 +86,35 @@ public class TestPostService {
 		verify(mockPostRepository, times(1)).save(targetCatch.getValue());
 	}
 
+	@Test
+	public void addNewPostWithValidGroup()
+	{
+		// Arrange
 
+		// Mock the group
+		ArrayList<User> joinedUsers = new ArrayList<>();
+
+
+		Group foundGroup = new Group();
+		foundGroup.setName("Group");
+		foundGroup.setDescription("I am Group");
+		foundGroup.setProfilePic("Valid");
+		foundGroup.setHeaderImg("Valid");
+		foundGroup.setUsers(joinedUsers);
+
+		// Create a mock of our DTO and our User
+		NewPostRequest post = new NewPostRequest();
+		User user = new User();
+		user.setEmail("test@test.com");
+		user.setId("0dVqG3mQr01tWwuIsghJMQm6oZKb");
+		post.setPostText("Test text");
+
+
+
+
+	}
+
+	/*
 	@Test
 	public void addNewPostNegative()
 	{
@@ -109,6 +131,7 @@ public class TestPostService {
 			assertEquals(e.getClass(), ProfileNotFoundException.class);
 		}
 	}
+	*/
 
 
 
