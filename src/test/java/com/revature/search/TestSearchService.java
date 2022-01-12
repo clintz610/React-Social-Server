@@ -2,7 +2,6 @@ package com.revature.search;
 
 import com.revature.search.dtos.SearchResponse;
 import com.revature.search.dtos.SearchResponse.EntitySearchResult;
-import com.revature.users.usersettings.UserSettings;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
