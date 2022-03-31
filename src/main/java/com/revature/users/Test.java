@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class Test {
 
-    @GetMapping(path = "/hello")
+    @GetMapping(path = "hello")
     public String test() {
         return "test endpoint works! :)";
     }
