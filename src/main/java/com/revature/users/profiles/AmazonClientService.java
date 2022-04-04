@@ -1,4 +1,4 @@
-package com.revature.security.props.users.profiles;
+package com.revature.users.profiles;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -47,7 +47,8 @@ public class AmazonClientService {
     }
     private void uploadFileTos3bucket(String fileName, File file) {
         s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
+                        .withCannedAcl(CannedAccessControlList.PublicRead)
+                );
     }
     public String uploadFile(MultipartFile multipartFile) {
 

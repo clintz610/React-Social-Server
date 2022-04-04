@@ -1,6 +1,6 @@
-package com.revature.security.props.users.usersettings;
+package com.revature.users.usersettings;
 
-import com.revature.security.props.users.User;
+import com.revature.users.User;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Objects;

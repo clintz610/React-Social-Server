@@ -1,8 +1,8 @@
-package com.revature.security.props.users.usersettings;
+package com.revature.users.usersettings;
 
-import com.revature.security.props.users.UserRepository;
-import com.revature.security.props.users.dtos.UserSettingsDto;
+import com.revature.users.dtos.UserSettingsDto;
 
+import com.revature.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

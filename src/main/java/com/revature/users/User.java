@@ -1,8 +1,8 @@
-package com.revature.security.props.users;
+package com.revature.users;
 
 import com.revature.groups.Group;
 import com.revature.search.Searchable;
-import com.revature.security.props.users.usersettings.UserSettings;
+import com.revature.users.usersettings.UserSettings;
 import lombok.*;
 
 import javax.persistence.*;

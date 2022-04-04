@@ -1,4 +1,4 @@
-package com.revature.security.props.users;
+package com.revature.users;
 import com.revature.search.Searchable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

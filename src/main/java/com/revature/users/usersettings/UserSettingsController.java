@@ -1,7 +1,9 @@
-package com.revature.security.props.users.usersettings;
+package com.revature.users.usersettings;
 
-import com.revature.security.props.users.UserRepository;
-import com.revature.security.props.users.dtos.UserSettingsDto;
+import com.revature.users.dtos.UserSettingsDto;
+import com.revature.users.usersettings.UserSettings;
+import com.revature.users.UserRepository;
+import com.revature.users.usersettings.UserSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
