@@ -22,6 +22,14 @@ public class AmazonClientService {
 
     private AmazonS3 s3client;
 
+//    @Value("#{systemProperties['S3_BUCKET_URL']}")
+//    private String endpointUrl;
+//    @Value("#{systemProperties['S3_BUCKET_NAME']}")
+//    private String bucketName;
+//    @Value("#{systemProperties['AWS_ACCESS_KEY']}")
+//    private String accessKey;
+//    @Value("#{systemProperties['AWS_SECRET_ACCESS_KEY']}")
+//    private String secretKey;
     @Value("${amazonProperties.endpointUrl}")
     private String endpointUrl;
     @Value("${amazonProperties.bucketName}")
@@ -34,6 +42,7 @@ public class AmazonClientService {
     private void initializeAmazon() {
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
         this.s3client = new AmazonS3Client(credentials);
+//        AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).build();
     }
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());

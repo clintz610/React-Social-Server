@@ -41,6 +41,9 @@ application-dev.properties
 application-s3.yml
 application-s3.properties
 
+application-dev.properties
+
 ### .DS Store (Mac thing) ###
 .DS_Store
+
 
