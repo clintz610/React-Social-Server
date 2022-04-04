@@ -14,7 +14,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class User implements Searchable {
 	//ID is coming from firebase, will be unique for each user
     //Following: join table connection between users
