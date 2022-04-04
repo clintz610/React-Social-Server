@@ -1,4 +1,4 @@
-package com.revature.users;
+package com.revature.security.props.users;
 
 
 import org.springframework.web.bind.annotation.GetMapping;

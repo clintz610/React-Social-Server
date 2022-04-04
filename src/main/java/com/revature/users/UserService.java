@@ -1,10 +1,10 @@
-package com.revature.users;
+package com.revature.security.props.users;
 
+import com.revature.security.props.users.profiles.Profile;
+import com.revature.security.props.users.profiles.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
-import com.revature.users.profiles.Profile;
-import com.revature.users.profiles.ProfileRepository;
 
 @Service
 public class UserService {

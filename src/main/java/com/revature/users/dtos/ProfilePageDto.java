@@ -1,4 +1,4 @@
-package com.revature.users.dtos;
+package com.revature.security.props.users.dtos;
 
 import lombok.Data;
 

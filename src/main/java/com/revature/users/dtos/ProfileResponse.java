@@ -1,12 +1,7 @@
-package com.revature.users.dtos;
+package com.revature.security.props.users.dtos;
 
-import com.revature.users.User;
-import com.revature.users.UserRepository;
-import com.revature.users.profiles.Profile;
-import com.revature.users.profiles.ProfileRepository;
+import com.revature.security.props.users.profiles.Profile;
 import lombok.Data;
-
-import java.util.Optional;
 
 @Data
 public class ProfileResponse {

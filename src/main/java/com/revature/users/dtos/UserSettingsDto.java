@@ -1,6 +1,6 @@
-package com.revature.users.dtos;
+package com.revature.security.props.users.dtos;
 
-import com.revature.users.usersettings.UserSettings;
+import com.revature.security.props.users.usersettings.UserSettings;
 import lombok.Data;
 
 import java.io.Serializable;

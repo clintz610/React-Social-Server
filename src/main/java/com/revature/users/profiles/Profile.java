@@ -1,4 +1,4 @@
-package com.revature.users.profiles;
+package com.revature.security.props.users.profiles;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.revature.users.User;
+import com.revature.security.props.users.User;
 import org.hibernate.annotations.Type;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 

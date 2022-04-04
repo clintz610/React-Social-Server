@@ -1,4 +1,4 @@
-package com.revature.users.profiles;
+package com.revature.security.props.users.profiles;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -55,7 +55,9 @@ public class AmazonClientService {
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
+            fileUrl = endpointUrl + "/" + fileName;
+            System.out.println("URL: " + fileUrl);
+            System.out.println("filename:" + fileName);
             uploadFileTos3bucket(fileName, file);
             file.delete();
         } catch (Exception e) {
