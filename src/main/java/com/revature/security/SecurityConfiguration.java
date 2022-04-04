@@ -32,6 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().mvcMatchers(HttpMethod.GET, "/actuator/*");
 		web.ignoring().mvcMatchers(HttpMethod.GET, "/h2-console/*");
 		web.ignoring().mvcMatchers(HttpMethod.POST, "/h2-console/*");
+		web.ignoring().mvcMatchers(HttpMethod.GET, "test/*");
+		web.ignoring().mvcMatchers(HttpMethod.POST, "/test/*");
 	}
 
 	@Override
