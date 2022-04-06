@@ -1,6 +1,7 @@
 package com.revature.bookmarks;
 
 import com.amazonaws.services.apigateway.model.Op;
+import com.revature.bookmarks.dto.BookmarkResponse;
 import com.revature.exceptions.PostNotFoundException;
 import com.revature.posts.Post;
 import com.revature.posts.PostRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class BookmarkService {
@@ -82,7 +84,9 @@ public class BookmarkService {
         return !bookmarkRepository.getByPostAndUser(post, user).isEmpty();
     }
 
-    public List<Bookmark> getBookmarkedPostForAuthUser(User user) {
-        return bookmarkRepository.getByUser(user);
+    public List<BookmarkResponse> getBookmarkedPostForAuthUser(User user) {
+        List<BookmarkResponse> bookmarkResponseList = bookmarkRepository.getByUser(user)
+                .stream().map(BookmarkResponse::new).collect(Collectors.toList());
+        return bookmarkResponseList;
     }
 }
