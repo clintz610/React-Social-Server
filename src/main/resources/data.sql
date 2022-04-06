@@ -24,3 +24,5 @@ values ('e2e4e098-3cda-4a57-9bbb-8882f60687b5', 'Test Description', 'Group Test'
 insert into groups_users (groups_group_id, users_user_id) values ('e2e4e098-3cda-4a57-9bbb-8882f60687b5','e3mkyWLcXnY0KpKwK8WBtHxJvn72');
 
 insert into groups_users (groups_group_id, users_user_id) values ('121a0e62-6790-41ef-b975-bb406691e16b', 'jcrgLpKKFFgFeZalC50a6H9CQxx1');
+
+--insert into notification_user (notification_id_fk, user_id_fk) values ('121a0e62-6790-41ef-b975-bb406691e16b', 'jcrgLpKKFFgFeZalC50a6H9CQxx1');
