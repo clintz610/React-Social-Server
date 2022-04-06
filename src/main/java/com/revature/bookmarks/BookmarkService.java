@@ -2,13 +2,19 @@ package com.revature.bookmarks;
 
 import com.amazonaws.services.apigateway.model.Op;
 import com.revature.bookmarks.dto.BookmarkResponse;
+import com.revature.comments.Comment;
+import com.revature.comments.dtos.AuthorDto;
+import com.revature.comments.dtos.CommentRequest;
 import com.revature.exceptions.PostNotFoundException;
 import com.revature.posts.Post;
 import com.revature.posts.PostRepository;
+import com.revature.posts.dtos.PostResponse;
 import com.revature.users.User;
+import com.revature.users.profiles.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,11 +25,13 @@ public class BookmarkService {
 
     private PostRepository postRepository;
     private BookmarkRepository bookmarkRepository;
+    private ProfileRepository profileRepository;
 
     @Autowired
-    public BookmarkService(PostRepository postRepository, BookmarkRepository bookmarkRepository){
+    public BookmarkService(PostRepository postRepository, BookmarkRepository bookmarkRepository, ProfileRepository profileRepository){
         this.postRepository = postRepository;
         this.bookmarkRepository = bookmarkRepository;
+        this.profileRepository = profileRepository;
     }
 
     public Integer getNumberOfBookmarks(UUID postId) throws PostNotFoundException{
@@ -85,8 +93,43 @@ public class BookmarkService {
     }
 
     public List<BookmarkResponse> getBookmarkedPostForAuthUser(User user) {
-        List<BookmarkResponse> bookmarkResponseList = bookmarkRepository.getByUser(user)
-                .stream().map(BookmarkResponse::new).collect(Collectors.toList());
-        return bookmarkResponseList;
+        List<Bookmark> bookmarkList = bookmarkRepository.getByUser(user);
+        return getCommentsFromBookmark(bookmarkList);
+    }
+
+    private List<BookmarkResponse> getCommentsFromBookmark(List<Bookmark> bookmarks) {
+        List<BookmarkResponse> refinedRepo = new LinkedList<>();
+
+        for (int i = 0; i < bookmarks.size(); i++) {
+            // Record the relevant data from the posts.
+            Bookmark rawBookmark = bookmarks.get(i);
+            BookmarkResponse refinedBookmark = new BookmarkResponse(rawBookmark);
+
+            // Get the post's comments
+            List<Comment> rawComments = rawBookmark.getPost().getComments();
+            List<CommentRequest> refinedComments = new LinkedList<>();
+            for (int j = 0; j < rawComments.size(); j++){
+                // Record the relevant data for a comment.
+                Comment rawComment = rawComments.get(j);
+                CommentRequest refinedComment = new CommentRequest();
+
+                // Get the simple values
+                refinedComment.setCommentId(rawComment.getId().toString());
+                refinedComment.setCommentText(rawComment.getCommentText());
+                refinedComment.setDate(rawComment.getDate());
+
+                // Create the author object we need
+                AuthorDto refinedAuthor = new AuthorDto(rawComment.getAuthor(), profileRepository);
+                refinedComment.setAuthor(refinedAuthor);
+
+                // Add the result to the list
+                refinedComments.add(refinedComment);
+
+            }
+            refinedBookmark.setComments(refinedComments);
+
+            refinedRepo.add(refinedBookmark);
+        }
+        return refinedRepo;
     }
 }
