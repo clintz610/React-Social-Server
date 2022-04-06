@@ -1,5 +1,6 @@
 package com.revature.bookmarks;
 
+import com.revature.bookmarks.dto.BookmarkResponse;
 import com.revature.exceptions.PostNotFoundException;
 import com.revature.posts.Post;
 import com.revature.users.User;
@@ -68,7 +69,7 @@ public class BookmarkController {
     }
 
     @GetMapping(path="/get-all-bookmarks")
-    public ResponseEntity<List<Bookmark>> getAllBookmarksForUser(@AuthenticationPrincipal User user){
+    public ResponseEntity<List<BookmarkResponse>> getAllBookmarksForUser(@AuthenticationPrincipal User user){
         try {
             return ResponseEntity.ok(bookmarkService.getBookmarkedPostForAuthUser(user));
         } catch (Exception e) {
