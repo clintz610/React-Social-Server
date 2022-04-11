@@ -20,6 +20,8 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -53,6 +55,19 @@ public class TestBookmarkService {
         BookmarkService bookmarkService = new BookmarkService(mockPostRepository, mockBookmarkRepository, mockProfileRepository);
 
         assertThat(bookmarkService.getNumberOfBookmarks(bookmarkedPost.getId())).isEqualTo(0);
+    }
+
+    @Test
+    public void Get_Number_of_Bookmarks_Negative_Throws_PostNotFoundException() {
+        Mockito.when(mockPostRepository.findById(bookmarkedPost.getId())).thenReturn(Optional.empty());
+        Mockito.when(mockBookmarkRepository.getBookmarkByPost(bookmarkedPost)).thenReturn(new ArrayList<Bookmark>());
+        BookmarkService bookmarkService = new BookmarkService(mockPostRepository, mockBookmarkRepository, mockProfileRepository);
+        try {
+            bookmarkService.getNumberOfBookmarks(bookmarkedPost.getId());
+            fail();
+        } catch (Exception e) {
+            assertEquals(e.getClass(), PostNotFoundException.class);
+        }
     }
 
 
