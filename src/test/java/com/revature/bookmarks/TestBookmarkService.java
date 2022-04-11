@@ -33,8 +33,9 @@ public class TestBookmarkService {
     public UUID post_id = UUID.randomUUID();
     public PostMeta testPostMeta = new PostMeta();
     public List testComments = new ArrayList ();
-    public Post bookmarkedPost = new Post(post_id,"Valid post", "hello", testPostMeta, testComments);
-    // private UserRepos mockUserRepos = mock(UserRepos.class);
+    public Post bookmarkedPost = new Post ();
+
+
     @BeforeEach
     public void setup() {
         sut = new BookmarkService(mockPostRepository, mockBookmarkRepository, mockProfileRepository);
@@ -46,24 +47,26 @@ public class TestBookmarkService {
         //tests getNumberofBookmarks for no bookmarks on a new post
         Post post = new Post();
 
-        Mockito.when(mockPostRepository.findById(bookmarkedPost.getId().thenReturn(Optional.of(post));
-        Mockito.when(mockBookmarkRepository.getBookmarkByPost(post)).thenReturn(new ArrayList<Bookmark>());
+        Mockito.when(mockPostRepository.findById(bookmarkedPost.getId())).thenReturn(Optional.of(bookmarkedPost));
+        Mockito.when(mockBookmarkRepository.getBookmarkByPost(bookmarkedPost)).thenReturn(new ArrayList<Bookmark>());
 
         BookmarkService bookmarkService = new BookmarkService(mockPostRepository, mockBookmarkRepository, mockProfileRepository);
 
-        assertThat(bookmarkService.getNumberOfBookmarks(UUID.randomUUID())).isEqualTo(0);
+        assertThat(bookmarkService.getNumberOfBookmarks(bookmarkedPost.getId())).isEqualTo(0);
     }
 
+
+
     @Test
-    public void Bookmarked_Post_Is_Bookmarked() throws PostNotFoundException {
+    public void Bookmarked_Post_gets_Bookmarked() throws PostNotFoundException {
         Post post = new Post();
         User user = new User();
         Bookmark bookmark = new Bookmark();
         List<Bookmark> array = new ArrayList<Bookmark>();
-        Mockito.when(mockPostRepository.findById(UUID.randomUUID())).thenReturn(Optional.of(post));
+        Mockito.when(mockPostRepository.findById(bookmarkedPost.getId())).thenReturn(Optional.of(post));
         Mockito.when(mockBookmarkRepository.getByPostAndUser(post, user)).thenReturn(array);
         BookmarkService bookmarkService = new BookmarkService(mockPostRepository, mockBookmarkRepository, mockProfileRepository);
-        sut.bookmarkPost(UUID.randomUUID(), user);
+        sut.bookmarkPost(bookmarkedPost.getId(), user);
         array.add(bookmark);
         assertTrue(bookmarkService.checkIfAlreadyBookmarked(post, user));
     }
